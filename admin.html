@@ -551,7 +551,11 @@ const DEFAULTS = {
     fiscal: { uvt: 52374, umbral: 2000, redondeo: 100, topeDescComercial: 10, topeEgresoComercial: 200000, contingencia: false, regimen: 'Responsable de IVA', centroCosto: 'ELECTRONICS PARTS' },
     tarifas: [{ codigo: 'EXCLUIDO', nombre: 'Excluido', pct: 0, tipo: 'IVA' }, { codigo: 'EXENTO', nombre: 'Exento', pct: 0, tipo: 'IVA' }, { codigo: 'IVA5', nombre: 'IVA 5%', pct: 5, tipo: 'IVA' }, { codigo: 'IVA19', nombre: 'IVA 19%', pct: 19, tipo: 'IVA' }, { codigo: 'INC8', nombre: 'Impoconsumo 8%', pct: 8, tipo: 'INC' }],
     cajas: [{ id: 'c0', numero: 0, nombre: 'Caja 0', activa: true }],
-    users: []
+    users: [
+      { id: 'us_ger', nombre: 'Gerencia', perfil: 'gerencia', pin: 'g3r3nc14', creado: '2026-01-01T00:00:00.000Z' },
+      { id: 'us_caj', nombre: 'Cajera', perfil: 'comercial', pin: 'c4j3r4', creado: '2026-01-01T00:00:00.000Z' },
+      { id: 'us_ase', nombre: 'Asesor', perfil: 'bodega', pin: '4s3s0r', creado: '2026-01-01T00:00:00.000Z' }
+    ]
   },
   products: [], clients: [], services: [], sales: [], credits: [], expenses: [], cashdays: [], wholesale: [], campaigns: [],
   kardex: [], warranties: [], captures: [], purchases: [], held: [], audit: [], priceHistory: [], cashMoves: [], notes: [], cobros: [],
@@ -583,6 +587,15 @@ async function initStore() {
   if (!S.config.tarifas?.length) S.config.tarifas = DEFAULTS.config.tarifas.map(t => ({ ...t }));
   if (!S.config.cajas?.length) S.config.cajas = DEFAULTS.config.cajas.map(t => ({ ...t }));
   S.config.users = S.config.users || [];
+  // Usuarios base de Electronics Parts (gerencia, cajera, asesor) — se garantizan una vez
+  try{
+    if(localStorage.getItem('ep_users_v')!=='v1'){
+      DEFAULTS.config.users.forEach(function(du){
+        if(!S.config.users.find(function(u){return u.id===du.id})) S.config.users.push(Object.assign({},du));
+      });
+      localStorage.setItem('ep_users_v','v1');
+    }
+  }catch(e){}
   S.config.precios = { ...DEFAULTS.config.precios, ...(S.config.precios || {}) };
   S.config.comisiones = S.config.comisiones || {};
   S.counters = Object.assign({}, DEFAULTS.counters, S.counters || {});
@@ -3304,10 +3317,10 @@ function guardarDian() {
 function audit(action, detail, ref) { S.audit.unshift({ id: uid('au'), at: nowISO(), date: today(), user: curUser()?.nombre || S.config.user || '', perfil: curUser()?.perfil || '', action, detail: detail || '', ref: ref || '' }); if (S.audit.length > 5000) S.audit.length = 5000; save('audit'); }
 
 /* ---------------- PERFILES Y SESIÓN ---------------- */
-const PERFILES = { gerencia: '👑 Gerencia', comercial: '🛒 Comercial', bodega: '📦 Bodega' };
+const PERFILES = { gerencia: '👑 Gerencia', comercial: '💵 Cajera', bodega: '🔧 Asesor' };
 const MENU_PERFIL = {
-  comercial: ['dashboard', 'pos', 'caja', 'facturas', 'clientes', 'cartera', 'cobros', 'creditos', 'servicios', 'garantias', 'campanas', 'mayoristas'],
-  bodega: ['dashboard', 'inventario', 'capturador', 'compras', 'reportes'], gerencia: null
+  comercial: ['dashboard', 'pos', 'caja', 'facturas', 'clientes', 'cartera', 'cobros', 'creditos', 'mayoristas'],
+  bodega: ['dashboard', 'servicios', 'garantias', 'clientes', 'inventario', 'capturador'], gerencia: null
 };
 const PERM = {
   abrir_caja: ['comercial', 'gerencia'], vender: ['comercial', 'gerencia'], ver_costos: ['gerencia'], bajo_costo: ['gerencia'], exceder_cupo: ['gerencia'],
@@ -3338,7 +3351,7 @@ function loginScreen() {
 function crearPrimerUsuario() { const n = $('#fuName').value.trim(), p = $('#fuPin').value.trim(); if (!n || p.length < 4) return toast('Nombre y PIN de mínimo 4 dígitos', '⚠️'); const u = { id: uid('us'), nombre: n, perfil: 'gerencia', pin: p, creado: nowISO() }; S.config.users.push(u); S.config.user = n; S.config.role = 'Gerencia'; addUnique('responsables', n); save('config'); SESSION = { userId: u.id }; localStorage.setItem('ef_session', JSON.stringify(SESSION)); audit('LOGIN', 'Primer usuario creado'); closeModal(); render(); }
 function loginAs(id) {
   const u = S.config.users.find(x => x.id === id);
-  modal({ title: u.nombre, em: PERFILES[u.perfil].split(' ')[0], ok: 'Entrar', body: `<label class="field"><span>PIN</span><input type="password" name="pin" inputmode="numeric" maxlength="6" onkeydown="if(event.key==='Enter')submitModal()"></label>`,
+  modal({ title: u.nombre, em: PERFILES[u.perfil].split(' ')[0], ok: 'Entrar', body: `<label class="field"><span>Clave</span><input type="password" name="pin" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')submitModal()"></label>`,
     onSubmit: f => { if (f.pin !== u.pin) { toast('PIN incorrecto', '🚫'); return; } SESSION = { userId: u.id }; localStorage.setItem('ef_session', JSON.stringify(SESSION)); S.config.user = u.nombre; S.config.role = PERFILES[u.perfil].slice(2); save('config'); audit('LOGIN', 'Ingreso al sistema'); closeModal(); route = 'dashboard'; render(); } });
   $('#scrim')?.setAttribute('style', 'align-items:center;background:var(--grad)');
 }
