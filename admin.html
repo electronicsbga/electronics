@@ -1127,7 +1127,7 @@ VIEWS.pos = () => {
 VIEWS.after_pos = () => keepFocus('#pq');
 function addCart(id) {
   const p = S.products.find(x => x.id === id); if (!p) return;
-  if (p.stock <= 0) return toast('Producto agotado', '🚫');
+  if (p.stock <= 0) { toast('⚠️ No se puede vender: "' + p.name + '" no tiene stock.', '🚫'); return; }
   const l = cart.find(c => c.productId === id);
   if (l) { if (l.qty + 1 > p.stock) return toast('Solo hay ' + nfmt(p.stock) + ' unidades', '⚠️'); l.qty++; }
   else cart.push({ productId: id, name: p.name, price: p.price, cost: p.cost || 0, qty: 1, code: p.code, category: p.category });
@@ -1260,7 +1260,7 @@ function reciboVenta(id) {
         <div class="big"><span>Total</span><span>${money(v.total)}</span></div></div>
       <div style="margin-top:13px" class="tiny muted">${v.payments.map(p => `${p.method}${p.bank ? ' · ' + p.bank : ''}${p.ref ? ' · comp. ' + p.ref : ''}: ${money(p.amount)}`).join('<br>')}
         <br>Atendió ${esc(v.seller || '')} · ${dmy(v.date)} ${hm(v.at)} · Cliente ${esc(v.clientName)}</div>`,
-    footer: `<button class="btn" onclick="window.print()">🖨️ Imprimir</button><button class="btn primary" onclick="closeModal()">Listo</button>`
+    footer: `<button class="btn" onclick="printCaja('${c.id}')">🖨️ Imprimir</button><button class="btn primary" onclick="closeModal()">Listo</button>`
   });
 }
 
@@ -1333,6 +1333,7 @@ function abrirCaja() {
 function cerrarCaja() {
   const d = (openCash() || {}).id || today(), c = cashDay(d), t = dayTotals(d);
   const expected = (c.base || 0) + t.efectivo, counted = DENOMS.reduce((a, x) => a + (conteo[x] || 0) * x, 0), diff = counted - expected;
+      if (counted === 0) return toast('Debes contar los billetes y monedas antes de cerrar la caja', '⚠️');
   modal({
     title: 'Cerrar caja', em: '🔒', ok: 'Confirmar cierre',
     body: `<div class="totals" style="border:0;padding:0"><div><span>Esperado</span><span>${money(expected)}</span></div>
@@ -1371,7 +1372,7 @@ function resumenCaja(id) {
       <div class="tbl-wrap"><table><thead><tr><th>Hora</th><th>Concepto</th><th class="num">Valor</th></tr></thead><tbody>
       ${t.mv.map(m => `<tr><td class="tiny muted">${hm(m.at)}</td><td>${esc(m.t)} <span class="muted tiny">${esc(m.who || '')}</span></td>
         <td class="num ${m.out ? 'down' : ''}">${m.out ? '−' : ''}${money(m.in || m.out)}</td></tr>`).join('')}</tbody></table></div></div>`,
-    footer: `<button class="btn" onclick="window.print()">🖨️ Imprimir</button><button class="btn primary" onclick="closeModal()">Cerrar</button>`
+    footer: `<button class="btn" onclick="printCaja('${c.id}')">🖨️ Imprimir</button><button class="btn primary" onclick="closeModal()">Cerrar</button>`
   });
 }
 
@@ -3324,8 +3325,9 @@ const MENU_PERFIL = {
 };
 const PERM = {
   abrir_caja: ['comercial', 'gerencia'], vender: ['comercial', 'gerencia'], ver_costos: ['gerencia'], bajo_costo: ['gerencia'], exceder_cupo: ['gerencia'],
-  anular_dia: ['comercial', 'gerencia'], nota_credito: ['gerencia'], egresos: ['comercial', 'gerencia'], cierre_rojo: ['gerencia'], terceros: ['comercial', 'gerencia'],
-  cupo: ['gerencia'], kardex_precios: ['gerencia'], capturar: ['bodega', 'gerencia'], aplicar_inv: ['bodega', 'gerencia'], inicializar: ['gerencia'], config: ['gerencia'], fecha_pos: ['gerencia']
+  anular_dia: ['gerencia'], anular_factura: ['gerencia'], nota_credito: ['gerencia'], egresos: ['comercial', 'gerencia'], cierre_rojo: ['gerencia'], terceros: ['comercial', 'gerencia'],
+  cupo: ['gerencia'], kardex_precios: ['gerencia'], capturar: ['bodega', 'gerencia'], aplicar_inv: ['bodega', 'gerencia'], inicializar: ['gerencia'], config: ['gerencia'], fecha_pos: ['gerencia'],
+  editar_inventario: ['gerencia'], cancelar_factura: ['gerencia'], ver_params: ['gerencia'], venta_extra: ['gerencia']
 };
 let SESSION = null; try { SESSION = JSON.parse(localStorage.getItem('ef_session') || 'null'); } catch (e) { }
 const curUser = () => S.config.users.find(u => u.id === SESSION?.userId) || null;
@@ -3493,6 +3495,7 @@ function editarProducto(id) {
   const tf = tarifaDe(p?.tarifa || (S.config.ivaDefault ? 'IVA' + S.config.ivaDefault : 'EXENTO'));
   const costIva = p ? Math.round((p.cost || 0) * (1 + tf.pct / 100)) : 0;
   const lockP = !can('kardex_precios') ? 'readonly style="background:var(--line-2)"' : '';
+  const margen = p && p.price && p.cost ? Math.round(((p.price - p.cost) / p.cost) * 100) : 0;
   modal({ title: (p ? 'Tarjeta Kardex · ' + p.code : 'Nueva tarjeta Kardex') + ` · ${nfmt(S.products.length)} tarjetas`, em: '📦', wide: true, ok: p ? 'Actualiza' : 'Insertar',
     body: `<div class="row" style="grid-template-columns:180px 1fr;gap:18px" id="prodRow">
       <div><div id="imgBox">${tmpImg ? `<img class="imgprev" src="${tmpImg}" alt="">` : `<div class="drop" onclick="document.getElementById('fileImg').click()"><span class="em">🖼️</span><div class="strong tiny">Subir foto</div></div>`}</div>
@@ -3570,8 +3573,8 @@ function abrirCaja() {
   conteoAp = {};
   modal({ title: 'Apertura de caja', em: '🔓', ok: 'Abrir caja', wide: true,
     body: `<div class="row c3"><label class="field"><span>Caja</span><select name="cajaId">${cajas.map(c => `<option value="${c.id}" ${S.cashdays.find(x => !x.closedAt && x.cajaId === c.id) ? 'disabled' : ''}>${esc(c.nombre)}${S.cashdays.find(x => !x.closedAt && x.cajaId === c.id) ? ' (ocupada)' : ''}</option>`).join('')}</select></label><label class="field"><span>Usuario</span><input type="text" value="${esc(u?.nombre || S.config.user || '')}" readonly style="background:var(--line-2)"></label><label class="field"><span>Base inicial en efectivo</span>${mnyInput('base', 0, 'id="baseIn"')}</label></div>
-      <details><summary class="tiny strong" style="cursor:pointer;margin-bottom:8px">🧮 Conteo por denominaciones (opcional)</summary>${billsBlock('ap', conteoAp, 'Cuenta la base')}</details><label class="field" style="margin-top:12px"><span>Observación</span><input type="text" name="notes"></label>`,
-    onSubmit: f => { const caja = cajas.find(c => c.id === f.cajaId); const base = DENOMS.reduce((a, d) => a + (conteoAp[d] || 0) * d, 0) || f.base; S.cashdays.unshift({ id: today(), sid: uid('ss'), cajaId: caja.id, cajaNombre: caja.nombre, base, baseDenoms: { ...conteoAp }, who: u?.nombre || S.config.user, user: u?.nombre || S.config.user, notes: f.notes, openedAt: nowISO(), estado: 'ABIERTA', moves: [] }); conteo = {}; audit('APERTURA_CAJA', caja.nombre + ' · base ' + money(base)); save('cashdays'); closeModal(); render(); toast('Caja abierta', '🔓'); } });
+      <div style="margin-bottom:10px"><div class="alertbox y" style="margin-bottom:10px"><span class="em">🧮</span><div>El conteo de billetes y monedas es <b>obligatorio</b> para abrir la caja.</div></div>${billsBlock('ap', conteoAp, 'Cuenta la base')}</div><label class="field" style="margin-top:12px"><span>Observación</span><input type="text" name="notes"></label>`,
+    onSubmit: f => { const base = DENOMS.reduce((a, d) => a + (conteoAp[d] || 0) * d, 0); if (base === 0 && !confirm('No contaste la base. ¿Estás seguro de abrir con $0?')) return; const caja = cajas.find(c => c.id === f.cajaId); S.cashdays.unshift({ id: today(), sid: uid('ss'), cajaId: caja.id, cajaNombre: caja.nombre, base, baseDenoms: { ...conteoAp }, who: u?.nombre || S.config.user, user: u?.nombre || S.config.user, notes: f.notes, openedAt: nowISO(), estado: 'ABIERTA', moves: [] }); conteo = {}; audit('APERTURA_CAJA', caja.nombre + ' · base ' + money(base)); save('cashdays'); closeModal(); render(); toast('Caja abierta', '🔓'); } });
 }
 let conteoAp = {};
 const _denObj = denObj; denObj = function (idx) { return idx === 'ap' ? conteoAp : _denObj(idx); }
@@ -4056,6 +4059,243 @@ setTimeout(hideSplash, 5000);
 <script src="assets/js/admin-puente.js?v=16"></script>
 <script src="assets/js/cobros-base.js?v=16"></script>
 <script src="assets/js/admin-cobros.js?v=16"></script>
-<script src="assets/js/admin-init.js?v=16"></script>
+<script src="assets/js/admin-init.js?v=16">
+/* ================= ADMIN V4 · Mejoras Electronics Parts ================= */
+
+/* --- 1. Anular facturas: solo gerencia --- */
+const _anularFactura = typeof anularFactura === 'function' ? anularFactura : null;
+if (_anularFactura) {
+  anularFactura = function(id) {
+    if (!can('cancelar_factura') && perfil() !== 'gerencia') return toast('Solo Gerencia puede anular facturas', '🔐');
+    _anularFactura(id);
+  };
+}
+
+/* --- 2. Dashboard: balance por banco --- */
+const _dashOrig = VIEWS.dashboard;
+VIEWS.dashboard = function() {
+  const base = _dashOrig();
+  // Calcular balance por banco
+  const banks = {};
+  S.sales.filter(v => v.status !== 'anulada').forEach(v => (v.payments || []).filter(p => p.method !== 'efectivo' && p.bank).forEach(p => { banks[p.bank] = (banks[p.bank] || 0) + p.amount; }));
+  S.credits.forEach(c => (c.payments || []).filter(p => p.method !== 'efectivo' && p.bank).forEach(p => { banks[p.bank] = (banks[p.bank] || 0) + p.amount; }));
+  S.services.filter(s => s.payBank).forEach(s => { banks[s.payBank] = (banks[s.payBank] || 0) + ((s.total || 0) - (s.advance || 0)); });
+  const bk = Object.entries(banks).filter(([k, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+  if (bk.length) {
+    const bankCard = `<div class="card" style="margin-top:14px"><div class="card-h"><h3><span class="em">🏦</span>Balance por banco / entidad</h3></div>
+      <div class="card-b"><div class="tbl-wrap"><table><thead><tr><th>Banco</th><th class="num">Total recibido</th></tr></thead><tbody>
+      ${bk.map(([b, v]) => `<tr><td class="strong">${esc(b)}</td><td class="num">${money(v)}</td></tr>`).join('')}
+      <tr style="border-top:2px solid var(--line)"><td class="strong">Total digital</td><td class="num strong">${money(bk.reduce((a, [, v]) => a + v, 0))}</td></tr>
+      </tbody></table></div></div></div>`;
+    return base.replace('</div>\n  <style>@media', bankCard + '</div>\n  <style>@media');
+  }
+  return base;
+};
+
+/* --- 3. Drag & drop en kanban de servicios --- */
+const _servView = VIEWS.servicios;
+VIEWS.after_servicios = function() {
+  keepFocus('#sq');
+  // Habilitar drag & drop
+  document.querySelectorAll('.ticket').forEach(tk => {
+    tk.setAttribute('draggable', 'true');
+    tk.ondragstart = e => { e.dataTransfer.setData('text/plain', tk.getAttribute('onclick').match(/'([^']+)'/)?.[1] || ''); tk.style.opacity = '.5'; };
+    tk.ondragend = () => { tk.style.opacity = ''; };
+  });
+  document.querySelectorAll('.col-b').forEach(col => {
+    col.ondragover = e => { e.preventDefault(); col.style.background = 'var(--blue-50)'; };
+    col.ondragleave = () => { col.style.background = ''; };
+    col.ondrop = e => {
+      e.preventDefault(); col.style.background = '';
+      const id = e.dataTransfer.getData('text/plain');
+      const status = col.closest('.col')?.querySelector('.tag')?.textContent?.trim();
+      const statusMap = {};
+      Object.entries(EST_SERV).forEach(([k, v]) => { statusMap[v.e + ' ' + v.t] = k; });
+      const newSt = statusMap[status];
+      if (id && newSt) {
+        const s = S.services.find(x => x.id === id);
+        if (s) {
+          if (newSt === 'asignado' && !s.assigned) {
+            const r = prompt('¿Quién será el responsable?\n' + responsables().join(', '));
+            if (r) { s.assigned = r; }
+          }
+          if (newSt === 'entregado') { cambiarEstadoServ(id, 'entregado'); return; }
+          s.status = newSt;
+          (s.history = s.history || []).push({ at: nowISO(), t: 'Estado: ' + EST_SERV[newSt].t + (s.assigned ? ' · ' + s.assigned : '') });
+          save('services'); render(); toast('Orden movida a ' + EST_SERV[newSt].t, EST_SERV[newSt].e);
+        }
+      }
+    };
+  });
+};
+
+/* --- 4. Imprimir orden de servicio como factura --- */
+function printOrden(id) {
+  const s = S.services.find(x => x.id === id); if (!s) return;
+  const w = window.open('', '_blank', 'width=420,height=600');
+  const saldo = (s.total || 0) - (s.advance || 0);
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Orden ${esc(s.code)}</title>
+    <style>*{margin:0;box-sizing:border-box}body{font-family:'Inter',system-ui,sans-serif;padding:18px;max-width:380px;margin:0 auto;font-size:12px;color:#1A1A2E}
+    h1{font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;font-weight:700;margin:6px 0}
+    h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6B7280;margin:14px 0 5px}
+    .logo{width:48px;height:48px;margin:0 auto 6px;display:block}
+    .center{text-align:center}.sep{border-top:1px dashed #DCE6EF;margin:10px 0}
+    table{width:100%;border-collapse:collapse}td{padding:4px 0;vertical-align:top}td.r{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+    .big{font-size:18px;font-weight:700;font-family:'Space Grotesk',sans-serif}.total{font-size:16px;font-weight:700}
+    @media print{body{padding:8px}}</style></head><body>
+    <div class="center"><img class="logo" src="${LOGO_B64}" alt="Logo"><h1>${esc(S.config.biz)}</h1>
+    <div style="font-size:10px;color:#6B7280">${esc(S.config.dir || '')} · ${esc(S.config.ciudad || '')}<br>${esc(S.config.nit ? 'NIT ' + S.config.nit : '')} · Tel ${esc(S.config.tel || '')}</div></div>
+    <div class="sep"></div>
+    <h2>📋 Orden de servicio</h2>
+    <table><tr><td>Código</td><td class="r">${esc(s.code)}</td></tr>
+    <tr><td>Fecha</td><td class="r">${dmy(s.createdAt)}</td></tr>
+    <tr><td>Cliente</td><td class="r">${esc(s.clientName)}</td></tr>
+    <tr><td>Contacto</td><td class="r">${esc(s.phone || '—')}</td></tr>
+    <tr><td>Equipo / Asunto</td><td class="r">${esc(s.subject)}</td></tr>
+    <tr><td>Responsable</td><td class="r">${esc(s.assigned || 'Sin asignar')}</td></tr>
+    <tr><td>Entrega estimada</td><td class="r">${dmy(s.promise)}</td></tr></table>
+    <div class="sep"></div>
+    <h2>🧩 Detalle</h2>
+    <table>${(s.items || []).map(i => `<tr><td>${esc(i.desc)} ×${i.qty}</td><td class="r">${money(i.qty * i.price)}</td></tr>`).join('') || '<tr><td colspan="2" style="color:#999">Sin detalle</td></tr>'}</table>
+    <div class="sep"></div>
+    <table><tr><td class="total">Total</td><td class="r total">${money(s.total)}</td></tr>
+    <tr><td>Abono</td><td class="r">${money(s.advance || 0)}</td></tr>
+    <tr><td class="big">Saldo</td><td class="r big">${money(saldo)}</td></tr></table>
+    <div class="sep"></div>
+    <div class="center" style="margin-top:8px;font-size:10px;color:#999">Gracias por confiar en ${esc(S.config.biz)} 🙌<br>WhatsApp ${esc(S.config.wa || S.config.tel || '')}</div>
+    <script>setTimeout(()=>window.print(),400)<\/script></body></html>`);
+  w.document.close();
+}
+
+/* --- 5. Auto-generar factura al crear orden de servicio --- */
+const _nuevaOrdenSubmit = (function() {
+  // intercept submit de nuevaOrden para imprimir después
+  const _origNueva = nuevaOrden;
+  nuevaOrden = function() {
+    _origNueva();
+    // override modalSubmit para que imprima después
+    const _ms = modalSubmit;
+    modalSubmit = function(f) {
+      _ms(f);
+      // buscar la orden recién creada
+      const last = S.services[0];
+      if (last) setTimeout(() => printOrden(last.id), 600);
+    };
+  };
+})();
+
+/* --- 6. Venta extra: aumentar valor de una venta --- */
+function ventaExtra(id) {
+  if (!can('venta_extra') && perfil() !== 'gerencia') return toast('Solo Gerencia puede agregar venta extra', '🔐');
+  const v = S.sales.find(x => x.id === id); if (!v) return;
+  modal({ title: 'Venta extra · ' + v.code, em: '💲', ok: 'Registrar ingreso extra',
+    body: `<div class="alertbox b"><span class="em">💡</span><div>Agrega un valor adicional a esta venta. Se registra como ingreso extra.</div></div>
+      <label class="field" style="margin-top:14px"><span>Valor extra</span>${mnyInput('extra')}</label>
+      <label class="field"><span>Concepto</span><input type="text" name="concepto" placeholder="Ej: envoltura regalo, servicio urgente"></label>`,
+    onSubmit: f => {
+      if (!f.extra || f.extra <= 0) return toast('Ingresa un valor mayor a 0', '⚠️');
+      v.total += f.extra; v.subtotal = (v.subtotal || v.total) + f.extra;
+      (v.payments = v.payments || []).push({ method: 'efectivo', amount: f.extra, bank: '', ref: 'EXTRA: ' + (f.concepto || '') });
+      (v.history = v.history || []).push({ at: nowISO(), t: 'Ingreso extra +' + money(f.extra) + ': ' + (f.concepto || '') });
+      audit('VENTA_EXTRA', v.code + ' +' + money(f.extra), v.id);
+      save('sales'); closeModal(); render(); toast('Ingreso extra registrado: ' + money(f.extra), '💲');
+    }
+  });
+}
+
+/* --- 7. FIX: Categorías clickeables en POS e inventario --- */
+/* Las categorías pueden tener nombres con caracteres especiales.
+   Delegamos el click por data-attribute en vez de inline onclick para evitar problemas de escape. */
+document.addEventListener('click', function(e) {
+  const chip = e.target.closest('[data-setcat]');
+  if (!chip) return;
+  const val = chip.dataset.setcat;
+  const scope = chip.dataset.scope || 'pos';
+  if (scope === 'inv') { invCat = val; }
+  else { posCat = val; }
+  render();
+});
+
+/* Override de los chips en las vistas para usar data-attributes */
+const _posView3 = VIEWS.pos;
+VIEWS.pos = function() {
+  let html = _posView3();
+  // Reemplazar onclick inline de chips por data-attributes
+  html = html.replace(/onclick="posCat=[^"]*;render\(\)"/g, function(match) {
+    const m = match.match(/posCat=("([^"]+)"|'([^']+)'|([^;]+))/);
+    const val = m ? (m[2] || m[3] || m[4] || 'Todas').replace(/^['"]|['"]$/g, '') : 'Todas';
+    return 'data-setcat="' + val.replace(/"/g, '&quot;') + '" data-scope="pos"';
+  });
+  return html;
+};
+
+const _invView3 = VIEWS.inventario;
+VIEWS.inventario = function() {
+  let html = _invView3();
+  html = html.replace(/onclick="invCat=[^"]*;render\(\)"/g, function(match) {
+    const m = match.match(/invCat=("([^"]+)"|'([^']+)'|([^;]+))/);
+    const val = m ? (m[2] || m[3] || m[4] || 'Todas').replace(/^['"]|['"]$/g, '') : 'Todas';
+    return 'data-setcat="' + val.replace(/"/g, '&quot;') + '" data-scope="inv"';
+  });
+  return html;
+};
+
+/* --- 8. FIX: Impresión de caja formateada (no pantallazo) --- */
+function printCaja(id) {
+  const c = S.cashdays.find(x => x.id === id); if (!c) return toast('No se encontró el cierre', '⚠️');
+  const t = dayTotals(c.id);
+  const diff = (c.counted || 0) - (c.expected || 0);
+  const w = window.open('', '_blank', 'width=420,height=700');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Cierre de Caja ${dmy(c.id)}</title>
+    <style>*{margin:0;box-sizing:border-box}body{font-family:'Inter',system-ui,sans-serif;padding:18px;max-width:380px;margin:0 auto;font-size:12px;color:#1A1A2E}
+    h1{font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;font-weight:700;margin:6px 0}
+    h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6B7280;margin:14px 0 5px}
+    .logo{width:48px;height:48px;margin:0 auto 6px;display:block}.center{text-align:center}
+    .sep{border-top:1px dashed #DCE6EF;margin:10px 0}
+    table{width:100%;border-collapse:collapse}td{padding:4px 0;vertical-align:top}td.r{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+    .big{font-size:18px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+    .ok{color:#10B981}.bad{color:#EF4444}
+    @media print{body{padding:8px}}</style></head><body>
+    <div class="center"><img class="logo" src="${LOGO_B64}" alt="Logo"><h1>${esc(S.config.biz)}</h1>
+    <div style="font-size:10px;color:#6B7280">${esc(S.config.dir || '')} · ${esc(S.config.ciudad || '')}<br>${esc(S.config.nit ? 'NIT ' + S.config.nit : '')} · Tel ${esc(S.config.tel || '')}</div></div>
+    <div class="sep"></div>
+    <h2>🧮 Cierre de caja</h2>
+    <table>
+    <tr><td>Fecha</td><td class="r">${dmy(c.id)}</td></tr>
+    <tr><td>Caja</td><td class="r">${esc(c.cajaNombre || 'Caja')}</td></tr>
+    <tr><td>Usuario</td><td class="r">${esc(c.user || '')}</td></tr>
+    <tr><td>Apertura</td><td class="r">${hm(c.sid || c.id)}</td></tr>
+    <tr><td>Cierre</td><td class="r">${c.closedAt ? hm(c.closedAt) : 'Abierta'}</td></tr>
+    </table>
+    <div class="sep"></div>
+    <h2>💰 Resumen de movimientos</h2>
+    <table>
+    <tr><td>Base de apertura</td><td class="r">${money(c.base || 0)}</td></tr>
+    <tr><td>Ingresos del día</td><td class="r ok">${money(t.ingresos)}</td></tr>
+    <tr><td>Gastos del día</td><td class="r bad">${money(t.gastos)}</td></tr>
+    <tr><td>Efectivo total</td><td class="r">${money(t.efectivo)}</td></tr>
+    <tr><td>Digital total</td><td class="r">${money(t.digital)}</td></tr>
+    </table>
+    <div class="sep"></div>
+    <h2>🧾 Cuadre</h2>
+    <table>
+    <tr><td>Esperado en caja</td><td class="r">${money(c.expected || 0)}</td></tr>
+    <tr><td>Contado</td><td class="r">${money(c.counted || 0)}</td></tr>
+    <tr><td class="big">${diff === 0 ? '✅ Cuadrado' : diff > 0 ? '📈 Sobrante' : '📉 Faltante'}</td><td class="r big ${diff >= 0 ? 'ok' : 'bad'}">${money(Math.abs(diff))}</td></tr>
+    </table>
+    ${c.obs ? `<div class="sep"></div><h2>📝 Observación</h2><p>${esc(c.obs)}</p>` : ''}
+    <div class="sep"></div>
+    <h2>📊 Transacciones (${nfmt(t.mv.length)})</h2>
+    <table><tr style="font-size:10px;color:#6B7280"><td>Concepto</td><td>Ref</td><td class="r">Valor</td></tr>
+    ${t.mv.slice(0, 50).map(m => `<tr><td>${esc(m.t)}<br><span style="font-size:10px;color:#999">${esc(m.who || '')}</span></td><td style="font-size:10px">${esc(m.ref || '')}</td><td class="r ${m.out ? 'bad' : ''}">${m.out ? '−' : ''}${money(m.in || m.out)}</td></tr>`).join('')}
+    ${t.mv.length > 50 ? `<tr><td colspan="3" style="text-align:center;color:#999;padding:8px">… y ${nfmt(t.mv.length - 50)} más</td></tr>` : ''}
+    </table>
+    <div class="sep"></div>
+    <div class="center" style="margin-top:10px;font-size:10px;color:#999">${esc(S.config.biz)} · ${dmy(c.id)} · Impreso ${new Date().toLocaleString('es-CO')}</div>
+    <script>setTimeout(()=>window.print(),400)<\/script></body></html>`);
+  w.document.close();
+}
+
+</script>
 </body>
 </html>
