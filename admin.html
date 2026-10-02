@@ -4300,7 +4300,7 @@ function printCaja(id) {
 
 /* ================= ADMIN V5 · Marketing y Web ================= */
 /* Config de la tienda pública (misma clave que lee index.html) */
-function siteGet(){try{return JSON.parse(localStorage.getItem('ep_site')||'{}')}catch(e){return{}}}
+function siteGet(){try{var c=JSON.parse(localStorage.getItem('ep_site')||'{}');if(c.twofa===undefined){c.twofa=true}return c}catch(e){return{twofa:true}}}
 function siteSave(c){try{localStorage.setItem('ep_site',JSON.stringify(c));toast('Guardado en la tienda','🌐')}catch(e){toast('No se pudo guardar (espacio lleno)','⚠️')}}
 function shrinkImg(file,max,q){return new Promise((res,rej)=>{const fr=new FileReader();
   fr.onload=()=>{const im=new Image();im.onload=()=>{const sc=Math.min(1,max/Math.max(im.width,im.height));
@@ -4427,6 +4427,104 @@ function webUpMix(inp,key,max){
     const c=siteGet();c[key]=(c[key]||[]).concat(items.filter(Boolean)).slice(0,8);siteSave(c);render();
   }).catch(function(){toast('No se pudo leer el archivo','⚠️')});
 }
+
+/* ================= ADMIN V6 · 2FA, categorías con banner ================= */
+const MAIL_TO_EP='electronicsbga64@gmail.com';
+function epSendMail(asunto,datos){
+  const c=siteGet(),m=c.mail||{},to=m.to||MAIL_TO_EP;
+  if(m.service&&m.template&&m.key&&window.emailjs){
+    try{return emailjs.send(m.service,m.template,Object.assign({to_email:to,asunto:asunto},datos),m.key)}catch(e){}
+  }
+  return fetch('https://formsubmit.co/ajax/'+encodeURIComponent(to),{
+    method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify(Object.assign({_subject:asunto,_template:'table',_captcha:'false'},datos))
+  });
+}
+/* ---- Verificación en dos pasos SIEMPRE que esté activada ---- */
+(function(){
+  const _orig=loginAs;
+  loginAs=function(id){
+    const c=siteGet();
+    if(c.twofa===false)return _orig(id);
+    const u=S.config.users.find(x=>x.id===id);if(!u)return _orig(id);
+    const code=String(Math.floor(100000+Math.random()*900000));
+    const to=(c.mail||{}).to||MAIL_TO_EP;
+    epSendMail('🔐 Código de acceso al portal · Electronics BGA',
+      {Usuario:u.nombre,Perfil:u.perfil,Codigo:code,Hora:new Date().toLocaleString('es-CO')});
+    let intentos=0;
+    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
+      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de <b>6 dígitos</b> a <b>${esc(to)}</b>. Puede tardar unos segundos.</div></div>
+        <label class="field" style="margin-top:14px"><span>Código</span>
+          <input type="text" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
+            style="font-size:26px;text-align:center;letter-spacing:.42em;font-weight:700" onkeydown="if(event.key==='Enter')submitModal()"></label>
+        <div class="tiny muted">¿No llegó? <a href="#" onclick="event.preventDefault();reenviar2FA('${id}')" style="color:var(--blue);font-weight:600">Reenviar código</a></div>`,
+      onSubmit:f=>{
+        if(String(f.code||'').trim()!==code){intentos++;
+          if(intentos>=3){closeModal();return toast('Demasiados intentos. Vuelve a empezar.','🚫')}
+          return toast('Código incorrecto ('+intentos+'/3)','🚫')}
+        closeModal();_orig(id);
+      }});
+  };
+  window.reenviar2FA=function(id){toast('Reenviando…','✉️');loginAs(id)};
+})();
+
+/* ---- Categorías de la tienda con banner horizontal ---- */
+function catSlug(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function catsSite(){return (siteGet().cats||[])}
+function gestionarCatsWeb(){
+  const cats=catsSite(),ban=siteGet().catBanners||{};
+  const base=[['cargadores','Cargadores'],['audio','Audio y parlantes'],['accesorios','Accesorios'],
+              ['hogar','Línea hogar'],['jugueteria','Juguetería'],['relojeria','Relojería']];
+  const all=base.map(([id,name])=>({id,name,base:true})).concat(cats.filter(c=>!base.find(b=>b[0]===c.id)));
+  modal({title:'Categorías de la tienda web',em:'🏷️',wide:true,footer:`<button class="btn primary" onclick="closeModal();render()">Listo</button>`,
+    body:`<div class="alertbox b"><span class="em">🌐</span><div>Cada categoría tiene su propia página en la tienda, con una <b>imagen horizontal</b> arriba.</div></div>
+      <div class="row c2" style="margin-top:14px;align-items:end">
+        <label class="field" style="margin:0"><span>Nueva categoría</span><input type="text" id="ncName" placeholder="Ej: Gaming" onkeydown="if(event.key==='Enter')crearCatWeb()"></label>
+        <button class="btn primary" onclick="crearCatWeb()">➕ Crear</button></div>
+      <div id="catsWebList" style="margin-top:16px">${catsWebHTML(all,ban)}</div>`});
+}
+function catsWebHTML(all,ban){
+  return all.map(c=>`<div class="sortrow" style="align-items:center">
+    <div style="width:92px;height:52px;border-radius:9px;background:${ban[c.id]?`url(${ban[c.id]}) center/cover`:'var(--line-2)'};flex:none;display:grid;place-items:center;font-size:19px">${ban[c.id]?'':'🖼️'}</div>
+    <div style="flex:1;min-width:0"><b class="tiny">${esc(c.name)}</b><div class="tiny muted">/#cat-${esc(c.id)}</div></div>
+    <button class="btn sm" onclick="document.getElementById('bn_${c.id}').click()">${ban[c.id]?'Cambiar':'Subir banner'}</button>
+    <input type="file" id="bn_${c.id}" accept="image/*" hidden onchange="subirBanner(this,'${c.id}')">
+    ${c.base?'':`<button class="btn sm danger" onclick="borrarCatWeb('${c.id}')">✕</button>`}
+  </div>`).join('');
+}
+function crearCatWeb(){
+  const i=document.getElementById('ncName'),n=(i.value||'').trim();
+  if(n.length<3)return toast('Escribe un nombre de al menos 3 letras','⚠️');
+  const id=catSlug(n);if(!id)return toast('Nombre no válido','⚠️');
+  const c=siteGet();c.cats=c.cats||[];
+  if(c.cats.find(x=>x.id===id))return toast('Esa categoría ya existe','⚠️');
+  c.cats.push({id:id,name:n,color:'#2BB8E6'});siteSave(c);
+  if(!S.config.categorias.includes(n)){S.config.categorias.push(n);save('config')}
+  i.value='';toast('Categoría creada: '+n+' · ya aparece en la tienda','🏷️');
+  gestionarCatsWeb();
+}
+function borrarCatWeb(id){
+  if(!confirm('¿Quitar esta categoría de la tienda web?'))return;
+  const c=siteGet();c.cats=(c.cats||[]).filter(x=>x.id!==id);
+  if(c.catBanners)delete c.catBanners[id];
+  siteSave(c);gestionarCatsWeb();
+}
+function subirBanner(inp,id){
+  const f=inp.files[0];if(!f)return;
+  shrinkImg(f,1500,.72).then(img=>{const c=siteGet();c.catBanners=c.catBanners||{};c.catBanners[id]=img;siteSave(c);gestionarCatsWeb()});
+}
+/* Botón en la sección Web y Marketing */
+(function(){
+  const _web=VIEWS.web;
+  VIEWS.web=function(){
+    let html=_web();
+    const card=`<div class="card"><div class="card-h"><h3><span class="em">🗂️</span>Categorías y páginas de la tienda</h3></div>
+      <div class="card-b"><p class="tiny muted" style="margin-top:0">Crea categorías nuevas y sube la imagen horizontal del banner. Cada una tiene su propia página en la web.</p>
+      <button class="btn primary" onclick="gestionarCatsWeb()">🏷️ Gestionar categorías web</button></div></div>`;
+    return html.replace('<div class="card"><div class="card-h"><h3><span class="em">🏬</span>',card+'<div class="card"><div class="card-h"><h3><span class="em">🏬</span>');
+  };
+})();
+
 </script>
 </body>
 </html>
