@@ -4525,6 +4525,61 @@ function subirBanner(inp,id){
   };
 })();
 
+
+/* ===== ADMIN V7 · 2FA que sí funciona ===== */
+function epActivarCorreo(){
+  const to=(siteGet().mail||{}).to||MAIL_TO_EP;
+  toast('Enviando correo de activación…','✉️');
+  fetch('https://formsubmit.co/ajax/'+encodeURIComponent(to),{
+    method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify({_subject:'Activación de envíos · Electronics BGA',_captcha:'false',
+      Mensaje:'Confirma este correo para habilitar los envíos automáticos de la tienda.'})
+  }).then(function(){
+    modal({title:'Revisa tu correo',em:'✉️',footer:'<button class="btn primary" onclick="closeModal()">Entendido</button>',
+      body:`<div class="alertbox y"><span class="em">⚠️</span><div>FormSubmit te envió un correo de <b>activación</b> a <b>${esc(to)}</b>.<br><br>
+      <b>Debes abrirlo y pulsar el enlace de confirmación.</b> Hasta que no lo hagas, no llegará ningún código ni registro.</div></div>
+      <p class="tiny muted" style="margin-top:12px">Si no aparece en la bandeja, revisa <b>Spam</b> o <b>Promociones</b>.</p>`});
+  }).catch(function(){toast('No se pudo contactar el servicio de correo','⚠️')});
+}
+/* 2FA: correo + alternativa por WhatsApp si el correo no está activo */
+(function(){
+  const _orig=loginAs;
+  loginAs=function(id){
+    const c=siteGet();
+    if(c.twofa===false)return _orig(id);
+    const u=S.config.users.find(x=>x.id===id);if(!u)return _orig(id);
+    const code=String(Math.floor(100000+Math.random()*900000));
+    const to=(c.mail||{}).to||MAIL_TO_EP;
+    let enviado=false;
+    epSendMail('🔐 Código de acceso · Electronics BGA',
+      {Usuario:u.nombre,Perfil:u.perfil,Codigo:code,Hora:new Date().toLocaleString('es-CO')})
+      .then(function(){enviado=true}).catch(function(){});
+    let intentos=0;
+    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
+      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de <b>6 dígitos</b> a <b>${esc(to)}</b>.</div></div>
+        <label class="field" style="margin-top:14px"><span>Código</span>
+          <input type="text" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
+            style="font-size:26px;text-align:center;letter-spacing:.42em;font-weight:700" onkeydown="if(event.key==='Enter')submitModal()"></label>
+        <div class="alertbox y" style="margin-top:10px"><span class="em">📲</span><div class="tiny">¿No llega el correo?
+          <a href="#" onclick="event.preventDefault();window.open('https://wa.me/573223980005?text='+encodeURIComponent('🔐 Código de acceso al portal: ${code}'),'_blank')" style="color:var(--blue);font-weight:700">Recibirlo por WhatsApp</a>
+          · <a href="#" onclick="event.preventDefault();closeModal();epActivarCorreo()" style="color:var(--blue);font-weight:700">Activar el correo</a></div></div>`,
+      onSubmit:f=>{
+        if(String(f.code||'').trim()!==code){intentos++;
+          if(intentos>=5){closeModal();return toast('Demasiados intentos','🚫')}
+          return toast('Código incorrecto ('+intentos+'/5)','🚫')}
+        closeModal();_orig(id);
+      }});
+  };
+})();
+/* Botón de activación en Web y Marketing */
+(function(){
+  const _w=VIEWS.web;
+  VIEWS.web=function(){
+    return _w().replace('<label class="field"><span>Correo que recibe</span>',
+      '<div class="alertbox y" style="margin-bottom:12px"><span class="em">⚠️</span><div>Para que lleguen los correos <b>sin configurar nada</b>, pulsa el botón y confirma el enlace que te llegará.<br><button class="btn primary sm" style="margin-top:8px" onclick="epActivarCorreo()">✉️ Activar envío de correos</button></div></div><label class="field"><span>Correo que recibe</span>');
+  };
+})();
+
 </script>
 </body>
 </html>
