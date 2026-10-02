@@ -4327,10 +4327,10 @@ VIEWS.web=function(){
       <div class="row c2">
         <div><b class="tiny">Versión computador <span class="muted">(1600×540 aprox.)</span></b>
           <div class="drop" onclick="document.getElementById('upHD').click()" style="margin-top:7px"><span class="em">🖥️</span><span class="tiny">Subir imagen</span></div>
-          <input type="file" id="upHD" accept="image/*" multiple hidden onchange="webUp(this,'heroDesktop',1600)">${thumbs(hd,'heroDesktop')}</div>
+          <input type="file" id="upHD" accept="image/*,video/mp4,video/webm" multiple hidden onchange="webUpMix(this,'heroDesktop',1600)">${thumbs(hd,'heroDesktop')}</div>
         <div><b class="tiny">Versión celular <span class="muted">(900×700 aprox.)</span></b>
           <div class="drop" onclick="document.getElementById('upHM').click()" style="margin-top:7px"><span class="em">📱</span><span class="tiny">Subir imagen</span></div>
-          <input type="file" id="upHM" accept="image/*" multiple hidden onchange="webUp(this,'heroMobile',1000)">${thumbs(hm,'heroMobile')}</div>
+          <input type="file" id="upHM" accept="image/*,video/mp4,video/webm" multiple hidden onchange="webUpMix(this,'heroMobile',1000)">${thumbs(hm,'heroMobile')}</div>
       </div></div></div>
 
   <div class="card"><div class="card-h"><h3><span class="em">🏷️</span>Fotos de las categorías</h3></div>
@@ -4413,6 +4413,20 @@ if(_loginAs){
   };
 }
 
+
+/* Subida mixta: imágenes se comprimen, videos cortos se guardan tal cual */
+function webUpMix(inp,key,max){
+  const fs=[...inp.files];if(!fs.length)return;
+  Promise.all(fs.map(function(f){
+    if(/^video\//.test(f.type)){
+      if(f.size>4*1024*1024){toast('El video "'+f.name+'" pesa más de 4 MB; usa uno más corto','⚠️');return null}
+      return new Promise(function(res,rej){const r=new FileReader();r.onload=function(){res(r.result)};r.onerror=rej;r.readAsDataURL(f)});
+    }
+    return shrinkImg(f,max,.72);
+  })).then(function(items){
+    const c=siteGet();c[key]=(c[key]||[]).concat(items.filter(Boolean)).slice(0,8);siteSave(c);render();
+  }).catch(function(){toast('No se pudo leer el archivo','⚠️')});
+}
 </script>
 </body>
 </html>
