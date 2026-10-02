@@ -1307,7 +1307,134 @@ body::after{
 @media(max-width:767px){.cookie-bar{bottom:calc(72px + env(safe-area-inset-bottom))}}
 @media(prefers-reduced-motion:reduce){.big-word-track,.brands-track,.grad-text,.sig-star,.sig-chip{animation:none !important}}
 
+
+/* ================= V5 · carrusel, popup, redes, carrito, móvil ================= */
+/* --- Barra de marca global --- */
+.brandbar{position:relative;overflow:hidden;background:linear-gradient(90deg,#0E2135,#14406B,#1E93BD,#2BB8E6,#1E93BD,#14406B,#0E2135);padding:9px 0;z-index:5}
+.brandbar-track{display:flex;width:max-content;gap:34px;align-items:center;animation:bbRun 34s linear infinite}
+.brandbar-track span{font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.22em;color:#fff;white-space:nowrap;opacity:.95}
+.brandbar-track .bw-dot{color:#9BEBFF;letter-spacing:0;font-size:.6rem;opacity:.8}
+@keyframes bbRun{to{transform:translateX(-50%)}}
+@media(max-width:600px){.brandbar{padding:7px 0}.brandbar-track span{font-size:.7rem;letter-spacing:.18em}.brandbar-track{gap:24px}}
+
+/* --- Carrusel del hero --- */
+.hero-carousel{position:relative;max-width:var(--maxw);margin:0 auto;padding:16px var(--s6) 0;overflow:hidden}
+.hc-track{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:21/7;background:rgba(255,255,255,.3);box-shadow:0 18px 44px rgba(14,33,53,.26)}
+.hc-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease-out);display:block}
+.hc-slide.on{opacity:1}
+.hc-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.hc-dots{display:flex;gap:7px;justify-content:center;margin-top:10px}
+.hc-dots button{width:9px;height:9px;border-radius:99px;border:0;background:rgba(255,255,255,.55);cursor:pointer;padding:0;transition:width .3s,background .3s}
+.hc-dots button.on{width:26px;background:#2BB8E6}
+.hc-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;z-index:3;
+  background:rgba(255,255,255,.85);color:#0E2135;font-size:24px;line-height:1;box-shadow:0 6px 18px rgba(14,33,53,.25);transition:transform .2s,background .2s}
+.hc-nav:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.hc-prev{left:calc(var(--s6) + 12px)}.hc-next{right:calc(var(--s6) + 12px)}
+@media(max-width:768px){.hero-carousel{padding:12px 14px 0}.hc-track{aspect-ratio:4/3;border-radius:18px}.hc-nav{display:none}}
+
+/* --- Botones flotantes: redes + carrito --- */
+.fab-stack{position:fixed;right:20px;bottom:calc(88px + env(safe-area-inset-bottom));z-index:95;display:flex;flex-direction:column;gap:10px}
+.fab-mini{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;border:0;cursor:pointer;text-decoration:none;position:relative;
+  box-shadow:0 8px 20px rgba(14,33,53,.3);transition:transform .2s var(--ease-out),box-shadow .2s}
+.fab-mini svg{width:21px;height:21px}
+.fab-mini:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 14px 28px rgba(14,33,53,.38)}
+.fab-cart{background:linear-gradient(135deg,#2BB8E6,#1E93BD)}
+.fab-ig{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF)}
+.fab-tk{background:#000}
+.fab-fb{background:#1877F2}
+.fab-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:99px;background:#E8622A;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px;border:2px solid #fff}
+.fab-badge.hide{display:none}
+@media(max-width:767px){.fab-stack{right:14px;bottom:calc(132px + env(safe-area-inset-bottom));gap:8px}.fab-mini{width:42px;height:42px}.fab-mini svg{width:19px;height:19px}}
+
+/* --- Carrito con degradado de marca --- */
+.drawer{background:linear-gradient(170deg,#F2FAFE 0%,#FFFFFF 42%,#FDF3EE 100%) !important;backdrop-filter:blur(18px) saturate(1.3);border-left:1px solid rgba(255,255,255,.6) !important;box-shadow:-24px 0 60px rgba(14,33,53,.28) !important}
+.drawer-head{background:linear-gradient(135deg,#0E2135,#1E93BD);color:#fff;border-bottom:0 !important}
+.drawer-head h3,.drawer-head b,.drawer-head span{color:#fff !important}
+.drawer-head .icon-btn{color:#fff;background:rgba(255,255,255,.16);border:0}
+.drawer-foot{background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-top:1px solid var(--border) !important}
+.drawer-body{background:transparent !important}
+
+/* --- Tarjetas de categoría con imagen de fondo --- */
+.cat-card{position:relative;overflow:hidden;isolation:isolate}
+.cat-card .cc-bg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transform:scale(1.04);transition:transform .6s var(--ease-out)}
+.cat-card:hover .cc-bg{transform:scale(1.12)}
+.cat-card.has-img::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,33,53,.25) 0%,rgba(14,33,53,.72) 100%)}
+.cat-card.has-img .cc-name{color:#fff !important;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.cat-card.has-img .cc-count{color:rgba(255,255,255,.88) !important;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.cat-card.has-img .cc-ic{background:rgba(255,255,255,.2) !important;backdrop-filter:blur(6px)}
+/* Tarjetas grandes de línea con imagen */
+.pf-card{position:relative;overflow:hidden;isolation:isolate}
+.pf-card .pf-bg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transform:scale(1.04);transition:transform .6s var(--ease-out)}
+.pf-card:hover .pf-bg{transform:scale(1.12)}
+.pf-card.has-img::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.92) 62%)}
+.pf-card.has-img .pf-title{text-shadow:0 1px 2px rgba(255,255,255,.9)}
+
+/* --- Galería del local --- */
+.local-sec{padding:var(--s14) 0}
+.local-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.local-grid figure{margin:0;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 10px 28px rgba(14,33,53,.14);cursor:pointer}
+.local-grid figure:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.local-grid img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease-out)}
+.local-grid figure:hover img{transform:scale(1.07)}
+.local-grid figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px;color:#fff;font-weight:700;font-size:.9rem;
+  background:linear-gradient(180deg,transparent,rgba(14,33,53,.82));text-shadow:0 2px 8px rgba(0,0,0,.5)}
+@media(max-width:768px){.local-grid{grid-template-columns:repeat(2,1fr);gap:10px}.local-grid figure:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/10}}
+
+/* --- Pop-up promocional --- */
+.promo-ov{position:fixed;inset:0;z-index:150;background:rgba(10,24,38,.62);backdrop-filter:blur(6px);display:grid;place-items:center;padding:18px;animation:fadeIn .3s var(--ease-out)}
+.promo-ov[hidden]{display:none}
+@keyframes fadeIn{from{opacity:0}}
+.promo-card{position:relative;width:min(880px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:26px;display:grid;grid-template-columns:1fr 1fr;
+  box-shadow:0 40px 90px rgba(14,33,53,.45);animation:popIn .45s var(--ease-out)}
+@keyframes popIn{from{opacity:0;transform:translateY(24px) scale(.96)}}
+.promo-media{background:linear-gradient(135deg,#0E2135,#1E93BD);min-height:320px;background-size:cover;background-position:center}
+.promo-media.empty{display:grid;place-items:center;font-size:72px}
+.promo-body{padding:34px 32px;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.promo-badge{align-self:flex-start;background:linear-gradient(135deg,#E8622A,#D14E1C);color:#fff;font-weight:800;font-size:.76rem;letter-spacing:.08em;padding:6px 14px;border-radius:99px}
+.promo-body h3{font-family:'Space Grotesk','Inter',sans-serif;font-size:1.6rem;line-height:1.15;color:var(--ink-900)}
+.promo-body p{color:var(--ink-500);font-size:.95rem}
+.promo-form{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.promo-form input[type=text],.promo-form input[type=email],.promo-form input[type=tel]{height:46px;border:1.5px solid var(--border);border-radius:12px;padding:0 14px;font:inherit;font-size:.95rem;background:#fff}
+.promo-form input:focus{outline:none;border-color:#2BB8E6;box-shadow:0 0 0 3px var(--ring)}
+.promo-chk{display:flex;gap:9px;align-items:flex-start;font-size:.78rem;color:var(--ink-500);cursor:pointer}
+.promo-chk input{width:17px;height:17px;margin-top:2px;accent-color:#1E93BD;flex:0 0 17px}
+.promo-later{background:none;border:0;color:var(--ink-500);font:inherit;font-size:.82rem;cursor:pointer;text-decoration:underline;padding:4px}
+.promo-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#0E2135;font-size:15px;cursor:pointer;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+@media(max-width:760px){.promo-card{grid-template-columns:1fr;max-height:90vh}.promo-media{min-height:170px;aspect-ratio:16/9}.promo-body{padding:22px 20px}.promo-body h3{font-size:1.3rem}}
+
+/* --- MÓVIL: catálogo en cuadrícula compacta y más info en pantalla --- */
+@media(max-width:767px){
+  #grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important;padding:4px 2px 16px}
+  .card{transform:none;border-radius:14px !important}
+  .card:hover{transform:translateY(-2px) !important}
+  .card .card-body{padding:9px 10px !important;gap:2px !important}
+  .card-sku{font-size:.6rem}
+  .card-name{font-size:.8rem !important;line-height:1.25;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .card-meta{font-size:.68rem !important;padding-bottom:6px;margin-bottom:2px}
+  .card-price .now{font-size:.95rem !important}.card-cur{font-size:.55rem}
+  .card-actions{grid-template-columns:1fr 1fr;gap:5px;padding:0 9px 10px}
+  .btn-add,.btn-buy{height:34px;font-size:.74rem;border-radius:9px}
+  .cat-cards{gap:8px}.cat-card{flex:0 0 86px;padding:11px 7px 9px}
+  .cat-card .cc-ic{width:42px;height:42px;font-size:21px}
+  .cat-card .cc-name{font-size:.72rem}.cat-card .cc-count{font-size:.65rem}
+  .subcat{font-size:.74rem;padding:6px 11px}
+  .cat-hero h2{font-size:1.45rem}.cat-hero p{font-size:.88rem}
+  .sec-title h2,.sec-head h2{font-size:1.4rem !important}
+  .sec-title p,.sec-head p{font-size:.9rem}
+  .section-pad{padding:var(--s10) 0 !important}
+  .wrap{padding-left:14px;padding-right:14px}
+  .pf-card{padding:14px 12px 12px}.pf-emoji{width:42px;height:42px;font-size:24px !important;border-radius:12px;margin-bottom:9px}
+  .pf-title{font-size:.92rem}.pf-desc{font-size:.76rem;margin-bottom:9px}.pf-count{font-size:.72rem}
+  .qcard{padding:14px;gap:12px}.qcard .qic{width:44px;height:44px;flex:0 0 44px}.qcard b{font-size:.9rem}
+  .promesa,.svc-card,.may-card{padding:16px 14px}
+  .promesa h4,.svc-card h4,.may-card h4{font-size:.95rem}
+  .promesa p,.svc-card p,.may-card p{font-size:.82rem}
+  .stat b{font-size:1.4rem !important}.stat span{font-size:.72rem}
+}
+@media(max-width:380px){#grid{gap:8px !important}.btn-add,.btn-buy{font-size:.7rem}}
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <div class="announce" id="announce">
@@ -1353,8 +1480,16 @@ body::after{
     </div>
   </div>
 </header>
+<div class="brandbar" aria-hidden="true"><div class="brandbar-track"><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span><span>ELECTRONICS BGA PARTS</span><span class="bw-dot">◆</span></div></div>
 <div class="view active" id="view-inicio">
 <section class="hero" id="inicio">
+<div class="hero-carousel" id="heroCarousel" hidden>
+  <div class="hc-track" id="hcTrack"></div>
+  <div class="hc-dots" id="hcDots"></div>
+  <button class="hc-nav hc-prev" onclick="hcGo(-1)" aria-label="Anterior">‹</button>
+  <button class="hc-nav hc-next" onclick="hcGo(1)" aria-label="Siguiente">›</button>
+</div>
+
   <div class="wrap">
     <div class="hero-copy">
       <span class="eyebrow">Accesorios · Celulares · Servicio técnico</span>
@@ -1381,7 +1516,6 @@ body::after{
   </div>
 </section>
 <div class="strip" aria-hidden="true"><div class="marquee" id="marquee"></div></div>
-<div class="big-word" aria-hidden="true"><div class="big-word-track"><span>ELECTRONICS</span><span>PARTS</span><span>ELECTRONICS</span><span>PARTS</span><span>ELECTRONICS</span><span>PARTS</span><span>ELECTRONICS</span><span>PARTS</span></div></div>
 
 <!-- 4 PROMESAS -->
 <section class="promesas">
@@ -1754,6 +1888,12 @@ body::after{
     <button class="admin-link" onclick="openAdmin()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Panel de administración</button>
   </div></div>
 </footer>
+<div class="fab-stack" id="fabStack">
+  <button class="fab-mini fab-cart" onclick="openDrawer()" aria-label="Ver carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="fab-badge hide" id="fabCartCount">0</span></button>
+  <a class="fab-mini fab-ig" href="https://www.instagram.com/electronicspartscol" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+  <a class="fab-mini fab-tk" href="https://www.tiktok.com/@electronicspartscol" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.3 1.7 3.9 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3Z"/></svg></a>
+  <a class="fab-mini fab-fb" href="https://www.facebook.com/share/1HHEgk3NFV/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1Z"/></svg></a>
+</div>
 <a class="fab" href="https://wa.me/573223980005?text=Hola%20Electronics%20Parts%2C%20quiero%20informaci%C3%B3n" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.1.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.5.1.3.6 1 1.3 1.6.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.8.9c.3.1.4.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
 </a>
@@ -2977,6 +3117,153 @@ function ctSend(){
 
 
 
+
+/* ================= V5 · Electronics Parts ================= */
+/* Config que el admin guarda en el navegador (clave compartida ep_site) */
+function siteCfg(){try{return JSON.parse(localStorage.getItem('ep_site')||'{}')}catch(e){return{}}}
+
+/* ---------- Carrusel del hero (auto cada 5s, PC y celular) ---------- */
+let hcI=0,hcTimer=null,hcSlides=[];
+function hcRender(){
+  const cfg=siteCfg(), box=document.getElementById('heroCarousel');
+  if(!box)return;
+  const isM=window.matchMedia('(max-width:768px)').matches;
+  hcSlides=((isM?cfg.heroMobile:cfg.heroDesktop)||cfg.heroDesktop||cfg.heroMobile||[]).filter(Boolean);
+  if(!hcSlides.length){box.hidden=true;if(hcTimer)clearInterval(hcTimer);return}
+  box.hidden=false;
+  document.getElementById('hcTrack').innerHTML=hcSlides.map((s,i)=>{
+    const src=typeof s==='string'?s:s.img, link=typeof s==='string'?'':(s.link||'');
+    const img='<img src="'+src+'" alt="Promoción '+(i+1)+'" loading="'+(i?'lazy':'eager')+'">';
+    return link?'<a class="hc-slide'+(i===0?' on':'')+'" href="'+esc(link)+'">'+img+'</a>':'<div class="hc-slide'+(i===0?' on':'')+'">'+img+'</div>'}).join('');
+  document.getElementById('hcDots').innerHTML=hcSlides.map((_,i)=>'<button class="'+(i===0?'on':'')+'" onclick="hcSet('+i+')" aria-label="Imagen '+(i+1)+'"></button>').join('');
+  hcI=0;hcAuto();
+}
+function hcSet(i){
+  const sl=document.querySelectorAll('.hc-slide'),dt=document.querySelectorAll('.hc-dots button');
+  if(!sl.length)return;hcI=(i+sl.length)%sl.length;
+  sl.forEach((s,k)=>s.classList.toggle('on',k===hcI));dt.forEach((d,k)=>d.classList.toggle('on',k===hcI));hcAuto();
+}
+function hcGo(d){hcSet(hcI+d)}
+function hcAuto(){if(hcTimer)clearInterval(hcTimer);if(hcSlides.length>1)hcTimer=setInterval(()=>hcSet(hcI+1),5000)}
+window.addEventListener('resize',(function(){let t;return()=>{clearTimeout(t);t=setTimeout(hcRender,300)}})());
+
+/* ---------- Imágenes de categoría (las sube el admin) ---------- */
+function applyCatImages(){
+  const im=siteCfg().catImages||{};
+  document.querySelectorAll('.cat-card').forEach(c=>{
+    const id=(c.getAttribute('onclick')||'').match(/setCat\('([^']+)'\)/);
+    const k=id?id[1]:null;if(!k||!im[k])return;
+    c.classList.add('has-img');
+    if(!c.querySelector('.cc-bg')){const b=document.createElement('span');b.className='cc-bg';c.prepend(b)}
+    c.querySelector('.cc-bg').style.backgroundImage='url('+im[k]+')';
+  });
+  document.querySelectorAll('.pf-card').forEach(c=>{
+    const id=(c.getAttribute('onclick')||'').match(/filterCat\('([^']+)'\)/);
+    const k=id?id[1]:null;if(!k||!im[k])return;
+    c.classList.add('has-img');
+    if(!c.querySelector('.pf-bg')){const b=document.createElement('span');b.className='pf-bg';c.prepend(b)}
+    c.querySelector('.pf-bg').style.backgroundImage='url('+im[k]+')';
+  });
+}
+/* Re-aplicar cada vez que se redibujan las categorías */
+['renderChips','renderLineas'].forEach(fn=>{const o=window[fn];if(typeof o==='function')window[fn]=function(){o.apply(this,arguments);applyCatImages()}});
+
+/* ---------- Galería del local (las sube el admin) ---------- */
+function renderLocal(){
+  const fotos=(siteCfg().localFotos||[]).filter(Boolean);
+  let sec=document.getElementById('localSec');
+  if(!fotos.length){if(sec)sec.remove();return}
+  if(!sec){
+    sec=document.createElement('section');sec.className='local-sec';sec.id='localSec';
+    sec.innerHTML='<div class="wrap"><div class="sec-title rv" style="text-align:center"><span class="eyebrow-mono">Visítanos</span><h2>Así es nuestro local</h2><p>Estamos en el Centro Comercial Bucacentro, local 232, en el centro de Bucaramanga.</p></div><div class="local-grid rv" id="localGrid"></div></div>';
+    const q=document.querySelector('#view-inicio .lineas');
+    if(q&&q.parentNode)q.parentNode.insertBefore(sec,q.nextSibling);else return;
+  }
+  document.getElementById('localGrid').innerHTML=fotos.slice(0,6).map(f=>{
+    const src=typeof f==='string'?f:f.img,cap=typeof f==='string'?'':(f.cap||'');
+    return '<figure>'+'<img src="'+src+'" alt="'+esc(cap||'Electronics Parts')+'" loading="lazy">'+(cap?'<figcaption>'+esc(cap)+'</figcaption>':'')+'</figure>'}).join('');
+  if(typeof initReveal==='function')initReveal();
+}
+
+/* ---------- Pop-up promocional ---------- */
+function promoCfg(){const c=siteCfg().promo||{};return{on:c.on!==false,img:c.img||'',badge:c.badge||'10% DE DESCUENTO',
+  title:c.title||'Tu primer pedido con descuento',text:c.text||'Déjanos tus datos y te enviamos tu cupón del 10% para tu primera compra.',delay:c.delay||6}}
+function openPromo(){
+  const c=promoCfg(),ov=document.getElementById('promoOv');if(!ov)return;
+  document.getElementById('promoBadge').textContent=c.badge;
+  document.getElementById('promoTitle').textContent=c.title;
+  document.getElementById('promoText').textContent=c.text;
+  const m=document.getElementById('promoMedia');
+  if(c.img){m.style.backgroundImage='url('+c.img+')';m.classList.remove('empty');m.textContent=''}
+  else{m.classList.add('empty');m.textContent='🎁'}
+  ov.hidden=false;document.body.style.overflow='hidden';
+}
+function closePromo(){const ov=document.getElementById('promoOv');if(ov)ov.hidden=true;document.body.style.overflow='';
+  try{localStorage.setItem('ep_promo_seen',String(Date.now()))}catch(e){}}
+function initPromo(){
+  const c=promoCfg();if(!c.on)return;
+  let seen=0;try{seen=Number(localStorage.getItem('ep_promo_seen')||0)}catch(e){}
+  if(Date.now()-seen < 7*24*60*60*1000)return;           /* una vez por semana */
+  setTimeout(openPromo,Math.max(1,c.delay)*1000);
+}
+function promoSend(){
+  const g=id=>(document.getElementById(id)||{}).value||'';
+  const nom=g('pmNom').trim(),mail=g('pmMail').trim(),tel=g('pmTel').replace(/\D/g,'');
+  const msg=document.getElementById('pmMsg');
+  if(nom.length<3){msg.textContent='Escribe tu nombre.';return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){msg.textContent='Escribe un correo válido.';return}
+  if(tel.length!==10||tel[0]!=='3'){msg.textContent='WhatsApp de 10 dígitos que empiece por 3.';return}
+  if(!document.getElementById('pmHd').checked){msg.textContent='Debes aceptar la política de datos.';return}
+  msg.textContent='';
+  const cupon='EP10-'+tel.slice(-4)+'-'+String(Date.now()).slice(-3);
+  /* Guardar el lead para que lo veas en el admin */
+  try{const L=JSON.parse(localStorage.getItem('ep_leads')||'[]');
+    L.unshift({nom:nom,mail:mail,tel:tel,cupon:cupon,at:new Date().toISOString()});
+    localStorage.setItem('ep_leads',JSON.stringify(L.slice(0,500)))}catch(e){}
+  /* Enviar por correo si hay EmailJS configurado; si no, por WhatsApp */
+  const cfg=siteCfg().mail||{};
+  const texto='🎁 *Nuevo registro para el 10% de descuento*\n\n👤 '+nom+'\n📧 '+mail+'\n📲 '+tel+'\n🏷️ Cupón: *'+cupon+'*';
+  if(cfg.service&&cfg.template&&cfg.key&&window.emailjs){
+    try{emailjs.send(cfg.service,cfg.template,{to_email:'electronicsbga64@gmail.com',nombre:nom,correo:mail,whatsapp:tel,cupon:cupon},cfg.key)}catch(e){}
+  }
+  window.open('https://wa.me/573223980005?text='+encodeURIComponent(texto),'_blank');
+  document.getElementById('promoForm').innerHTML='<div style="text-align:center;padding:14px 0"><div style="font-size:44px">🎉</div><h3 style="font-family:\'Space Grotesk\',sans-serif;margin:8px 0">¡Listo, '+esc(nom.split(' ')[0])+'!</h3><p style="color:var(--ink-500);font-size:.92rem">Tu cupón es <b style="color:#1E93BD;font-size:1.05rem">'+cupon+'</b><br>Preséntalo al hacer tu pedido.</p><button class="btn btn-primary" style="margin-top:12px" onclick="closePromo()">Seguir comprando</button></div>';
+  try{localStorage.setItem('ep_promo_seen',String(Date.now()))}catch(e){}
+}
+
+/* ---------- Carrito: contador del botón flotante ---------- */
+function syncFabCart(){
+  const b=document.getElementById('fabCartCount');if(!b)return;
+  let n=0;try{n=(JSON.parse(localStorage.getItem(LS.cart)||'[]')||[]).reduce((a,i)=>a+(i.qty||0),0)}catch(e){}
+  b.textContent=n;b.classList.toggle('hide',n<=0);
+}
+(function(){const o=window.updateCartUI;if(typeof o==='function')window.updateCartUI=function(){o.apply(this,arguments);syncFabCart()}})();
+function openDrawer(){if(typeof openCart==='function')openCart();else{const d=document.getElementById('drawer');if(d)d.classList.add('open')}}
+
+/* Arranque */
+(function(){var m=(siteCfg().mail||{});if(m.key&&window.emailjs){try{emailjs.init({publicKey:m.key})}catch(e){}}})();
+hcRender();applyCatImages();renderLocal();syncFabCart();initPromo();
+
 </script>
+<div class="promo-ov" id="promoOv" hidden onclick="if(event.target===this)closePromo()">
+  <div class="promo-card" role="dialog" aria-modal="true" aria-label="Promoción">
+    <button class="promo-x" onclick="closePromo()" aria-label="Cerrar">✕</button>
+    <div class="promo-media" id="promoMedia"></div>
+    <div class="promo-body">
+      <span class="promo-badge" id="promoBadge">10% DE DESCUENTO</span>
+      <h3 id="promoTitle">Tu primer pedido con descuento</h3>
+      <p id="promoText">Déjanos tus datos y te enviamos tu cupón del 10% para tu primera compra.</p>
+      <div class="promo-form" id="promoForm">
+        <input id="pmNom" type="text" placeholder="Tu nombre" autocomplete="name">
+        <input id="pmMail" type="email" placeholder="Tu correo" autocomplete="email">
+        <input id="pmTel" type="tel" inputmode="numeric" maxlength="10" placeholder="Tu WhatsApp (3XX...)">
+        <span class="msg" id="pmMsg"></span>
+        <label class="promo-chk"><input type="checkbox" id="pmHd"><span>Acepto la <a href="politica.html#datos" target="_blank">política de datos</a> y recibir novedades.</span></label>
+        <button class="btn btn-primary" onclick="promoSend()">Quiero mi 10% ✨</button>
+        <button class="promo-later" onclick="closePromo()">Ahora no, gracias</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
