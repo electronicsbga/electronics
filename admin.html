@@ -4397,22 +4397,9 @@ function webLeadsCSV(){let L=[];try{L=JSON.parse(localStorage.getItem('ep_leads'
   const csv='Fecha,Nombre,Correo,WhatsApp,Cupon\n'+L.map(l=>[dmy(l.at),l.nom,l.mail,l.tel,l.cupon].map(x=>'"'+String(x||'').replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='registros-descuento.csv';a.click();toast('CSV descargado','⬇️')}
 
-/* ---- Doble verificación por correo al entrar (si está activada) ---- */
-const _loginAs=typeof loginAs==='function'?loginAs:null;
-if(_loginAs){
-  loginAs=function(id){
-    const c=siteGet(),m=c.mail||{};
-    if(!c.twofa||!(m.service&&m.template&&m.key&&window.emailjs))return _loginAs(id);
-    const u=S.config.users.find(x=>x.id===id);if(!u)return _loginAs(id);
-    const code=String(Math.floor(1000+Math.random()*9000));
-    try{emailjs.send(m.service,m.template,{to_email:m.to||'electronicsbga64@gmail.com',nombre:u.nombre,codigo:code,asunto:'Código de acceso al portal'},m.key)}catch(e){}
-    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
-      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de 4 dígitos a <b>${esc(m.to||'electronicsbga64@gmail.com')}</b>.</div></div>
-        <label class="field" style="margin-top:14px"><span>Código de 4 dígitos</span><input type="text" name="code" inputmode="numeric" maxlength="4" style="font-size:24px;text-align:center;letter-spacing:.5em" onkeydown="if(event.key==='Enter')submitModal()"></label>`,
-      onSubmit:f=>{if(String(f.code).trim()!==code)return toast('Código incorrecto','🚫');closeModal();_loginAs(id)}});
-  };
-}
-
+/* (2FA retirada de aquí: existía una capa antigua de 4 dígitos que se apilaba
+   sobre otra de 6 dígitos y hacía que el código siempre saliera "incorrecto".
+   La única 2FA válida es la de más abajo: "ADMIN V7 · 2FA que sí funciona".) */
 
 /* Subida mixta: imágenes se comprimen, videos cortos se guardan tal cual */
 function webUpMix(inp,key,max){
@@ -4440,33 +4427,8 @@ function epSendMail(asunto,datos){
     body:JSON.stringify(Object.assign({_subject:asunto,_template:'table',_captcha:'false'},datos))
   });
 }
-/* ---- Verificación en dos pasos SIEMPRE que esté activada ---- */
-(function(){
-  const _orig=loginAs;
-  loginAs=function(id){
-    const c=siteGet();
-    if(c.twofa===false)return _orig(id);
-    const u=S.config.users.find(x=>x.id===id);if(!u)return _orig(id);
-    const code=String(Math.floor(100000+Math.random()*900000));
-    const to=(c.mail||{}).to||MAIL_TO_EP;
-    epSendMail('🔐 Código de acceso al portal · Electronics BGA',
-      {Usuario:u.nombre,Perfil:u.perfil,Codigo:code,Hora:new Date().toLocaleString('es-CO')});
-    let intentos=0;
-    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
-      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de <b>6 dígitos</b> a <b>${esc(to)}</b>. Puede tardar unos segundos.</div></div>
-        <label class="field" style="margin-top:14px"><span>Código</span>
-          <input type="text" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
-            style="font-size:26px;text-align:center;letter-spacing:.42em;font-weight:700" onkeydown="if(event.key==='Enter')submitModal()"></label>
-        <div class="tiny muted">¿No llegó? <a href="#" onclick="event.preventDefault();reenviar2FA('${id}')" style="color:var(--blue);font-weight:600">Reenviar código</a></div>`,
-      onSubmit:f=>{
-        if(String(f.code||'').trim()!==code){intentos++;
-          if(intentos>=3){closeModal();return toast('Demasiados intentos. Vuelve a empezar.','🚫')}
-          return toast('Código incorrecto ('+intentos+'/3)','🚫')}
-        closeModal();_orig(id);
-      }});
-  };
-  window.reenviar2FA=function(id){toast('Reenviando…','✉️');loginAs(id)};
-})();
+/* (2FA V6 retirada: era una segunda capa de 6 dígitos que se apilaba sobre la
+   V7. Se conserva solo epSendMail y MAIL_TO_EP, que la V7 reutiliza.) */
 
 /* ---- Categorías de la tienda con banner horizontal ---- */
 function catSlug(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
