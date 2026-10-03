@@ -4082,6 +4082,7 @@ hcRender=function(){
   let list=(isM?cfg.heroMobile:cfg.heroDesktop)||[];
   if(!list.length)list=isM?HERO_MAIN_M:HERO_MAIN;
   hcSlides=list.filter(Boolean);
+  box.hidden=false;box.removeAttribute('hidden');box.style.display='';
   const t=document.getElementById('hcTrack');if(!t)return;
   t.innerHTML=hcSlides.map(function(s,i){
     const src=typeof s==='string'?s:(s.img||s.src||'');
