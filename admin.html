@@ -3340,14 +3340,14 @@ function pedirGerencia(motivoLabel, then) {
   const ger = S.config.users.filter(u => u.perfil === 'gerencia');
   if (!ger.length) return toast('No hay usuario de gerencia configurado', '⚠️');
   modal({ title: 'Autorización de gerencia', em: '🔐', ok: 'Autorizar',
-    body: `<div class="alertbox y"><span class="em">⚠️</span><div>${esc(motivoLabel)}</div></div><div class="row c2" style="margin-top:14px"><label class="field"><span>Usuario gerencia</span><select name="uid">${ger.map(u => `<option value="${u.id}">${esc(u.nombre)}</option>`).join('')}</select></label><label class="field"><span>PIN</span><input type="password" name="pin" inputmode="numeric"></label></div><label class="field"><span>Motivo *</span><input type="text" name="motivo"></label>`,
+    body: `<div class="alertbox y"><span class="em">⚠️</span><div>${esc(motivoLabel)}</div></div><div class="row c2" style="margin-top:14px"><label class="field"><span>Usuario gerencia</span><select name="uid">${ger.map(u => `<option value="${u.id}">${esc(u.nombre)}</option>`).join('')}</select></label><label class="field"><span>PIN</span><input type="password" name="pin" autocomplete="off"></label></div><label class="field"><span>Motivo *</span><input type="text" name="motivo"></label>`,
     onSubmit: f => { const u = ger.find(x => x.id === f.uid); if (!u || u.pin !== f.pin) return toast('PIN incorrecto', '🚫'); if (!f.motivo?.trim()) return toast('Escribe el motivo', '⚠️'); audit('AUTORIZACION_GERENCIA', motivoLabel + ' · ' + f.motivo, u.nombre); closeModal(); then(f.motivo); } });
 }
 function loginScreen() {
   const us = S.config.users;
   const body = us.length ? `<div class="opt-grid" style="margin-bottom:14px">${us.filter(u => !u.inactivo).map(u => `<button class="opt" onclick="loginAs('${u.id}')"><span class="em">${PERFILES[u.perfil].split(' ')[0]}</span><div class="t">${esc(u.nombre)}</div><div class="d">${PERFILES[u.perfil].slice(2)}</div></button>`).join('')}</div>`
     : `<div class="alertbox b" style="margin-bottom:14px"><span class="em">👋</span><div>Primer ingreso: crea el usuario de <b>gerencia</b>. Luego podrás crear cajeros (comercial) y bodega en Configuración.</div></div>
-      <label class="field"><span>Tu nombre</span><input type="text" id="fuName" value="${esc(S.config.user || '')}"></label><label class="field"><span>PIN (4 a 6 dígitos)</span><input type="password" id="fuPin" inputmode="numeric" maxlength="6"></label>
+      <label class="field"><span>Tu nombre</span><input type="text" id="fuName" value="${esc(S.config.user || '')}"></label><label class="field"><span>Clave (letras y números)</span><input type="password" id="fuPin" maxlength="20" autocomplete="off"></label>
       <button class="btn primary block" onclick="crearPrimerUsuario()">Crear y entrar</button>`;
   $('#modals').innerHTML = `<div class="scrim" id="scrim" style="align-items:center;background:var(--grad)"><div class="modal" style="max-width:520px"><div class="modal-h"><h3><img src="${LOGO_B64}" style="width:30px;height:30px;border-radius:8px;vertical-align:middle;margin-right:8px">${esc(S.config.biz)}</h3></div><div class="modal-b">${body}</div><div class="modal-f" style="justify-content:center"><span class="tiny muted">PubliFuturo Gestión · ${dmy(today())}</span></div></div></div>`;
 }
@@ -3362,7 +3362,7 @@ function logout() { audit('LOGOUT', 'Salida'); SESSION = null; localStorage.remo
 function gestionarUsuarios() {
   const us = S.config.users;
   modal({ title: 'Usuarios del programa y perfiles', em: '🔑', wide: true,
-    body: `<div class="row" style="grid-template-columns:1fr 150px 130px auto;gap:8px;align-items:end;margin-bottom:14px"><label class="field" style="margin:0"><span>Nombre</span><input type="text" id="nuName"></label><label class="field" style="margin:0"><span>Perfil</span><select id="nuPerfil">${Object.entries(PERFILES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label><label class="field" style="margin:0"><span>PIN</span><input type="password" id="nuPin" inputmode="numeric" maxlength="6"></label><button class="btn primary" onclick="crearUsuario()">➕ Crear</button></div>
+    body: `<div class="row" style="grid-template-columns:1fr 150px 130px auto;gap:8px;align-items:end;margin-bottom:14px"><label class="field" style="margin:0"><span>Nombre</span><input type="text" id="nuName"></label><label class="field" style="margin:0"><span>Perfil</span><select id="nuPerfil">${Object.entries(PERFILES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label><label class="field" style="margin:0"><span>Clave</span><input type="password" id="nuPin" maxlength="20" autocomplete="off"></label><button class="btn primary" onclick="crearUsuario()">➕ Crear</button></div>
       <div id="usList">${us.map(u => `<div class="sortrow"><span class="av" style="width:30px;height:30px;font-size:11px">${ini(u.nombre)}</span><div style="flex:1"><b>${esc(u.nombre)}</b> ${u.inactivo ? '<span class="tag r">inactivo</span>' : ''}<div class="tiny muted">${PERFILES[u.perfil]}</div></div>
         <select style="width:150px" onchange="S.config.users.find(x=>x.id==='${u.id}').perfil=this.value;save('config')">${Object.entries(PERFILES).map(([k, v]) => `<option value="${k}" ${u.perfil === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
         <button class="btn sm" onclick="const p=prompt('Nuevo PIN para ${esc(u.nombre)}:');if(p&&p.length>=4){S.config.users.find(x=>x.id==='${u.id}').pin=p;save('config');toast('PIN actualizado','🔑')}">PIN</button>
@@ -3919,7 +3919,7 @@ VIEWS.caja = () => {
       <div class="card"><div class="card-b"><div class="totals" style="border:0;padding:0;margin:0"><div><span>Efectivo esperado</span><span class="strong">${money(d.efEsperado)}</span></div><div><span>Contado físicamente</span><span class="strong" id="cContado">${money(contado)}</span></div><div class="big"><span id="cDifLab">${diff === 0 ? 'Cuadre' : diff > 0 ? 'Sobrante' : 'Faltante'}</span><span id="cDifVal" class="${diff === 0 ? '' : diff > 0 ? 'up' : 'down'}">${money(Math.abs(diff))}</span></div></div><div id="cAviso">${avisoCuadre(contado, diff)}</div></div></div></div>
       <div style="display:flex;gap:9px;margin-top:14px"><button class="btn" onclick="zStep=2;render()">← Atrás</button><div class="spacer"></div><button class="btn primary" onclick="zStep=4;render()" ${contado ? '' : 'disabled'}>Resultado →</button></div>` : ''}
     ${zStep === 4 ? `<div class="card" style="background:${sem === 'verde' ? 'var(--ok-bg)' : sem === 'amarillo' ? 'var(--warn-bg)' : 'var(--bad-bg)'};border-color:transparent"><div class="card-b" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div style="font-size:54px">${sem === 'verde' ? '🟢' : sem === 'amarillo' ? '🟡' : '🔴'}</div><div style="flex:1"><div style="font-family:var(--disp);font-size:22px;font-weight:600">${diff === 0 ? 'Cuadre exacto' : (diff > 0 ? 'Sobrante ' : 'Faltante ') + money(Math.abs(diff))}</div><div class="tiny">Esperado ${money(d.efEsperado)} · Contado ${money(contado)} · ${sem === 'rojo' ? 'Rojo: exige observación y confirmación de gerencia' : sem === 'amarillo' ? 'Dentro del umbral' : 'Todo en orden'}</div></div></div></div>
-      <div class="row c2" style="margin-top:14px"><label class="field"><span>Observación del cierre ${sem === 'rojo' ? '*' : ''}</span><textarea id="zObs"></textarea></label><div><label class="field"><span>Firma del usuario (nombre)</span><input type="text" id="zFirma" value="${esc(curUser()?.nombre || c.who || '')}"></label><label class="field"><span>PIN</span><input type="password" id="zPin" inputmode="numeric"></label></div></div>
+      <div class="row c2" style="margin-top:14px"><label class="field"><span>Observación del cierre ${sem === 'rojo' ? '*' : ''}</span><textarea id="zObs"></textarea></label><div><label class="field"><span>Firma del usuario (nombre)</span><input type="text" id="zFirma" value="${esc(curUser()?.nombre || c.who || '')}"></label><label class="field"><span>Clave</span><input type="password" id="zPin" autocomplete="off"></label></div></div>
       <div style="display:flex;gap:9px;margin-top:6px"><button class="btn" onclick="zStep=3;render()">← Atrás</button><div class="spacer"></div><button class="btn primary" style="padding:12px 22px" onclick="cerrarZ()">🔒 Cerrar caja · Informe Z</button></div>` : ''}
   </div></div>`;
 };
@@ -4397,9 +4397,22 @@ function webLeadsCSV(){let L=[];try{L=JSON.parse(localStorage.getItem('ep_leads'
   const csv='Fecha,Nombre,Correo,WhatsApp,Cupon\n'+L.map(l=>[dmy(l.at),l.nom,l.mail,l.tel,l.cupon].map(x=>'"'+String(x||'').replace(/"/g,'""')+'"').join(',')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='registros-descuento.csv';a.click();toast('CSV descargado','⬇️')}
 
-/* (2FA retirada de aquí: existía una capa antigua de 4 dígitos que se apilaba
-   sobre otra de 6 dígitos y hacía que el código siempre saliera "incorrecto".
-   La única 2FA válida es la de más abajo: "ADMIN V7 · 2FA que sí funciona".) */
+/* ---- Doble verificación por correo al entrar (si está activada) ---- */
+const _loginAs=typeof loginAs==='function'?loginAs:null;
+if(_loginAs){
+  loginAs=function(id){
+    const c=siteGet(),m=c.mail||{};
+    if(!c.twofa||!(m.service&&m.template&&m.key&&window.emailjs))return _loginAs(id);
+    const u=S.config.users.find(x=>x.id===id);if(!u)return _loginAs(id);
+    const code=String(Math.floor(1000+Math.random()*9000));
+    try{emailjs.send(m.service,m.template,{to_email:m.to||'electronicsbga64@gmail.com',nombre:u.nombre,codigo:code,asunto:'Código de acceso al portal'},m.key)}catch(e){}
+    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
+      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de 4 dígitos a <b>${esc(m.to||'electronicsbga64@gmail.com')}</b>.</div></div>
+        <label class="field" style="margin-top:14px"><span>Código de 4 dígitos</span><input type="text" name="code" inputmode="numeric" maxlength="4" style="font-size:24px;text-align:center;letter-spacing:.5em" onkeydown="if(event.key==='Enter')submitModal()"></label>`,
+      onSubmit:f=>{if(String(f.code).trim()!==code)return toast('Código incorrecto','🚫');closeModal();_loginAs(id)}});
+  };
+}
+
 
 /* Subida mixta: imágenes se comprimen, videos cortos se guardan tal cual */
 function webUpMix(inp,key,max){
@@ -4427,8 +4440,33 @@ function epSendMail(asunto,datos){
     body:JSON.stringify(Object.assign({_subject:asunto,_template:'table',_captcha:'false'},datos))
   });
 }
-/* (2FA V6 retirada: era una segunda capa de 6 dígitos que se apilaba sobre la
-   V7. Se conserva solo epSendMail y MAIL_TO_EP, que la V7 reutiliza.) */
+/* ---- Verificación en dos pasos SIEMPRE que esté activada ---- */
+(function(){
+  const _orig=loginAs;
+  loginAs=function(id){
+    const c=siteGet();
+    if(c.twofa===false)return _orig(id);
+    const u=S.config.users.find(x=>x.id===id);if(!u)return _orig(id);
+    const code=String(Math.floor(100000+Math.random()*900000));
+    const to=(c.mail||{}).to||MAIL_TO_EP;
+    epSendMail('🔐 Código de acceso al portal · Electronics BGA',
+      {Usuario:u.nombre,Perfil:u.perfil,Codigo:code,Hora:new Date().toLocaleString('es-CO')});
+    let intentos=0;
+    modal({title:'Verificación en dos pasos',em:'🔐',ok:'Verificar',
+      body:`<div class="alertbox b"><span class="em">✉️</span><div>Enviamos un código de <b>6 dígitos</b> a <b>${esc(to)}</b>. Puede tardar unos segundos.</div></div>
+        <label class="field" style="margin-top:14px"><span>Código</span>
+          <input type="text" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
+            style="font-size:26px;text-align:center;letter-spacing:.42em;font-weight:700" onkeydown="if(event.key==='Enter')submitModal()"></label>
+        <div class="tiny muted">¿No llegó? <a href="#" onclick="event.preventDefault();reenviar2FA('${id}')" style="color:var(--blue);font-weight:600">Reenviar código</a></div>`,
+      onSubmit:f=>{
+        if(String(f.code||'').trim()!==code){intentos++;
+          if(intentos>=3){closeModal();return toast('Demasiados intentos. Vuelve a empezar.','🚫')}
+          return toast('Código incorrecto ('+intentos+'/3)','🚫')}
+        closeModal();_orig(id);
+      }});
+  };
+  window.reenviar2FA=function(id){toast('Reenviando…','✉️');loginAs(id)};
+})();
 
 /* ---- Categorías de la tienda con banner horizontal ---- */
 function catSlug(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
