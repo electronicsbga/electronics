@@ -2950,7 +2950,7 @@ function fcAddManual(){const el=$('#fcManual'),v=(el.value||'').trim();if(!v)ret
 function fcRender(){const box=$('#fcChips');if(box)box.innerHTML=formCompat.length?formCompat.map((c,i)=>'<span class="fc-chip">'+esc(c)+' <b onclick="formCompat.splice('+i+',1);fcRender()">✕</b></span>').join(''):'<span class="fc-empty">Sin celulares asignados</span>';}
 function colAdd(){formColors.push({name:'',img:''});colRender();}
 function colRender(){const box=$('#colList');if(!box)return;box.innerHTML=formColors.map((c,i)=>'<div class="col-row"><input placeholder="Color (ej: Negro)" value="'+esc(c.name)+'" oninput="formColors['+i+'].name=this.value"><input placeholder="URL o ruta de foto (ej: img/COD-negro.jpg)" value="'+esc(c.img)+'" oninput="formColors['+i+'].img=this.value"><button class="col-del" type="button" onclick="formColors.splice('+i+',1);colRender()">✕</button></div>').join('')+'<button class="btn btn-ghost btn-sm" type="button" onclick="colAdd()">➕ Agregar color</button>';}
-/* Limpiador de muescas negras: reemplaza píxeles casi-negros por blanco */
+/* Limpiador inteligente de muescas negras: blanquea oscuros que tengan vecinos claros */
 function cleanBlackFringe(img){
   try{
     var c=document.createElement('canvas'),w=img.naturalWidth,h=img.naturalHeight;
@@ -2959,9 +2959,25 @@ function cleanBlackFringe(img){
     x.fillStyle='#fff';x.fillRect(0,0,w,h);
     x.drawImage(img,0,0);
     var d=x.getImageData(0,0,w,h),px=d.data,changed=false;
-    for(var i=0;i<px.length;i+=4){
-      if(px[i]<22&&px[i+1]<22&&px[i+2]<22){px[i]=255;px[i+1]=255;px[i+2]=255;changed=true}
+    var bright=function(i){return i>=0&&i<px.length&&px[i]>190&&px[i+1]>190&&px[i+2]>190};
+    var dark=function(i){return px[i]<55&&px[i+1]<55&&px[i+2]<55};
+    /* Pasada 1: marcar muescas (oscuros con al menos 1 vecino claro) */
+    var mark=new Uint8Array(w*h);
+    for(var y=0;y<h;y++)for(var xx=0;xx<w;xx++){
+      var i=(y*w+xx)*4;
+      if(!dark(i))continue;
+      var nb=[((y-1)*w+xx)*4,((y+1)*w+xx)*4,(y*w+xx-1)*4,(y*w+xx+1)*4,
+             ((y-1)*w+xx-1)*4,((y-1)*w+xx+1)*4,((y+1)*w+xx-1)*4,((y+1)*w+xx+1)*4];
+      for(var n=0;n<nb.length;n++){if(bright(nb[n])){mark[y*w+xx]=1;break}}
     }
+    /* Pasada 2: expandir 2px (las muescas tienen grosor) */
+    for(var pass=0;pass<2;pass++){var mark2=new Uint8Array(mark);
+      for(var y=1;y<h-1;y++)for(var xx=1;xx<w-1;xx++){
+        if(mark[y*w+xx])continue;var i=(y*w+xx)*4;if(!dark(i))continue;
+        if(mark[(y-1)*w+xx]||mark[(y+1)*w+xx]||mark[y*w+xx-1]||mark[y*w+xx+1])mark2[y*w+xx]=1;
+      }mark=mark2}
+    /* Pasada 3: aplicar blanqueado */
+    for(var j=0;j<mark.length;j++){if(mark[j]){var i=j*4;px[i]=255;px[i+1]=255;px[i+2]=255;changed=true}}
     if(changed){x.putImageData(d,0,0);img.src=c.toDataURL('image/jpeg',0.92)}
   }catch(e){}
 }
