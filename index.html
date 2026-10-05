@@ -2049,6 +2049,38 @@ body::after{
 .ha-thumb button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;border:0;background:#E8622A;color:#fff;cursor:pointer;font-size:12px;line-height:1}
 .ha-empty{font-size:.8rem;color:var(--ink-500,#94a3b8)}
 .ha-foot{margin-top:18px;text-align:right}
+/* === TANDA 4 EXTRAS: Gradients + Clipping + Emoji animations === */
+@media(max-width:767px){
+  .sec-banner{height:clamp(180px,28vh,260px) !important}
+  .sec-banner .sb-ov{background:linear-gradient(180deg,rgba(14,33,53,.2) 0%,rgba(14,33,53,.5) 40%,rgba(14,33,53,.75) 65%,var(--canvas) 92%) !important}
+  .band-dark .sec-title{padding-top:0 !important}
+  /* Nosotros band-dark gradient smoother */
+  .band-dark{background:linear-gradient(160deg,#0B1A2B 0%,#11293F 35%,#1A4A6A 65%,#1E5F86 85%,#E8622A 160%) !important}
+  .band-dark::after{width:35vw !important;height:35vw !important;right:-8% !important;top:-15% !important}
+}
+
+/* === ITEM 25: Fix photo clipping on scroll animations === */
+.rv,.rv-stagger>*{overflow:visible !important}
+.ct-photo,.hero-photo,.mv-card,.value,.stat,.promesa,.feat-card{overflow:hidden}
+@media(max-width:767px){
+  .ct-photo{border-radius:16px;overflow:hidden !important}
+  .ct-photo img{border-radius:16px}
+  .mv-card,.value{overflow:hidden !important;border-radius:16px}
+}
+
+/* === ITEM 26: Emoji animations === */
+.emo{display:inline-block;font-size:1.3em;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));animation:emoBounce 2s ease-in-out infinite;vertical-align:middle;margin-right:6px}
+.emo:nth-child(2n){animation-delay:.3s}
+.emo:nth-child(3n){animation-delay:.6s}
+@keyframes emoBounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.08)}}
+.emo-spin{animation:emoSpin 3s linear infinite !important}
+@keyframes emoSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.emo-pulse{animation:emoPulse 1.5s ease-in-out infinite !important}
+@keyframes emoPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:.85}}
+.emo-wave{animation:emoWave 1.8s ease-in-out infinite !important}
+@keyframes emoWave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(14deg)}75%{transform:rotate(-14deg)}}
+/* Contact data emojis */
+.ct-emo{display:inline-block;font-size:1.1em;margin-right:6px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.2));animation:emoBounce 2.5s ease-in-out infinite}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -4393,38 +4425,3 @@ renderCatPage=function(){
 </div>
 </body>
 </html>
-<!-- TANDA 4 EXTRAS: Gradients + Emojis + Clipping fixes -->
-<style>
-/* === ITEM 23/24: Smoother gradients for Nosotros & Contacto banners === */
-@media(max-width:767px){
-  .sec-banner{height:clamp(180px,28vh,260px) !important}
-  .sec-banner .sb-ov{background:linear-gradient(180deg,rgba(14,33,53,.2) 0%,rgba(14,33,53,.5) 40%,rgba(14,33,53,.75) 65%,var(--canvas) 92%) !important}
-  .band-dark .sec-title{padding-top:0 !important}
-  /* Nosotros band-dark gradient smoother */
-  .band-dark{background:linear-gradient(160deg,#0B1A2B 0%,#11293F 35%,#1A4A6A 65%,#1E5F86 85%,#E8622A 160%) !important}
-  .band-dark::after{width:35vw !important;height:35vw !important;right:-8% !important;top:-15% !important}
-}
-
-/* === ITEM 25: Fix photo clipping on scroll animations === */
-.rv,.rv-stagger>*{overflow:visible !important}
-.ct-photo,.hero-photo,.mv-card,.value,.stat,.promesa,.feat-card{overflow:hidden}
-@media(max-width:767px){
-  .ct-photo{border-radius:16px;overflow:hidden !important}
-  .ct-photo img{border-radius:16px}
-  .mv-card,.value{overflow:hidden !important;border-radius:16px}
-}
-
-/* === ITEM 26: Emoji animations === */
-.emo{display:inline-block;font-size:1.3em;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));animation:emoBounce 2s ease-in-out infinite;vertical-align:middle;margin-right:6px}
-.emo:nth-child(2n){animation-delay:.3s}
-.emo:nth-child(3n){animation-delay:.6s}
-@keyframes emoBounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.08)}}
-.emo-spin{animation:emoSpin 3s linear infinite !important}
-@keyframes emoSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-.emo-pulse{animation:emoPulse 1.5s ease-in-out infinite !important}
-@keyframes emoPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:.85}}
-.emo-wave{animation:emoWave 1.8s ease-in-out infinite !important}
-@keyframes emoWave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(14deg)}75%{transform:rotate(-14deg)}}
-/* Contact data emojis */
-.ct-emo{display:inline-block;font-size:1.1em;margin-right:6px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.2));animation:emoBounce 2.5s ease-in-out infinite}
-</style>
