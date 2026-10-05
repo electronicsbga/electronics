@@ -2249,6 +2249,31 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
   a.fab{right:8px !important;left:auto !important;bottom:calc(128px + env(safe-area-inset-bottom)) !important;width:46px !important;height:46px !important}
   .epbot-fab{right:8px !important;bottom:calc(74px + env(safe-area-inset-bottom)) !important}
 }
+/* --- V12 · Nosotros celular: títulos con aire, misión/visión compactas --- */
+.mv-short{display:none}
+#nosotros .sec-title[style*="text-align:left"]{margin-top:clamp(40px,7vw,64px) !important;margin-bottom:20px !important;position:relative;z-index:1}
+@media(max-width:767px){
+  #nosotros .mv-long{display:none}#nosotros .mv-short{display:block;font-size:.8rem !important;line-height:1.45 !important;margin:0}
+  #nosotros .mv-grid{grid-template-columns:1fr 1fr !important;gap:10px !important}
+  #nosotros .mv-card{padding:14px 12px !important;border-radius:16px !important;min-height:0 !important}
+  #nosotros .mv-card .mv-ic{width:40px !important;height:40px !important;border-radius:12px !important;margin-bottom:8px !important;font-size:20px !important}
+  #nosotros .mv-card .mv-ic svg{width:20px;height:20px}
+  #nosotros .mv-card h3{font-size:.98rem !important;margin:0 0 4px !important}
+  #nosotros .sec-title[style*="text-align:left"]{margin-top:44px !important;margin-bottom:16px !important}
+  #nosotros .sec-title[style*="text-align:left"] h2{font-size:1.45rem !important;line-height:1.2 !important}
+}
+/* --- V12 · Galería en contacto (misma de inicio, sin recortes) --- */
+.ct-gal-sec{margin-top:clamp(36px,6vw,64px);text-align:center}
+.ct-gal-t{font-family:'Space Grotesk','Inter',sans-serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700;color:var(--ink-900);margin:0 0 4px}
+.ct-gal-p{color:var(--ink-500);margin:0 0 4px;font-size:.92rem}
+#contacto .ct-gal{padding:50px 0 60px !important;overflow-x:hidden !important;overflow-y:visible !important}
+#contacto .ct-gal .gcard{aspect-ratio:3/4 !important;border-radius:20px !important;overflow:hidden !important;background:#0E2135}
+#contacto .ct-gal .gcard img{width:100% !important;height:100% !important;object-fit:cover !important;border-radius:inherit}
+#contacto .ct-gal .gcard,#contacto .ct-gal .gcard:nth-child(even),#contacto .ct-gal .gcard:nth-child(3n){transform:none}
+#contacto .ct-gal .gcard:nth-child(odd){transform:rotate(-1.5deg) translateY(-6px)}
+#contacto .ct-gal .gcard:nth-child(even){transform:rotate(1.5deg) translateY(8px)}
+#contacto .ct-gal .gcard:hover{transform:translateY(-10px) scale(1.04) !important}
+@media(max-width:600px){#contacto .ct-gal{padding:34px 0 44px !important}#contacto .ct-gal .gcard{flex:0 0 160px !important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -2274,9 +2299,6 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>
         <span>Admin</span>
       </a>
-      <button class="icon-btn" onclick="toggleTheme()" aria-label="Cambiar tema claro u oscuro">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-      </button>
       <button class="icon-btn" onclick="openCart()" aria-label="Abrir carrito">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
         <span class="cart-count hide" id="cartCountTop">0</span>
@@ -2498,12 +2520,12 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
       <div class="mv-card rv">
         <div class="mv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
         <h3>Misión</h3>
-        <p>Ofrecer a los <b>bumangueses</b> accesorios y celulares de <b>calidad</b>, junto con un <b>servicio técnico confiable</b>, a precios justos y con <b>atención cercana</b>. Que cada cliente encuentre lo que necesita para su equipo, siempre a la vanguardia de la tecnología.</p>
+        <p class="mv-long">Ofrecer a los <b>bumangueses</b> accesorios y celulares de <b>calidad</b>, junto con un <b>servicio técnico confiable</b>, a precios justos y con <b>atención cercana</b>. Que cada cliente encuentre lo que necesita para su equipo, siempre a la vanguardia de la tecnología.</p><p class="mv-short">Accesorios y celulares de <b>calidad</b>, servicio técnico <b>confiable</b> y atención cercana para cada cliente.</p>
       </div>
       <div class="mv-card vis rv">
         <div class="mv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Visión</h3>
-        <p>Ser para <b>2030</b> la tienda de tecnología y accesorios de <b>mayor reconocimiento en Santander</b>, con presencia en tienda física y en línea, y una base de <b>más de 10.000 clientes</b> atendidos, manteniendo la <b>confianza</b> como base de cada relación.</p>
+        <p class="mv-long">Ser para <b>2030</b> la tienda de tecnología y accesorios de <b>mayor reconocimiento en Santander</b>, con presencia en tienda física y en línea, y una base de <b>más de 10.000 clientes</b> atendidos, manteniendo la <b>confianza</b> como base de cada relación.</p><p class="mv-short">Ser en <b>2030</b> la tienda de tecnología más reconocida de <b>Santander</b>, en tienda física y en línea.</p>
       </div>
     </div>
 
@@ -4641,6 +4663,33 @@ if(typeof renderChips==='function')try{renderChips()}catch(e){}
 if(typeof renderLineas==='function')try{renderLineas()}catch(e){}
 if(typeof renderGrid==='function')try{renderGrid()}catch(e){}
 if(typeof renderFeat==='function')try{renderFeat()}catch(e){}
+
+/* V12 · sin modo oscuro: siempre claro */
+(function(){try{document.documentElement.setAttribute('data-theme','light');localStorage.setItem(LS.theme,'light')}catch(e){}})();
+toggleTheme=function(){};
+
+/* V12 · Contacto: galería de fotos del local igual a la de inicio */
+(function(){try{
+  const col=document.querySelector('#contacto .ct-collage');if(col)col.remove();
+  const src=document.querySelector('#local .gal-track'),grid=document.querySelector('#contacto .ct-grid');if(!src||!grid)return;
+  const w=document.createElement('div');w.className='ct-gal-sec';
+  w.innerHTML='<h3 class="ct-gal-t"><span class="emo emo-bounce">📸</span> Así es nuestro local</h3><p class="ct-gal-p">Centro Comercial Bucacentro, local 232-233.</p><div class="gal-wrap ct-gal"><div class="gal-track">'+src.innerHTML+'</div></div>';
+  grid.parentNode.insertBefore(w,grid.nextSibling);
+}catch(e){console.warn('ct gal',e)}})();
+
+/* V12 · Catálogo conectado a la nube (Supabase): ocultar, agotado y precios desde el admin */
+const SUPA={url:'__SUPA_URL__',key:'__SUPA_KEY__'};
+(function(){
+  if(!/^https:\/\/.+\.supabase\.co$/.test(SUPA.url)||SUPA.key.length<40)return;
+  fetch(SUPA.url+'/rest/v1/ep_store?path=eq.public%2Fcatalog&select=data',{headers:{apikey:SUPA.key,Authorization:'Bearer '+SUPA.key}})
+   .then(function(r){return r.ok?r.json():[]}).then(function(rows){
+    const items=rows&&rows[0]&&rows[0].data&&rows[0].data.items;if(!items)return;
+    PRODUCTS.forEach(function(p){const a=items[String(p.sku||'').toUpperCase()];if(!a)return;
+      p.hidden=!!a.hidden;if(a.agotado)p.stock=0;if(a.price>0)p.price=a.price;if(a.name)p.name=a.name;});
+    ['renderChips','renderLineas','renderGrid','renderFeat'].forEach(function(f){if(typeof window[f]==='function')try{window[f]()}catch(e){}});
+    if(typeof catPageId!=='undefined'&&catPageId&&typeof renderCatPage==='function')renderCatPage();
+  }).catch(function(){});
+})();
 </script>
 <div class="promo-ov" id="promoOv" hidden onclick="if(event.target===this)closePromo()">
   <div class="promo-card" role="dialog" aria-modal="true" aria-label="Promoción">

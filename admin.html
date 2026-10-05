@@ -4928,7 +4928,13 @@ function v8Marcas() { return [...Object.keys(V8_MODELOS), ...Object.keys(S.confi
   .v8-cats{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:thin}
   .v8-cats .v8-chip,.v8-sem .v8-chip{flex:0 0 auto;white-space:nowrap}
   .v8-search{width:100%;height:42px;border:1px solid var(--line,#dfe6ee);border-radius:12px;padding:0 14px;font:inherit;font-size:.9rem;background:var(--card,#fff);color:inherit}
-  .v8-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .v8-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .v8-grid .v8-img{aspect-ratio:1/1}.v8-grid .v8-img img{padding:6px}
+  .v8-grid .v8-b{padding:7px 8px 6px}.v8-grid .v8-b .ref{font-size:.62rem}.v8-grid .v8-b .nm{font-size:.76rem;margin:1px 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em}
+  .v8-grid .v8-b .pr{gap:2px 8px;font-size:.62rem}.v8-grid .v8-b .pr b{font-size:.7rem}.v8-grid .v8-b .stk{font-size:.66rem;margin-top:4px}
+  .v8-grid .v8-badge{font-size:.58rem;padding:2px 7px;top:5px;left:5px}.v8-grid .v8-hid{font-size:.56rem;top:5px;right:5px}
+  .v8-grid .v8-act button{padding:6px 0;font-size:12px}
+  @media(max-width:600px){.v8-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .v8-card{background:var(--card,#fff);border:1px solid var(--line,#dfe6ee);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;position:relative}
   .v8-card.st-agotado{border-color:#D62F2F;box-shadow:0 0 0 2px rgba(214,47,47,.15)}
   .v8-card.st-escaso{border-color:#E8622A;box-shadow:0 0 0 2px rgba(232,98,42,.14)}
@@ -5075,7 +5081,7 @@ VIEWS.inventario = function () {
   return `<div class="toolbar" style="margin-bottom:12px"><div class="muted tiny">${nfmt(P.length)} referencias · ${nfmt(units)} unidades</div><div class="spacer"></div>
       <button class="btn" onclick="gestionarCategorias()">🏷️ Categorías</button>
       <button class="btn primary" onclick="editarProducto()">➕ Nuevo producto</button></div>
-    ${!P.length && window.V8_SEED ? `<div class="alertbox b" style="margin-bottom:14px"><span class="em">🛍️</span><div><b>Tu inventario está vacío.</b> Puedes cargar los ${V8_SEED.length} productos que ya están en la tienda web (nombre, referencia, categoría, precio, stock y foto) y luego completar costos y precios.<div style="margin-top:8px"><button class="btn primary sm" onclick="v8Seed()">📥 Cargar productos de la tienda</button></div></div></div>` : ''}
+    
     <div class="kpis" style="margin-bottom:14px">${kpi('🏷️', 'Referencias', nfmt(P.length), nfmt(units) + ' unidades')}${kpi('💼', 'Inventario a costo', money(vCost), 'costo promedio × stock')}${kpi('💎', 'Inventario a precio público', money(vPrice), 'utilidad potencial ' + money(vPrice - vCost))}${kpi('🚦', 'Requieren atención', nfmt(cnt.agotado + cnt.escaso), cnt.agotado + ' agotados · ' + cnt.escaso + ' por agotarse', cnt.agotado + cnt.escaso ? 'down' : '')}</div>
     <div class="card" style="padding:14px">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div style="flex:1 1 260px"><input id="iq" class="v8-search" type="search" placeholder="🔍 Buscar por nombre, referencia, proveedor o celular…" value="${esc(v8F.q)}" oninput="v8F.q=this.value;render()"></div></div>
@@ -5293,7 +5299,101 @@ function verProducto(id) {
         <button class="btn" onclick="closeModal();v8ToggleAgotado('${p.id}')">${p.agotado ? '♻️ Quitar agotado' : '⛔ Marcar como agotado'}</button>
         <button class="btn danger" onclick="closeModal();v8Borrar('${p.id}')">🗑️ Eliminar producto</button></div>` });
 }
-(function () { try { S.products.forEach(v8Ensure); v8Sync(); } catch (e) { } })();
+/* ---------- V9 · Reinicio a cero (una sola vez) + inventario precargado ---------- */
+(function () { try {
+  if (localStorage.getItem('ep_reset_v') !== 'z1') {
+    ['products','clients','services','sales','credits','expenses','cashdays','wholesale','campaigns','kardex','warranties','captures','purchases','held','audit','priceHistory','cashMoves','notes','cobros']
+      .forEach(k => { if (Array.isArray(DEFAULTS[k])) S[k] = []; });
+    S.counters = Object.assign({}, DEFAULTS.counters);
+    try { Object.keys(localStorage).filter(k => /^efimg_/.test(k)).forEach(k => localStorage.removeItem(k)); } catch (e) { }
+    try { const b = ensureClient('BODEGA RF IMPORTACIONES'); b.tipos = [...new Set([...(b.tipos || []), 'proveedor'])]; } catch (e) { }
+    localStorage.setItem('ep_reset_v', 'z1'); window.__v9Reset = true;
+  }
+  if (!S.products.length && Array.isArray(window.V8_SEED)) {
+    V8_SEED.forEach(([code, name, cat, price, stock, img, cols]) => {
+      const p = { id: uid('pr'), code, name, category: cat, cost: 0, price: 0, price2: 0, price3: 0, stock: 0, min: 0, sold: 0, createdAt: nowISO(), supplier: '', imgUrl: img,
+        tipo: cat === 'Fundas y Forros' ? 'funda' : 'normal', colores: (cols || []).map((u, i) => ({ n: 'Color ' + (i + 1), url: u })), lots: [] };
+      S.products.push(p); if (cat && !(S.config.categorias || []).includes(cat)) S.config.categorias = [...(S.config.categorias || []), cat];
+    });
+  }
+  S.products.forEach(v8Ensure); save(); v8Sync();
+} catch (e) { console.warn('v9 init', e); } })();
+
+
+/* ================= ADMIN V9 · Nube Supabase ================= */
+/* Pega aquí la URL del proyecto y la "anon public key" (Supabase → Project Settings → API) */
+const SUPA = { url: '__SUPA_URL__', key: '__SUPA_KEY__' };
+const SUPA_ON = /^https:\/\/.+\.supabase\.co$/.test(SUPA.url) && SUPA.key.length > 40;
+let SUPA_SES = null; try { SUPA_SES = JSON.parse(localStorage.getItem('ep_supa_session') || 'null'); } catch (e) { }
+async function supaAuth(body, grant) {
+  const r = await fetch(SUPA.url + '/auth/v1/token?grant_type=' + grant, { method: 'POST', headers: { apikey: SUPA.key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error_description || j.msg || 'Correo o contraseña incorrectos');
+  SUPA_SES = { at: j.access_token, rt: j.refresh_token, exp: Date.now() + ((j.expires_in || 3600) - 60) * 1000, email: j.user && j.user.email };
+  localStorage.setItem('ep_supa_session', JSON.stringify(SUPA_SES)); return SUPA_SES;
+}
+async function supaToken() {
+  if (!SUPA_SES) return null;
+  if (Date.now() > SUPA_SES.exp) { try { await supaAuth({ refresh_token: SUPA_SES.rt }, 'refresh_token'); } catch (e) { SUPA_SES = null; localStorage.removeItem('ep_supa_session'); return null; } }
+  return SUPA_SES.at;
+}
+async function supaReq(method, qs, body) {
+  const t = await supaToken(); if (!t) throw new Error('sin sesión');
+  const r = await fetch(SUPA.url + '/rest/v1/ep_store' + qs, { method, headers: { apikey: SUPA.key, Authorization: 'Bearer ' + t, 'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates,return=minimal' }, body: body ? JSON.stringify(body) : undefined });
+  if (!r.ok) throw new Error('Nube ' + r.status + ' ' + (await r.text().catch(() => '')).slice(0, 120));
+  return method === 'GET' ? r.json() : null;
+}
+const SUPA_DB = { doc: path => ({
+  get: async () => { const rows = await supaReq('GET', '?path=eq.' + encodeURIComponent(path) + '&select=data'); return { exists: !!rows.length, data: () => rows[0] && rows[0].data }; },
+  set: async d => supaReq('POST', '', { path, data: d, updated_at: new Date().toISOString() }),
+  delete: async () => supaReq('DELETE', '?path=eq.' + encodeURIComponent(path))
+}) };
+let supaState = 'off';
+function supaBadge() {
+  let b = document.getElementById('supaBadge');
+  if (!b) { b = document.createElement('button'); b.id = 'supaBadge'; b.onclick = supaPanel; document.body.appendChild(b); }
+  const M = { off: ['⚪', 'Nube sin configurar'], login: ['🟠', 'Nube: inicia sesión'], sync: ['🔄', 'Sincronizando…'], ok: ['🟢', 'Nube conectada'], err: ['🔴', 'Nube con error'] };
+  b.innerHTML = M[supaState][0] + ' <span>' + M[supaState][1] + '</span>'; b.className = 'supa-b ' + supaState;
+}
+async function supaStart() {
+  if (!SUPA_ON) { supaState = 'off'; supaBadge(); return; }
+  if (!(await supaToken())) { supaState = 'login'; supaBadge(); return; }
+  supaState = 'sync'; supaBadge();
+  try {
+    const rows = await supaReq('GET', '?path=like.store%2F*&select=path,data');
+    if (rows.length) {
+      rows.forEach(r => { const k = r.path.slice(6); if (KEYS.includes(k) && r.data && 'v' in r.data) S[k] = r.data.v; });
+      S.config = Object.assign({}, DEFAULTS.config, S.config || {}); S.products.forEach(v8Ensure);
+      try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) { }
+      DBX = SUPA_DB; await preloadImgs().catch(() => { });
+    } else { DBX = SUPA_DB; save(); }
+    supaPushCatalog(); supaState = 'ok'; supaBadge(); render(); toast('Datos sincronizados con la nube', '☁️');
+  } catch (e) { console.warn(e); supaState = 'err'; supaBadge(); toast('No se pudo conectar con la nube: ' + e.message, '⚠️'); }
+}
+let supaCatT = null;
+function supaPushCatalog() {
+  if (DBX !== SUPA_DB) return; clearTimeout(supaCatT);
+  supaCatT = setTimeout(() => { try { const d = JSON.parse(localStorage.getItem('ep_web_inv') || '{}'); SUPA_DB.doc('public/catalog').set(d).catch(() => { }); } catch (e) { } }, 800);
+}
+(function () { const _s = v8Sync; v8Sync = function () { _s(); supaPushCatalog(); }; })();
+function supaPanel() {
+  if (!SUPA_ON) return modal({ title: 'Nube Supabase', em: '☁️', body: `<div class="alertbox y"><span class="em">⚙️</span><div>Falta configurar la URL y la clave pública del proyecto Supabase dentro de <b>admin.html</b> e <b>index.html</b>. Mientras tanto los datos se guardan solo en este navegador.</div></div>`, footer: `<button class="btn" onclick="closeModal()">Entendido</button>` });
+  if (SUPA_SES && supaState !== 'login') return modal({ title: 'Nube conectada', em: '☁️', body: `<div class="alertbox g"><span class="em">🟢</span><div>Sesión: <b>${esc(SUPA_SES.email || '')}</b>. Todo lo que guardes se sube a Supabase y lo ven los demás equipos al abrir el admin.</div></div>`,
+    footer: `<button class="btn" onclick="closeModal();supaStart()">🔄 Sincronizar ahora</button><button class="btn danger" onclick="localStorage.removeItem('ep_supa_session');SUPA_SES=null;DBX=null;closeModal();supaState='login';supaBadge()">Cerrar sesión de nube</button>` });
+  modal({ title: 'Conectar con la nube', em: '☁️', ok: 'Conectar',
+    body: `<div class="alertbox b"><span class="em">🔐</span><div>Ingresa con el usuario creado en Supabase (Authentication → Users). Solo se pide una vez por equipo.</div></div>
+      <label class="field" style="margin-top:12px"><span>Correo</span><input type="email" name="email" autocomplete="username"></label>
+      <label class="field"><span>Contraseña</span><input type="password" name="pass" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitModal()"></label>`,
+    onSubmit: async f => { try { await supaAuth({ email: (f.email || '').trim(), password: f.pass || '' }, 'password'); closeModal(); supaStart(); } catch (e) { toast(e.message, '🚫'); } } });
+}
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '.supa-b{position:fixed;left:14px;bottom:14px;z-index:60;border:1px solid var(--line,#dfe6ee);background:var(--card,#fff);border-radius:999px;padding:6px 12px;font:inherit;font-size:.74rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(14,33,53,.12);color:inherit}.supa-b.ok{border-color:#159A5B}.supa-b.err{border-color:#D62F2F}.supa-b.login{border-color:#E8622A}@media(max-width:900px){.supa-b span{display:none}}';
+  document.head.appendChild(st);
+  const go = () => setTimeout(() => { supaStart().then(() => { if (supaState === 'login' && SESSION) setTimeout(supaPanel, 600); }); }, 700);
+  if (window.__efListo) go(); else window.addEventListener('ef:listo', go, { once: true });
+  window.addEventListener('focus', () => { if (supaState === 'ok') supaStart(); });
+})();
 
 </script>
 </body>
