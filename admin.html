@@ -4294,7 +4294,8 @@ setTimeout(hideSplash, 5000);
 <script src="assets/js/admin-puente.js?v=16"></script>
 <script src="assets/js/cobros-base.js?v=16"></script>
 <script src="assets/js/admin-cobros.js?v=16"></script>
-<script src="assets/js/admin-init.js?v=16">
+<script src="assets/js/admin-init.js?v=16"></script>
+<script>
 /* ================= ADMIN V4 · Mejoras Electronics Parts ================= */
 
 /* --- 1. Anular facturas: solo gerencia --- */
@@ -4819,6 +4820,480 @@ function epActivarCorreo(){
       '<div class="alertbox y" style="margin-bottom:12px"><span class="em">⚠️</span><div>Para que lleguen los correos <b>sin configurar nada</b>, pulsa el botón y confirma el enlace que te llegará.<br><button class="btn primary sm" style="margin-top:8px" onclick="epActivarCorreo()">✉️ Activar envío de correos</button></div></div><label class="field"><span>Correo que recibe</span>');
   };
 })();
+
+
+/* ===== ADMIN V8 · Semilla: catálogo de la tienda ===== */
+window.V8_SEED=[["CAR-001","Cargador 67W PD USB-C / USB-A","Cargadores",0,1,"img/CAR-001.jpg"],["CAR-002","Cargador UBU 45W PD Carga Rápida","Cargadores",0,1,"img/CAR-002.jpg"],["CAR-003","Cable UBU Tipo C a Tipo C 9A","Cargadores",0,1,"img/CAR-003.jpg"],["HOG-001","TV Box Android 4K Smart TV","Línea Hogar",0,1,"img/HOG-001.jpg"],["AUD-001","Audífonos de Diadema Inalámbricos","Audio y Parlantes",0,1,"img/AUD-001.jpg"],["CEL-001","Celular Xiaomi Redmi A7 Pro","Celulares",0,1,"img/CEL-001.jpg"],["CAR-004","Cargador Samsung 45W PD USB-C","Cargadores",0,1,"img/CAR-004.jpg"],["HOG-002","Lonchera Eléctrica Calentadora 40W","Línea Hogar",0,1,"img/HOG-002.jpg"],["CAR-005","Cable USB-C a Lightning 1m","Cargadores",0,1,"img/CAR-005.jpg"],["AUD-002","Micrófono Inalámbrico NOXO MC-N2","Audio y Parlantes",0,1,"img/AUD-002.jpg"],["CAR-006","Power Bank PZX Tipo C Carga Rápida","Cargadores",0,1,"img/CAR-006.jpg"],["HOG-003","Proyector UED Ultra HD","Línea Hogar",0,1,"img/HOG-003.jpg"],["CAR-007","Cargador 20W USB-C Original","Cargadores",0,1,"img/CAR-007.jpg"],["CAR-008","Cargador Samsung 25W PD USB-C","Cargadores",0,1,"img/CAR-008.jpg"],["HOG-004","Vaso Exprimidor Portátil 500ml","Línea Hogar",0,1,"img/HOG-004.jpg"],["ACC-001","Soporte de Carro para Celular","Accesorios",0,1,"img/ACC-001.jpg"],["REL-001","Correa de Silicona para Smartwatch","Relojería",0,1,"img/REL-001.jpg"],["CAR-009","Cargador UBU 120W GaN Carga Rápida","Cargadores",0,1,"img/CAR-009.jpg"],["HOG-005","Radio Portátil con Panel Solar BP-R007","Línea Hogar",0,1,"img/HOG-005.jpg"],["CAR-010","Cable USB-C 60W 1m","Cargadores",0,1,"img/CAR-010.jpg"],["AUD-003","Parlante Bluetooth MF-GO-M8","Audio y Parlantes",0,1,"img/AUD-003.jpg"],["CAR-011","Cargador 35W USB-C + Cable (iPhone 15 Pro Max)","Cargadores",0,1,"img/CAR-011.jpg"],["AUD-004","Audífonos ANC/ENC con Pantalla","Audio y Parlantes",0,1,"img/AUD-004.jpg"],["JUG-001","Mini Impresora Infantil D7","Juguetería",0,1,"img/JUG-001.jpg"],["CAR-012","Cargador de Carro UBU 30W","Cargadores",0,1,"img/CAR-012.jpg"],["REL-002","Correa Deportiva para Smartwatch (Tricolor)","Relojería",0,1,"img/REL-002.jpg"],["JUG-002","Consola de Juegos Portátil S7","Juguetería",0,1,"img/JUG-002.jpg"],["CEL-002","Celular Xiaomi Redmi 15C 8GB/128GB","Celulares",0,1,"img/CEL-002.jpg"],["CAR-013","Cable de Datos UBU 60W","Cargadores",0,1,"img/CAR-013.jpg"],["CAR-014","Cargador UBU Turbo 67W","Cargadores",0,1,"img/CAR-014.jpg"],["JUG-003","Cámara Instantánea Infantil","Juguetería",0,1,"img/JUG-003.jpg"],["HOG-006","Proyector Inteligente 2 en 1 (Netflix/4K)","Línea Hogar",0,1,"img/HOG-006.jpg"],["AUD-005","Audífonos de Diadema UBU P9","Audio y Parlantes",0,1,"img/AUD-005.jpg"],["AUD-006","Audífonos Inalámbricos ANC (tipo AirPods)","Audio y Parlantes",0,1,"img/AUD-006.jpg"],["AUD-007","Parlante Bluetooth Portátil Flip 6","Audio y Parlantes",0,1,"img/AUD-007.jpg"],["CEL-003","Celular Infinix Note 60 Pro","Celulares",0,1,"img/CEL-003.jpg"],["HOG-007","Radio de Bolsillo BP-R120 AM/FM/SW","Línea Hogar",0,1,"img/HOG-007.jpg"],["CAR-015","Cargador Xiaomi 120W","Cargadores",0,1,"img/CAR-015.jpg"],["JUG-004","Cámara Digital Infantil (Print Camera)","Juguetería",0,1,"img/JUG-004.jpg"],["CAR-016","Cable 3A Carga Rápida 1m","Cargadores",0,1,"img/CAR-016.jpg"],["HOG-008","TV Stick 4K FiveMax","Línea Hogar",0,1,"img/HOG-008.jpg"],["ACC-002","Soporte Impermeable para Celular (Bici/Moto)","Accesorios",0,1,"img/ACC-002.jpg"],["REL-003","Correa de Silicona para Smartwatch (Amarilla)","Relojería",0,1,"img/REL-003.jpg"],["CAR-017","Cargador G-MAX Carga Rápida Tipo-C 6A","Cargadores",0,1,"img/CAR-017.jpg"],["HOG-009","Exprimidor de Cítricos Eléctrico","Línea Hogar",0,1,"img/HOG-009.jpg"],["CEL-004","Celular Nokia 105 4G","Celulares",0,1,"img/CEL-004.jpg"],["REL-004","Smartwatch T800 Ultra","Relojería",0,1,"img/REL-004.jpg"],["CAR-018","Cargador Xiaomi 67W","Cargadores",0,1,"img/CAR-018.jpg"],["CEL-005","Celular Samsung Galaxy A07","Celulares",0,1,"img/CEL-005.jpg"],["AUD-008","Parlante Bluetooth MS-2216BT con Luces RGB","Audio y Parlantes",0,1,"img/AUD-008.jpg"],["CAR-019","Power Bank PZX Mini Carga Rápida","Cargadores",0,1,"img/CAR-019.jpg"],["CAR-020","Cable Plano TMAX Flexible Tipo-C","Cargadores",0,1,"img/CAR-020.jpg"],["CAR-021","Cable de Datos UBU Silicona 1.5m","Cargadores",0,1,"img/CAR-021.jpg"],["CAR-022","Cargador Samsung 25W Full Set","Cargadores",0,1,"img/CAR-022.jpg"],["AUD-009","Audífonos Bluetooth Avengers (Marvel)","Audio y Parlantes",0,1,"img/AUD-009.jpg"],["REL-005","Correa para Smartwatch (Amarilla Eslabones)","Relojería",0,1,"img/REL-005.jpg"],["ACC-003","Cable con Soporte Plegable UBU-103","Accesorios",0,1,"img/ACC-003.jpg"],["HOG-010","Fire TV Stick 4K (10K HDR)","Línea Hogar",0,1,"img/HOG-010.jpg"],["HOG-011","Fire TV Stick con Alexa Voice Remote","Línea Hogar",0,1,"img/HOG-011.jpg"],["AUD-010","Audífonos AirPods Pro ANC","Audio y Parlantes",0,1,"img/AUD-010.jpg"],["JUG-005","Consola de Juegos Portátil","Juguetería",0,1,"img/JUG-005.jpg"],["CAR-023","Cargador FiveMax PD + USB 3.1A","Cargadores",0,1,"img/CAR-023.jpg"],["CAR-024","Cargador G-MAX V8 4.1A","Cargadores",0,1,"img/CAR-024.jpg"],["ACC-004","Soporte Retrovisor para Celular","Accesorios",0,1,"img/ACC-004.jpg"],["CAR-025","Cable USB-C a Lightning 1m Original","Cargadores",0,1,"img/CAR-025.jpg"],["AUD-011","Audífonos Bluetooth Avengers DW-G9","Audio y Parlantes",0,1,"img/AUD-011.jpg"],["CAR-026","Cargador Ceball CE-401 + Cable","Cargadores",0,1,"img/CAR-026.jpg"],["AUD-012","Parlante Bluetooth Retro BS-32D","Audio y Parlantes",0,1,"img/AUD-012.jpg"],["ACC-005","Soporte de Carro Consola Central","Accesorios",0,1,"img/ACC-005.jpg"],["ACC-006","Producto por nombrar","Accesorios",0,1,"img/ACC-006.jpg"],["REL-006","Smartwatch AIMAYA (Esfera Redonda)","Relojería",0,1,"img/REL-006.jpg"],["CAR-027","Cable de Datos UBU 60W Tipo-C","Cargadores",0,1,"img/CAR-027.jpg"],["CAR-028","Cargador UBU 180W GaN","Cargadores",0,1,"img/CAR-028.jpg"],["CAR-029","Cargador FiveMax 18W (Casa)","Cargadores",0,1,"img/CAR-029.jpg"],["CAR-030","Cable 3A Carga Rápida Micro USB 1m","Cargadores",0,1,"img/CAR-030.jpg"],["AUD-013","Audífonos Bluetooth Avengers (Negro)","Audio y Parlantes",0,1,"img/AUD-013.jpg"],["CAR-031","Cargador Samsung 25W PD USB-C v2","Cargadores",0,1,"img/CAR-031.jpg"],["CAR-032","Cargador LDNIO Tipo-C + Cable","Cargadores",0,1,"img/CAR-032.jpg"],["AUD-014","Audífonos Bluetooth Avengers (Iron Man)","Audio y Parlantes",0,1,"img/AUD-014.jpg"],["CAR-033","Cable USB-C a Lightning 1m (Apple)","Cargadores",0,1,"img/CAR-033.jpg"],["AUD-015","Parlante Bluetooth Portátil RGB","Audio y Parlantes",0,1,"img/AUD-015.jpg"],["REL-007","Correa de Silicona Smartwatch (Arcoíris)","Relojería",0,1,"img/REL-007.jpg"],["AUD-016","Audífonos de Diadema (Azul)","Audio y Parlantes",0,1,"img/AUD-016.jpg"],["CAR-034","Cargador 35W USB-C Set (iPhone)","Cargadores",0,1,"img/CAR-034.jpg"],["AUD-017","Audífonos inPods 12 Macaron","Audio y Parlantes",0,1,"img/AUD-017.jpg"],["AUD-018","Audífonos Bluetooth TWS-K9 (Kuromi)","Audio y Parlantes",0,1,"img/AUD-018.jpg"],["CAR-035","Cable de Datos Zbit Tipo-C 3.1A","Cargadores",0,1,"img/CAR-035.jpg"],["AUD-019","Parlante Bluetooth MF-GO-M8 (Negro)","Audio y Parlantes",0,1,"img/AUD-019.jpg"],["CAR-036","Cargador 20W USB-C (Apple)","Cargadores",0,1,"img/CAR-036.jpg"],["AUD-020","Audífonos Ambie Sound Earcuffs","Audio y Parlantes",0,1,"img/AUD-020.jpg"],["AUD-021","Parlante Bluetooth Flip 6 (Estampado)","Audio y Parlantes",0,1,"img/AUD-021.jpg"],["CAR-037","Cargador Inalámbrico 4 en 1 AY-41","Cargadores",0,1,"img/CAR-037.jpg"],["CAR-038","Cargador Xiaomi 120W (Set)","Cargadores",0,1,"img/CAR-038.jpg"],["AUD-022","Audífonos Bluetooth Pro 70","Audio y Parlantes",0,1,"img/AUD-022.jpg"],["CAR-039","Cargador Portátil Universal MY-120W","Cargadores",0,1,"img/CAR-039.jpg"],["REL-008","Correa de Silicona Smartwatch (Azul)","Relojería",0,1,"img/REL-008.jpg"],["CEL-006","Celular Xiaomi Redmi Note 15 Pro","Celulares",0,1,"img/CEL-006.jpg"],["AUD-023","Parlante Inteligente AI Speaker con Luz","Audio y Parlantes",0,1,"img/AUD-023.jpg"],["CAR-040","Cargador 40W (60W Max) USB-C","Cargadores",0,1,"img/CAR-040.jpg"],["AUD-024","Audífonos de Diadema P9 (Rosa)","Audio y Parlantes",0,1,"img/AUD-024.jpg"],["CAR-041","Cargador Samsung 67W PD + Cable","Cargadores",0,1,"img/CAR-041.jpg"],["CEL-007","Celular Samsung Galaxy A07 (Morado)","Celulares",0,1,"img/CEL-007.jpg"],["ACC-007","Soporte Magnético de Succión AMAYA","Accesorios",0,1,"img/ACC-007.jpg"],["CAR-042","Cargador 35W USB-C + Cable (iPhone) v3","Cargadores",0,1,"img/CAR-042.jpg"],["REL-009","Smartwatch AMAYA Watch Lite","Relojería",0,1,"img/REL-009.jpg"],["CAR-043","Cable de Datos Zbit Z1000 4A","Cargadores",0,1,"img/CAR-043.jpg"],["AUD-025","Audífonos Bluetooth Avengers (Blanco)","Audio y Parlantes",0,1,"img/AUD-025.jpg"],["REL-010","Correa para Smartwatch (Morada Eslabones)","Relojería",0,1,"img/REL-010.jpg"],["AUD-026","Audífonos Bluetooth Realme Air F9 Pro+","Audio y Parlantes",0,1,"img/AUD-026.jpg"],["CEL-008","Celular Samsung Galaxy A07 (Negro)","Celulares",0,1,"img/CEL-008.jpg"],["CAR-044","Cargador Portátil UBU 2 en 1 6A","Cargadores",0,1,"img/CAR-044.jpg"],["AUD-027","Parlante Bluetooth Flip 6 (Camuflado)","Audio y Parlantes",0,1,"img/AUD-027.jpg"],["CAR-045","Cargador FiveMax 18W Casa 6A","Cargadores",0,1,"img/CAR-045.jpg"],["AUD-028","Audífonos Bluetooth Avengers (Rojo)","Audio y Parlantes",0,1,"img/AUD-028.jpg"],["CAR-046","Cable de Datos FiveMax 3A","Cargadores",0,1,"img/CAR-046.jpg"],["CAR-047","Cable Samsung USB-C a USB-C 1.8m","Cargadores",0,1,"img/CAR-047.jpg"],["CAR-048","Cargador LDNIO 30W USB-C PD","Cargadores",0,1,"img/CAR-048.jpg"],["CAR-049","Cargador FiveMax PD 20W + Cable","Cargadores",0,1,"img/CAR-049.jpg"],["CAR-050","Cargador Samsung 45W PD + Cable","Cargadores",0,1,"img/CAR-050.jpg"],["AUD-029","Audífonos Bluetooth Avengers (Iron Man)","Audio y Parlantes",0,1,"img/AUD-029.jpg"],["CAR-051","Cargador UBU GaN PD (iOS) URL-20","Cargadores",0,1,"img/CAR-051.jpg"],["CAR-052","Cargador 40W (60W Max) USB-C v2","Cargadores",0,1,"img/CAR-052.jpg"],["CAR-053","Cable USB-C 60W 1m (Apple)","Cargadores",0,1,"img/CAR-053.jpg"],["CAR-054","Cargador de Viaje XION 3.4A QC3.0","Cargadores",0,1,"img/CAR-054.jpg"],["CAR-055","Cargador Xiaomi 33W + Cable","Cargadores",0,1,"img/CAR-055.jpg"],["AUD-030","Audífonos Alámbricos FiveMax FM-301 3.5mm","Audio y Parlantes",0,1,"img/AUD-030.jpg"],["ACC-008","Lápiz Óptico FiveMax PEN-01","Accesorios",0,1,"img/ACC-008.jpg"],["AUD-031","Audífonos AirPods Pro 2 ANC","Audio y Parlantes",0,1,"img/AUD-031.jpg"],["CAR-056","Cable de Datos Zbit Z6000 120W","Cargadores",0,1,"img/CAR-056.jpg"],["CAR-057","Cable de Datos G-MAX 120W","Cargadores",0,1,"img/CAR-057.jpg"],["HOG-012","TV Stick 4K FiveMax (FM-Stick)","Línea Hogar",0,1,"img/HOG-012.jpg"],["CAR-058","Cargador FiveMax Carga Rápida 4A","Cargadores",0,1,"img/CAR-058.jpg"],["CAR-059","Cargador Samsung 45W PD (Adapter)","Cargadores",0,1,"img/CAR-059.jpg"],["HOG-013","Radio Portátil Solar BP-R007 (Beck Play)","Línea Hogar",0,1,"img/HOG-013.jpg"],["AUD-032","Audífonos Xiaomi Air3 SE","Audio y Parlantes",0,1,"img/AUD-032.jpg"],["HOG-014","TV Stick MIKOY Express 10K+","Línea Hogar",0,1,"img/HOG-014.jpg"],["HOG-015","Decodificador TDT DVB-T2 Tecnitec","Línea Hogar",0,1,"img/HOG-015.jpg"],["CAR-060","Cargador 20W USB-C + Cable Lightning (Set)","Cargadores",0,1,"img/CAR-060.jpg"],["AUD-033","Audífonos AirPods Pro ANC (v3)","Audio y Parlantes",0,1,"img/AUD-033.jpg"],["REL-011","Correa de Silicona Smartwatch (Verde)","Relojería",0,1,"img/REL-011.jpg"],["REL-012","Correa de Silicona Smartwatch (Puntos Arcoíris)","Relojería",0,1,"img/REL-012.jpg"],["JUG-006","Cámara Infantil Instantánea (Impresión)","Juguetería",0,1,"img/JUG-006.jpg"],["CAR-061","Cable de Datos G-MAX G-007","Cargadores",0,1,"img/CAR-061.jpg"],["REL-013","Correa para Smartwatch (Roja Eslabones)","Relojería",0,1,"img/REL-013.jpg"],["AUD-034","Audífonos UBU Open Ear Clip-On YXG-40","Audio y Parlantes",0,1,"img/AUD-034.jpg"],["CAR-062","Cargador Samsung 45W PD + Cable (v2)","Cargadores",0,1,"img/CAR-062.jpg"],["CAR-063","Cargador TEHRA USB Warrior TH-604","Cargadores",0,1,"img/CAR-063.jpg"],["AUD-035","Parlante Bluetooth X-911 Disco RGB","Audio y Parlantes",0,1,"img/AUD-035.jpg"],["AUD-036","Micrófono Inalámbrico K8","Audio y Parlantes",0,1,"img/AUD-036.jpg"],["JUG-007","Consola Retro SUP Game Box 500 en 1","Juguetería",0,1,"img/JUG-007.jpg"],["CAR-064","Cargador Xiaomi 120W (v2)","Cargadores",0,1,"img/CAR-064.jpg"],["CAR-065","Cargador UBU 25W Tipo-C","Cargadores",0,1,"img/CAR-065.jpg"],["CAR-066","Cargador LDNIO 30W PD QC3.0","Cargadores",0,1,"img/CAR-066.jpg"],["REL-014","Correa de Silicona Smartwatch (Puntos de Colores)","Relojería",0,1,"img/REL-014.jpg"],["AUD-037","Micrófono Inalámbrico (Solapa)","Audio y Parlantes",0,1,"img/AUD-037.jpg"],["CAR-067","Cargador LDNIO 30W PD QC3.0 (Azul)","Cargadores",0,1,"img/CAR-067.jpg"],["AUD-038","Parlante Bluetooth Retro BS-32D (v2)","Audio y Parlantes",0,1,"img/AUD-038.jpg"],["AUD-039","Traductor Inteligente Di-X7 Audio System","Audio y Parlantes",0,1,"img/AUD-039.jpg"],["CAR-068","Power Bank UBU 10000mAh 22.5W","Cargadores",0,1,"img/CAR-068.jpg"],["CAR-069","Cargador UBU 45W GaN PD (iOS) UBU-206","Cargadores",0,1,"img/CAR-069.jpg"],["CAR-070","Cargador Samsung 25W PD + Cable","Cargadores",0,1,"img/CAR-070.jpg"],["AUD-040","Audífonos Bluetooth Y17 con Micrófono","Audio y Parlantes",0,1,"img/AUD-040.jpg"],["FUN-001","Funda Acrílico Transparente Premium","Fundas y Forros",0,10,"https://lh3.googleusercontent.com/d/1FetwiswMNEt4S0m-hUCtKw6qje2VqSin=s800"],["FUN-002","Funda Diamond Brillante con Glitter","Fundas y Forros",0,10,"https://lh3.googleusercontent.com/d/1BiD0SVIL95G0Dxd-6cKObYtuAU8TjkZs=s800"],["FUN-003","Funda Piedra Textura Mármol","Fundas y Forros",0,10,"https://lh3.googleusercontent.com/d/1Oyqgpjck7ganqG01saHBe6KdoTG5YNzG=s800"],["FUN-004","Funda Reemplazo Silicona Suave","Fundas y Forros",0,10,"https://lh3.googleusercontent.com/d/1qkijVgxboNk3d4vEEXLSqmriaHSYsfeY=s800"],["FUN-005","Funda Soporte Ventana con Kickstand","Fundas y Forros",0,10,"https://lh3.googleusercontent.com/d/17Kb4w1uywtxB_sVSxrTv9MOeZ710jalV=s800"]];
+
+/* ================= ADMIN V8 · Datos de referencia ================= */
+const V8_VIDRIO = ['BLINDADO', 'BORDE COLOR', 'BORDE BRILLANTE', 'ANTIESPIA', 'BORDE CURVO'];
+const V8_HIDROGEL = ['MATE', 'HD', 'ANTIBLUE', 'ANTIESPIA', '360 ESPECIAL Z FOLD', 'ANTIESPIA 360', 'UV ALTA CALIDAD', 'UV ANTIESPIA ALTA CALIDAD',
+  'TABLET 10.1 PULGADAS', 'TABLET 14 PULGADAS', 'TABLET 16.9 PULGADAS', 'HD PARA MAQUINA VT8 PRO', 'MATE PARA MAQUINA VT8 PRO',
+  'ANTIESPIA PARA MAQUINA VT8 PRO', 'DISEÑO PARA TAPA TRASERA 11 PULGADAS TABLET'];
+const V8_TIPOS = { normal: '📦 Producto normal', funda: '📱 Funda o forro', vidrio: '🛡️ Vidrio templado', hidrogel: '💧 Hidrogel' };
+const V8_FONDOS = { inventario: { t: 'Dinero de inventario', e: '💼', c: 'b' }, externo: { t: 'Dinero externo', e: '🌐', c: 'p' }, prestamo: { t: 'Dinero en préstamo', e: '🤝', c: 'y' } };
+
+/* Bancos y billeteras de Colombia (se usan en caja, POS, ingresos y egresos) */
+const V8_BANCOS = ['Bancolombia', 'Nequi', 'Daviplata', 'Davivienda', 'Banco de Bogotá', 'BBVA Colombia', 'Banco de Occidente', 'Banco Popular',
+  'Banco AV Villas', 'Banco Caja Social', 'Scotiabank Colpatria', 'Itaú', 'Banco Agrario', 'Banco GNB Sudameris', 'Banco Falabella',
+  'Banco Pichincha', 'Bancoomeva', 'Banco Finandina', 'Banco Serfinanza', 'Banco W', 'Bancamía', 'Banco Mundo Mujer', 'Banco Cooperativo Coopcentral',
+  'Banco Santander de Negocios', 'Citibank Colombia', 'Lulo Bank', 'Nu Colombia', 'RappiPay', 'Movii', 'Dale!', 'Ualá', 'Banco Union',
+  'Confiar Cooperativa', 'Cotrafa', 'Bre-B (llave)', 'Otro banco'];
+
+/* Marcas y referencias: de la más reciente a la más antigua. Se pueden agregar más desde el selector. */
+const V8_MODELOS = {
+  'iPhone': ['iPhone 18 Pro Max', 'iPhone 18 Pro', 'iPhone 18', 'iPhone 18e', 'iPhone Fold', 'iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone Air', 'iPhone 17', 'iPhone 16e',
+    'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16', 'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15',
+    'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14', 'iPhone SE (2022)', 'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 13 mini',
+    'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 12 mini', 'iPhone SE (2020)', 'iPhone 11 Pro Max', 'iPhone 11 Pro', 'iPhone 11',
+    'iPhone XS Max', 'iPhone XS', 'iPhone XR', 'iPhone X', 'iPhone 8 Plus', 'iPhone 8', 'iPhone 7 Plus', 'iPhone 7', 'iPhone 6s Plus', 'iPhone 6s', 'iPhone 6 Plus', 'iPhone 6'],
+  'Samsung': ['Galaxy Z Fold8', 'Galaxy Z Flip8', 'Galaxy S26 Ultra', 'Galaxy S26+', 'Galaxy S26', 'Galaxy A57', 'Galaxy A37', 'Galaxy A27', 'Galaxy A17 5G', 'Galaxy A17',
+    'Galaxy A07', 'Galaxy S25 FE', 'Galaxy Z Fold7', 'Galaxy Z Flip7', 'Galaxy Z Flip7 FE', 'Galaxy S25 Edge', 'Galaxy S25 Ultra', 'Galaxy S25+', 'Galaxy S25',
+    'Galaxy A56', 'Galaxy A36', 'Galaxy A26', 'Galaxy A16 5G', 'Galaxy A16', 'Galaxy A06', 'Galaxy S24 FE', 'Galaxy Z Fold6', 'Galaxy Z Flip6',
+    'Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S24', 'Galaxy A55', 'Galaxy A35', 'Galaxy A25', 'Galaxy A15 5G', 'Galaxy A15', 'Galaxy A05s', 'Galaxy A05',
+    'Galaxy S23 FE', 'Galaxy Z Fold5', 'Galaxy Z Flip5', 'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy A54', 'Galaxy A34', 'Galaxy A24', 'Galaxy A14 5G',
+    'Galaxy A14', 'Galaxy A04s', 'Galaxy A04', 'Galaxy A04e', 'Galaxy S22 Ultra', 'Galaxy S22+', 'Galaxy S22', 'Galaxy A73', 'Galaxy A53', 'Galaxy A33', 'Galaxy A23',
+    'Galaxy A13', 'Galaxy A03s', 'Galaxy A03', 'Galaxy A03 Core', 'Galaxy S21 FE', 'Galaxy S21 Ultra', 'Galaxy S21+', 'Galaxy S21', 'Galaxy A72', 'Galaxy A52s',
+    'Galaxy A52', 'Galaxy A32', 'Galaxy A22', 'Galaxy A12', 'Galaxy A02s', 'Galaxy S20 FE', 'Galaxy S20 Ultra', 'Galaxy S20+', 'Galaxy S20', 'Galaxy Note 20 Ultra',
+    'Galaxy Note 20', 'Galaxy A71', 'Galaxy A51', 'Galaxy A31', 'Galaxy A21s', 'Galaxy A11', 'Galaxy A01', 'Galaxy Note 10+', 'Galaxy Note 10', 'Galaxy S10+',
+    'Galaxy S10', 'Galaxy S10e', 'Galaxy A70', 'Galaxy A50', 'Galaxy A30s', 'Galaxy A30', 'Galaxy A20s', 'Galaxy A20', 'Galaxy A10s', 'Galaxy A10',
+    'Galaxy M55', 'Galaxy M35', 'Galaxy M15', 'Galaxy M14', 'Galaxy M13', 'Galaxy M12'],
+  'Xiaomi': ['Xiaomi 17 Ultra', 'Xiaomi 17 Pro Max', 'Xiaomi 17 Pro', 'Xiaomi 17', 'Xiaomi 15T Pro', 'Xiaomi 15T', 'Redmi 15C', 'Redmi 15 5G', 'Redmi 15',
+    'Redmi Note 15 Pro+ 5G', 'Redmi Note 15 Pro 5G', 'Redmi Note 15 5G', 'Redmi Note 15', 'Redmi A5', 'Xiaomi 15 Ultra', 'Xiaomi 15', 'Redmi Note 14 Pro+ 5G',
+    'Redmi Note 14 Pro 5G', 'Redmi Note 14 Pro', 'Redmi Note 14 5G', 'Redmi Note 14', 'Redmi 14C', 'Redmi A3x', 'Xiaomi 14T Pro', 'Xiaomi 14T', 'Xiaomi 14 Ultra',
+    'Xiaomi 14', 'Redmi 13 5G', 'Redmi 13', 'Redmi Note 13 Pro+ 5G', 'Redmi Note 13 Pro 5G', 'Redmi Note 13 Pro', 'Redmi Note 13 5G', 'Redmi Note 13', 'Redmi 13C',
+    'Redmi A3', 'Xiaomi 13T Pro', 'Xiaomi 13T', 'Xiaomi 13 Ultra', 'Xiaomi 13 Pro', 'Xiaomi 13', 'Xiaomi 13 Lite', 'Redmi 12 5G', 'Redmi 12', 'Redmi 12C',
+    'Redmi Note 12 Pro+ 5G', 'Redmi Note 12 Pro 5G', 'Redmi Note 12 Pro', 'Redmi Note 12S', 'Redmi Note 12 5G', 'Redmi Note 12', 'Redmi A2+', 'Redmi A2', 'Redmi A1',
+    'Xiaomi 12T Pro', 'Xiaomi 12T', 'Xiaomi 12 Pro', 'Xiaomi 12', 'Xiaomi 12 Lite', 'Redmi 10C', 'Redmi 10A', 'Redmi 10', 'Redmi Note 11 Pro+ 5G', 'Redmi Note 11 Pro 5G',
+    'Redmi Note 11 Pro', 'Redmi Note 11S', 'Redmi Note 11', 'Redmi Note 10 Pro', 'Redmi Note 10S', 'Redmi Note 10 5G', 'Redmi Note 10', 'Redmi 9T', 'Redmi 9C',
+    'Redmi 9A', 'Redmi 9', 'Redmi Note 9 Pro', 'Redmi Note 9S', 'Redmi Note 9', 'Redmi Note 8 Pro', 'Redmi Note 8', 'Redmi 8A', 'Redmi 8', 'Mi 11 Lite', 'Mi 11', 'Mi 10T Pro', 'Mi 10T'],
+  'POCO': ['POCO F8 Ultra', 'POCO F8 Pro', 'POCO F8', 'POCO M8 Pro', 'POCO M8', 'POCO X8 Pro', 'POCO X8', 'POCO C85', 'POCO F7 Ultra', 'POCO F7 Pro', 'POCO F7',
+    'POCO X7 Pro', 'POCO X7', 'POCO M7 Pro 5G', 'POCO M7', 'POCO C75', 'POCO F6 Pro', 'POCO F6', 'POCO X6 Pro', 'POCO X6', 'POCO M6 Pro', 'POCO M6', 'POCO C65',
+    'POCO F5 Pro', 'POCO F5', 'POCO X5 Pro', 'POCO X5', 'POCO M5s', 'POCO M5', 'POCO C55', 'POCO C40', 'POCO F4', 'POCO X4 Pro 5G', 'POCO M4 Pro', 'POCO X3 Pro', 'POCO X3 NFC', 'POCO M3'],
+  'Motorola': ['Motorola Edge 70', 'Moto G100s', 'Moto G86 Power', 'Moto G86', 'Moto G56', 'Moto G06', 'Moto G06 Power', 'Razr 60 Ultra', 'Razr 60', 'Edge 60 Pro',
+    'Edge 60 Fusion', 'Edge 60', 'Moto G85', 'Moto G75', 'Moto G55', 'Moto G35', 'Moto G15', 'Moto G05', 'Razr 50 Ultra', 'Razr 50', 'Edge 50 Ultra', 'Edge 50 Pro',
+    'Edge 50 Fusion', 'Edge 50 Neo', 'Moto G84', 'Moto G64', 'Moto G54', 'Moto G34', 'Moto G24 Power', 'Moto G24', 'Moto G04s', 'Moto G04', 'Moto E14',
+    'Razr 40 Ultra', 'Razr 40', 'Edge 40 Pro', 'Edge 40 Neo', 'Edge 40', 'Moto G73', 'Moto G53', 'Moto G23', 'Moto G13', 'Moto E13', 'Moto G72', 'Moto G62',
+    'Moto G52', 'Moto G42', 'Moto G32', 'Moto G22', 'Moto E32', 'Moto E22', 'Moto G71', 'Moto G60', 'Moto G51', 'Moto G41', 'Moto G31', 'Moto E40', 'Moto E20',
+    'Moto G100', 'Moto G50', 'Moto G30', 'Moto G20', 'Moto G10', 'Moto E7 Power', 'Moto G9 Plus', 'Moto G9 Play', 'Moto G8 Power', 'Moto G8 Plus', 'Moto G8'],
+  'Oppo': ['Find X9 Pro', 'Find X9', 'Reno 15 Pro', 'Reno 15', 'Reno 14 Pro', 'Reno 14', 'Reno 14 F', 'A6 Pro', 'A6', 'A5 Pro', 'A5', 'A5x', 'A3 Pro', 'A3', 'A3x',
+    'Find X8 Pro', 'Find X8', 'Reno 13 Pro', 'Reno 13', 'Reno 13 F', 'Reno 12 Pro', 'Reno 12', 'Reno 12 F', 'A80', 'A60', 'A40', 'A38', 'A18', 'Reno 11 Pro',
+    'Reno 11', 'Reno 11 F', 'A79', 'A78', 'A58', 'A57', 'A17', 'A17k', 'Reno 10 Pro+', 'Reno 10 Pro', 'Reno 10', 'Reno 8 Pro', 'Reno 8', 'Reno 8T', 'A98',
+    'A96', 'A77', 'A76', 'A55', 'A54', 'A16', 'A16s', 'Reno 7', 'Reno 6', 'A74', 'A54s', 'A15', 'A53', 'A31'],
+  'Honor': ['Honor 500', 'Honor 400 Pro', 'Honor 400', 'Honor 400 Lite', 'Honor Magic8 Pro', 'Honor Magic8', 'Honor X9d', 'Honor X8d', 'Honor X7d', 'Honor X6c',
+    'Honor X5c', 'Honor Magic7 Pro', 'Honor Magic7 Lite', 'Honor X9c', 'Honor X8c', 'Honor X7c', 'Honor X6b', 'Honor X5b', 'Honor 200 Pro', 'Honor 200',
+    'Honor 200 Lite', 'Honor 200 Smart', 'Honor Magic6 Pro', 'Honor Magic6 Lite', 'Honor X9b', 'Honor X8b', 'Honor X7b', 'Honor X6a', 'Honor X5 Plus', 'Honor 90',
+    'Honor 90 Lite', 'Honor 90 Smart', 'Honor Magic5 Pro', 'Honor Magic5 Lite', 'Honor X9a', 'Honor X8a', 'Honor X7a', 'Honor X6', 'Honor X5', 'Honor 70', 'Honor X9',
+    'Honor X8', 'Honor X7', 'Honor Magic4 Lite', 'Honor 50', 'Honor 50 Lite', 'Honor X8 5G', 'Honor Magic V5', 'Honor Magic V3', 'Honor Magic V2'],
+  'Huawei': ['Pura 80 Ultra', 'Pura 80 Pro', 'Pura 80', 'Mate 80 Pro', 'Mate 80', 'Nova 14 Pro', 'Nova 14', 'Nova 14i', 'Nova Y73', 'Mate X6', 'Pura 70 Ultra',
+    'Pura 70 Pro', 'Pura 70', 'Nova 13 Pro', 'Nova 13', 'Nova 13i', 'Nova 12s', 'Nova 12i', 'Nova Y72', 'Nova Y62', 'Mate 60 Pro', 'Nova 11 Pro', 'Nova 11',
+    'Nova 11i', 'Nova Y91', 'Nova Y71', 'Nova Y61', 'P60 Pro', 'Nova 10 Pro', 'Nova 10', 'Nova 10 SE', 'Nova Y90', 'Nova Y70', 'Nova 9', 'Nova 9 SE', 'Nova Y60',
+    'P50 Pro', 'P40 Pro', 'P40', 'P40 Lite', 'P30 Pro', 'P30', 'P30 Lite', 'Y9a', 'Y9s', 'Y9 Prime 2019', 'Y8p', 'Y7a', 'Y7p', 'Y6p', 'Y5p', 'Mate 20 Pro', 'Mate 20 Lite'],
+  'Vivo': ['Vivo X300 Pro', 'Vivo X300', 'Vivo V60', 'Vivo V60 Lite', 'Vivo Y39', 'Vivo Y29', 'Vivo Y19s Pro', 'Vivo Y19s', 'Vivo Y04', 'Vivo X200 Pro', 'Vivo X200',
+    'Vivo V50', 'Vivo V50 Lite', 'Vivo Y300', 'Vivo Y28', 'Vivo Y18', 'Vivo Y03', 'Vivo V40', 'Vivo V40 Lite', 'Vivo V30', 'Vivo V30 Lite', 'Vivo Y38', 'Vivo Y36',
+    'Vivo Y27s', 'Vivo Y27', 'Vivo Y17s', 'Vivo Y02s', 'Vivo V29', 'Vivo V27', 'Vivo V25', 'Vivo Y35', 'Vivo Y22s', 'Vivo Y22', 'Vivo Y16', 'Vivo Y02', 'Vivo Y21', 'Vivo Y20', 'Vivo Y11'],
+  'Realme': ['Realme GT 8 Pro', 'Realme GT 8', 'Realme 15 Pro', 'Realme 15', 'Realme 15T', 'Realme C85', 'Realme C75', 'Realme Note 70', 'Realme Note 60',
+    'Realme GT 7 Pro', 'Realme GT 7', 'Realme 14 Pro+', 'Realme 14 Pro', 'Realme 14', 'Realme C73', 'Realme C71', 'Realme C65', 'Realme C63', 'Realme C61',
+    'Realme Note 50', 'Realme 13 Pro+', 'Realme 13 Pro', 'Realme 13', 'Realme 12 Pro+', 'Realme 12 Pro', 'Realme 12', 'Realme C67', 'Realme C53', 'Realme C51',
+    'Realme 11 Pro+', 'Realme 11 Pro', 'Realme 11', 'Realme C55', 'Realme C35', 'Realme C33', 'Realme C31', 'Realme C30', 'Realme 10 Pro+', 'Realme 10 Pro',
+    'Realme 10', 'Realme 9 Pro+', 'Realme 9 Pro', 'Realme 9', 'Realme 9i', 'Realme 8', 'Realme 8i', 'Realme C25', 'Realme C21', 'Realme C11'],
+  'Infinix': ['Infinix GT 30 Pro', 'Infinix Note 50 Pro+', 'Infinix Note 50 Pro', 'Infinix Note 50', 'Infinix Hot 60 Pro', 'Infinix Hot 60', 'Infinix Hot 60i',
+    'Infinix Smart 10', 'Infinix Zero 40', 'Infinix GT 20 Pro', 'Infinix Note 40 Pro+', 'Infinix Note 40 Pro', 'Infinix Note 40', 'Infinix Hot 50 Pro+',
+    'Infinix Hot 50 Pro', 'Infinix Hot 50', 'Infinix Hot 50i', 'Infinix Smart 9', 'Infinix Zero 30', 'Infinix GT 10 Pro', 'Infinix Note 30 Pro', 'Infinix Note 30',
+    'Infinix Hot 40 Pro', 'Infinix Hot 40', 'Infinix Hot 40i', 'Infinix Smart 8', 'Infinix Hot 30', 'Infinix Hot 30i', 'Infinix Smart 7', 'Infinix Note 12',
+    'Infinix Hot 20', 'Infinix Hot 20i', 'Infinix Smart 6', 'Infinix Hot 12', 'Infinix Hot 11'],
+  'ZTE': ['ZTE Blade A76', 'ZTE Blade V70', 'ZTE Blade A75', 'ZTE Blade V60', 'ZTE Blade A55', 'ZTE Blade A35', 'ZTE Blade V50', 'ZTE Blade A73', 'ZTE Blade A53',
+    'ZTE Blade A33', 'ZTE Blade V40', 'ZTE Blade A72', 'ZTE Blade A52', 'ZTE Blade A51', 'ZTE Blade A71', 'ZTE Blade A31', 'ZTE Blade V30', 'ZTE Blade A7s', 'ZTE Blade A5', 'nubia Neo 3', 'nubia Focus Pro'],
+  'Nokia': ['Nokia G42', 'Nokia G22', 'Nokia C32', 'Nokia C22', 'Nokia C12', 'Nokia G60', 'Nokia G21', 'Nokia G11', 'Nokia C31', 'Nokia C21 Plus', 'Nokia C21',
+    'Nokia C01 Plus', 'Nokia G20', 'Nokia G10', 'Nokia X20', 'Nokia X10', 'Nokia C20', 'Nokia C10', 'Nokia 5.4', 'Nokia 3.4', 'Nokia 2.4', 'Nokia 1.4', 'Nokia 8.3', 'Nokia 5.3', 'Nokia 2.3'],
+  'LG': ['LG Velvet', 'LG K92', 'LG K62', 'LG K52', 'LG K42', 'LG K22', 'LG K71', 'LG K61', 'LG K51s', 'LG K50s', 'LG K41s', 'LG K40s', 'LG K20', 'LG G8 ThinQ',
+    'LG G7 ThinQ', 'LG Q60', 'LG K12', 'LG K11', 'LG K10'],
+  'Alcatel': ['Alcatel V3 Ultra', 'Alcatel V3 Pro', 'Alcatel 3 2025', 'Alcatel 1V 2025', 'Alcatel 1B 2022', 'Alcatel 1 2022', 'Alcatel 3L 2021', 'Alcatel 1S 2021',
+    'Alcatel 1V 2021', 'Alcatel 1SE 2020', 'Alcatel 3X 2020', 'Alcatel 1S 2020', 'Alcatel 1B 2020', 'Alcatel 1V 2020', 'Alcatel 3 2019', 'Alcatel 1 2019'],
+  'Lenovo': ['Lenovo Legion Y70', 'Lenovo K14 Plus', 'Lenovo K14', 'Lenovo K13 Note', 'Lenovo K13', 'Lenovo K12 Note', 'Lenovo K12', 'Lenovo Tab M11', 'Lenovo Tab M10 Plus', 'Lenovo Tab M9', 'Lenovo Tab M8']
+};
+function v8ModelosDe(marca) { const extra = (S.config.modelosExtra || {})[marca] || []; return [...extra, ...(V8_MODELOS[marca] || [])]; }
+function v8Marcas() { return [...Object.keys(V8_MODELOS), ...Object.keys(S.config.modelosExtra || {}).filter(m => !V8_MODELOS[m])]; }
+
+/* ================= ADMIN V8 · Inventario completo ================= */
+(function () {
+  const css = `
+  .v8-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+  .v8-sem{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+  .v8-chip{border:1px solid var(--line,#dfe6ee);background:var(--card,#fff);border-radius:999px;padding:7px 13px;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:inherit}
+  .v8-chip.on{background:#1A3A5C;color:#fff;border-color:#1A3A5C}
+  .v8-chip .n{background:rgba(0,0,0,.08);border-radius:999px;padding:1px 7px;font-size:.72rem}
+  .v8-chip.on .n{background:rgba(255,255,255,.22)}
+  .v8-chip.r.on{background:#D62F2F;border-color:#D62F2F}.v8-chip.o.on{background:#E8622A;border-color:#E8622A}.v8-chip.g.on{background:#159A5B;border-color:#159A5B}
+  .v8-cats{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:thin}
+  .v8-cats .v8-chip,.v8-sem .v8-chip{flex:0 0 auto;white-space:nowrap}
+  .v8-search{width:100%;height:42px;border:1px solid var(--line,#dfe6ee);border-radius:12px;padding:0 14px;font:inherit;font-size:.9rem;background:var(--card,#fff);color:inherit}
+  .v8-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .v8-card{background:var(--card,#fff);border:1px solid var(--line,#dfe6ee);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+  .v8-card.st-agotado{border-color:#D62F2F;box-shadow:0 0 0 2px rgba(214,47,47,.15)}
+  .v8-card.st-escaso{border-color:#E8622A;box-shadow:0 0 0 2px rgba(232,98,42,.14)}
+  .v8-img{aspect-ratio:4/3;background:#fff;display:grid;place-items:center;border-bottom:1px solid var(--line,#eef2f6);cursor:pointer;position:relative}
+  .v8-img img{width:100%;height:100%;object-fit:contain;padding:8px}
+  .v8-img .ph{font-size:38px;opacity:.5}
+  .v8-badge{position:absolute;top:8px;left:8px;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:999px;color:#fff}
+  .v8-badge.r{background:#D62F2F}.v8-badge.o{background:#E8622A}.v8-badge.g{background:#159A5B}
+  .v8-hid{position:absolute;top:8px;right:8px;font-size:.66rem;font-weight:800;padding:3px 8px;border-radius:999px;background:#1A3A5C;color:#fff}
+  .v8-b{padding:11px 12px 8px;flex:1}
+  .v8-b .ref{font-size:.7rem;color:#7A8CA0;font-weight:700;letter-spacing:.03em}
+  .v8-b .nm{font-weight:800;font-size:.92rem;line-height:1.25;margin:2px 0 6px}
+  .v8-b .pr{display:flex;gap:10px;flex-wrap:wrap;font-size:.74rem;color:#5B6E82}.v8-b .pr b{color:inherit;font-size:.86rem;color:#1A3A5C}
+  .v8-b .stk{margin-top:7px;font-size:.78rem;font-weight:700}
+  .v8-act{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line,#eef2f6)}
+  .v8-act button{border:0;background:transparent;padding:9px 0;cursor:pointer;font-size:15px;border-right:1px solid var(--line,#eef2f6)}
+  .v8-act button:last-child{border-right:0}.v8-act button:hover{background:rgba(43,184,230,.1)}
+  .v8-sec{border:1px solid var(--line,#dfe6ee);border-radius:14px;padding:12px 14px;margin:12px 0}
+  .v8-sec>h4{margin:0 0 10px;font-size:.9rem;display:flex;align-items:center;gap:7px}
+  .v8-prices{display:grid;grid-template-columns:1fr 110px 1fr;gap:8px 10px;align-items:end}
+  .v8-prices .lbl{font-size:.8rem;font-weight:700}
+  .v8-brands{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+  .v8-brands button{flex:0 0 auto;border:1px solid var(--line,#dfe6ee);background:var(--card,#fff);border-radius:10px;padding:6px 11px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer;color:inherit}
+  .v8-brands button.on{background:#2BB8E6;border-color:#2BB8E6;color:#fff}
+  .v8-brands button .c{background:#1A3A5C;color:#fff;border-radius:999px;padding:0 6px;margin-left:5px;font-size:.68rem}
+  .v8-models{display:flex;flex-wrap:wrap;gap:6px;max-height:190px;overflow:auto;padding:8px 2px}
+  .v8-models button{border:1px solid var(--line,#dfe6ee);background:var(--card,#fff);border-radius:8px;padding:5px 9px;font:inherit;font-size:.76rem;cursor:pointer;color:inherit}
+  .v8-models button.on{background:#1A3A5C;color:#fff;border-color:#1A3A5C}
+  .v8-selbar{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .v8-selbar span{background:rgba(43,184,230,.14);color:#1E93BD;border-radius:999px;padding:3px 9px;font-size:.72rem;font-weight:700;cursor:pointer}
+  .v8-colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .v8-color{border:1px solid var(--line,#dfe6ee);border-radius:12px;padding:8px;text-align:center}
+  .v8-color .th{aspect-ratio:1;border-radius:9px;background:#f4f7fa;display:grid;place-items:center;cursor:pointer;overflow:hidden;margin-bottom:6px}
+  .v8-color .th img{width:100%;height:100%;object-fit:cover}
+  .v8-color input{width:100%;font-size:.78rem}
+  .v8-fondos{display:flex;gap:8px;flex-wrap:wrap}
+  .v8-fondos .f{flex:1 1 140px;border-radius:12px;padding:10px 12px;background:rgba(43,184,230,.08);border:1px solid rgba(43,184,230,.25)}
+  .v8-fondos .f b{display:block;font-size:1.15rem}.v8-fondos .f small{font-size:.74rem;opacity:.8}
+  .v8-fondos .f.p{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.25)}.v8-fondos .f.y{background:rgba(232,98,42,.08);border-color:rgba(232,98,42,.3)}
+  .v8-gal{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory}
+  .v8-gal figure{flex:0 0 150px;margin:0;scroll-snap-align:start;text-align:center;font-size:.74rem;font-weight:700}
+  .v8-gal img{width:150px;height:150px;object-fit:contain;background:#fff;border:1px solid var(--line,#eef2f6);border-radius:12px}
+  .v8-up{color:#D62F2F;font-weight:800}.v8-down{color:#159A5B;font-weight:800}
+  @media(max-width:800px){.v8-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.v8-prices{grid-template-columns:1fr 90px 1fr}}`;
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+})();
+
+const V8_STOP = new Set(['de', 'del', 'la', 'el', 'los', 'las', 'para', 'con', 'y', 'en', 'a', 'x', 'por', 'sin', 'tipo']);
+function v8Norm(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase(); }
+function v8RefFromName(name, selfId) {
+  const w = v8Norm(name).replace(/[^A-Z0-9 ]/g, ' ').split(/\s+/).filter(x => x && !V8_STOP.has(x.toLowerCase()));
+  if (!w.length) return '';
+  const words = w.filter(x => /[A-Z]/.test(x)).slice(0, 2).map(x => x.slice(0, 3));
+  const numTok = w.find(x => /\d/.test(x)); const parts = [...words]; if (numTok) parts.push(numTok.slice(0, 5));
+  const base = parts.join('-');
+  let n = 1; const used = new Set(S.products.filter(p => p.id !== selfId).map(p => String(p.code || '').toUpperCase()));
+  let ref = base + '-' + String(n).padStart(3, '0');
+  while (used.has(ref)) { n++; ref = base + '-' + String(n).padStart(3, '0'); }
+  return ref;
+}
+const v8R100 = x => Math.max(0, Math.round((Number(x) || 0) / 100) * 100);
+
+/* ---------- Lotes, costo promedio ponderado y dinero de origen ---------- */
+function v8Ensure(p) {
+  if (!Array.isArray(p.lots)) {
+    p.lots = [];
+    const f = p.fondos || {}; let rest = Number(p.stock) || 0;
+    Object.entries(f).forEach(([k, q]) => { q = Math.min(Number(q) || 0, rest); if (q > 0) { p.lots.push({ id: uid('lt'), at: p.createdAt || nowISO(), qty: q, unit: p.cost || 0, fondo: k, note: 'Saldo anterior' }); rest -= q; } });
+    if (rest > 0) p.lots.push({ id: uid('lt'), at: p.createdAt || nowISO(), qty: rest, unit: p.cost || 0, fondo: 'inventario', note: 'Saldo inicial' });
+  }
+  return p;
+}
+function v8Alloc(p) {
+  v8Ensure(p);
+  const lots = [...p.lots].sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  const total = lots.reduce((a, l) => a + (Number(l.qty) || 0), 0);
+  let consumed = Math.max(0, total - (Number(p.stock) || 0));
+  const out = lots.map(l => { const used = Math.min(consumed, l.qty); consumed -= used; return { ...l, rem: l.qty - used }; });
+  const by = { inventario: 0, externo: 0, prestamo: 0 };
+  out.forEach(l => { by[l.fondo] = (by[l.fondo] || 0) + l.rem; });
+  const sinOrigen = Math.max(0, (Number(p.stock) || 0) - out.reduce((a, l) => a + l.rem, 0));
+  const val = out.reduce((a, l) => a + l.rem * (l.unit || 0), 0);
+  return { lots: out, by, sinOrigen, valorFIFO: val };
+}
+function v8Status(p) { const s = Number(p.stock) || 0; if (p.agotado || s <= 0) return 'agotado'; if (s <= (Number(p.min) || 0)) return 'escaso'; return 'ok'; }
+const V8_ST = { agotado: { t: 'Agotado', c: 'r', e: '🔴' }, escaso: { t: 'Por agotarse', c: 'o', e: '🟠' }, ok: { t: 'Disponible', c: 'g', e: '🟢' } };
+function v8Img(p) { return IMG[p.id] || p.imgUrl || ((p.colores || [])[0] && IMG[p.colores[0].k]) || ''; }
+
+/* Datos que lee la tienda web (mismo navegador / mismo dominio) */
+function v8Sync() {
+  try {
+    const out = {};
+    S.products.forEach(p => {
+      out[(p.code || p.id).toUpperCase()] = { id: p.id, name: p.name, cat: p.category, price: p.price || 0, stock: p.agotado ? 0 : (Number(p.stock) || 0),
+        hidden: !!p.webHidden, agotado: !!p.agotado, tipo: p.tipo || 'normal', sub: p.sub || '', modelos: p.modelos || [], colores: (p.colores || []).map(c => ({ n: c.n, k: c.k })), img: p.imgUrl || '' };
+    });
+    localStorage.setItem('ep_web_inv', JSON.stringify({ at: nowISO(), items: out }));
+  } catch (e) { }
+}
+
+/* ---------- Semilla: catálogo real de la tienda ---------- */
+function v8Seed() {
+  if (!Array.isArray(window.V8_SEED)) return;
+  let n = 0;
+  V8_SEED.forEach(([code, name, cat, price, stock, img]) => {
+    if (S.products.some(p => (p.code || '').toUpperCase() === code)) return;
+    const p = { id: uid('pr'), code, name, category: cat, cost: 0, price, price2: 0, price3: 0, stock, min: 0, sold: 0, createdAt: nowISO(), supplier: '', imgUrl: img, tipo: cat === 'Fundas y Forros' ? 'funda' : 'normal' };
+    v8Ensure(p); S.products.push(p); n++;
+    if (cat && !(S.config.categorias || []).includes(cat)) S.config.categorias = [...(S.config.categorias || []), cat];
+  });
+  save('products', 'config'); v8Sync(); render(); toast(n + ' productos cargados desde la tienda', '📦');
+}
+
+/* ---------- Vista de inventario ---------- */
+let v8F = { q: '', cat: 'all', sem: 'all' };
+VIEWS.inventario = function () {
+  const P = S.products.map(v8Ensure);
+  const cats = [...new Set([...(S.config.categorias || []), ...P.map(p => p.category).filter(Boolean)])];
+  const cnt = { all: P.length, agotado: 0, escaso: 0, ok: 0 }; P.forEach(p => cnt[v8Status(p)]++);
+  const q = v8Norm(v8F.q.trim());
+  let L = P.filter(p => (v8F.cat === 'all' || p.category === v8F.cat) && (v8F.sem === 'all' || v8Status(p) === v8F.sem) &&
+    (!q || v8Norm(p.name + ' ' + p.code + ' ' + (p.supplier || '') + ' ' + (p.modelos || []).join(' ')).includes(q)));
+  const ord = { agotado: 0, escaso: 1, ok: 2 };
+  L.sort((a, b) => ord[v8Status(a)] - ord[v8Status(b)] || String(a.name).localeCompare(String(b.name)));
+  const vCost = P.reduce((a, p) => a + (Number(p.stock) || 0) * (p.cost || 0), 0), vPrice = P.reduce((a, p) => a + (Number(p.stock) || 0) * (p.price || 0), 0);
+  const units = P.reduce((a, p) => a + (Number(p.stock) || 0), 0);
+  const kpi = (em, t, v, s, cls) => `<div class="kpi"><div class="lab"><span class="em">${em}</span>${t}</div><div class="val ${cls || ''}">${v}</div><div class="sub">${s}</div></div>`;
+  const chip = (k, lbl, cls) => `<button class="v8-chip ${cls || ''} ${v8F.sem === k ? 'on' : ''}" onclick="v8F.sem='${k}';render()">${lbl}<span class="n">${cnt[k]}</span></button>`;
+  const card = p => { const s = v8Status(p), S2 = V8_ST[s], img = v8Img(p);
+    return `<div class="v8-card st-${s}">
+      <div class="v8-img" onclick="verProducto('${p.id}')">${img ? `<img src="${img}" alt="" loading="lazy" onerror="this.remove()">` : '<span class="ph">📦</span>'}
+        <span class="v8-badge ${S2.c}">${S2.e} ${S2.t}</span>${p.webHidden ? '<span class="v8-hid">🙈 Oculto en web</span>' : ''}</div>
+      <div class="v8-b"><div class="ref">${esc(p.code || '')}${p.colores?.length ? ` · ${p.colores.length} colores` : ''}${p.modelos?.length ? ` · ${p.modelos.length} ref.` : ''}</div>
+        <div class="nm">${esc(p.name)}</div>
+        <div class="pr"><span>Público <b>${money(p.price)}</b></span><span>Punto <b>${money(p.price2)}</b></span><span>Mayor <b>${money(p.price3)}</b></span></div>
+        <div class="stk">Stock: ${nfmt(p.stock)} u · mín. ${nfmt(p.min || 0)}</div></div>
+      <div class="v8-act">
+        <button title="Ver producto" onclick="verProducto('${p.id}')">👁️</button>
+        <button title="Editar" onclick="editarProducto('${p.id}')">✏️</button>
+        <button title="Entrada de stock" onclick="recargarStock('${p.id}')">📥</button>
+        <button title="${p.webHidden ? 'Mostrar en la web' : 'Ocultar en la web'}" onclick="v8ToggleWeb('${p.id}')">${p.webHidden ? '🙈' : '🌐'}</button>
+        <button title="${p.agotado ? 'Quitar agotado' : 'Marcar como agotado'}" onclick="v8ToggleAgotado('${p.id}')">${p.agotado ? '♻️' : '⛔'}</button>
+        <button title="Eliminar producto" onclick="v8Borrar('${p.id}')">🗑️</button></div></div>`; };
+  return `<div class="toolbar" style="margin-bottom:12px"><div class="muted tiny">${nfmt(P.length)} referencias · ${nfmt(units)} unidades</div><div class="spacer"></div>
+      <button class="btn" onclick="gestionarCategorias()">🏷️ Categorías</button>
+      <button class="btn primary" onclick="editarProducto()">➕ Nuevo producto</button></div>
+    ${!P.length && window.V8_SEED ? `<div class="alertbox b" style="margin-bottom:14px"><span class="em">🛍️</span><div><b>Tu inventario está vacío.</b> Puedes cargar los ${V8_SEED.length} productos que ya están en la tienda web (nombre, referencia, categoría, precio, stock y foto) y luego completar costos y precios.<div style="margin-top:8px"><button class="btn primary sm" onclick="v8Seed()">📥 Cargar productos de la tienda</button></div></div></div>` : ''}
+    <div class="kpis" style="margin-bottom:14px">${kpi('🏷️', 'Referencias', nfmt(P.length), nfmt(units) + ' unidades')}${kpi('💼', 'Inventario a costo', money(vCost), 'costo promedio × stock')}${kpi('💎', 'Inventario a precio público', money(vPrice), 'utilidad potencial ' + money(vPrice - vCost))}${kpi('🚦', 'Requieren atención', nfmt(cnt.agotado + cnt.escaso), cnt.agotado + ' agotados · ' + cnt.escaso + ' por agotarse', cnt.agotado + cnt.escaso ? 'down' : '')}</div>
+    <div class="card" style="padding:14px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div style="flex:1 1 260px"><input id="iq" class="v8-search" type="search" placeholder="🔍 Buscar por nombre, referencia, proveedor o celular…" value="${esc(v8F.q)}" oninput="v8F.q=this.value;render()"></div></div>
+      <div class="v8-sem"><b class="tiny muted" style="align-self:center">Semáforo:</b>${chip('all', 'Todos')}${chip('agotado', '🔴 Agotados', 'r')}${chip('escaso', '🟠 Por agotarse', 'o')}${chip('ok', '🟢 Disponibles', 'g')}</div>
+      <div class="v8-cats"><button class="v8-chip ${v8F.cat === 'all' ? 'on' : ''}" onclick="v8F.cat='all';render()">🗂️ Todas</button>${cats.filter(c => P.some(p => p.category === c)).map(c => `<button class="v8-chip ${v8F.cat === c ? 'on' : ''}" onclick="v8F.cat=${esc(JSON.stringify(c))};render()">${esc(c)}<span class="n">${P.filter(p => p.category === c).length}</span></button>`).join('')}</div>
+      ${L.length ? `<div class="v8-grid">${L.map(card).join('')}</div>` : `<div class="empty" style="text-align:center;padding:40px 10px"><div style="font-size:40px">📦</div><b>No hay productos con este filtro</b><div class="muted tiny" style="margin-top:6px">Cambia la categoría o el semáforo, o crea un producto nuevo.</div></div>`}
+    </div>`;
+};
+VIEWS.after_inventario = () => { try { keepFocus('#iq'); } catch (e) { } };
+function v8ToggleWeb(id) { const p = S.products.find(x => x.id === id); if (!p) return; p.webHidden = !p.webHidden; save('products'); v8Sync(); render(); toast(p.webHidden ? 'Oculto en el catálogo web' : 'Visible en el catálogo web', p.webHidden ? '🙈' : '🌐'); }
+function v8ToggleAgotado(id) { const p = S.products.find(x => x.id === id); if (!p) return; p.agotado = !p.agotado; save('products'); v8Sync(); render(); toast(p.agotado ? 'Marcado como agotado' : 'Producto reactivado', p.agotado ? '⛔' : '♻️'); }
+function v8Borrar(id) {
+  const p = S.products.find(x => x.id === id); if (!p) return;
+  modal({ title: 'Eliminar producto', em: '🗑️', ok: 'Eliminar definitivamente', body: `<div class="alertbox r"><span class="em">⚠️</span><div>Vas a eliminar <b>${esc(p.name)}</b> (${esc(p.code)}). Se borra del inventario y del catálogo web. Las ventas ya registradas no se modifican.</div></div>`,
+    onSubmit: () => { S.products = S.products.filter(x => x.id !== id); imgDel(id); (p.colores || []).forEach(c => imgDel(c.k)); typeof audit==='function' && audit('PRODUCTO_ELIMINADO', p.code + ' · ' + p.name); save('products'); v8Sync(); closeModal(); render(); toast('Producto eliminado', '🗑️'); } });
+}
+
+/* ---------- Formulario de producto ---------- */
+let v8Sel = new Set(), v8Marca = 'iPhone', v8Colors = [], v8Main = null;
+function editarProducto(id) {
+  const p = id ? S.products.find(x => x.id === id) : null;
+  const last = !p ? (S.config.v8Last || null) : null;
+  const val = (k, d) => p ? (p[k] ?? d) : (last && last[k] !== undefined ? last[k] : d);
+  v8Sel = new Set(p?.modelos || []); v8Main = p ? (IMG[p.id] || null) : null;
+  v8Colors = (p?.colores || []).map(c => ({ n: c.n, img: IMG[c.k] || null, k: c.k }));
+  v8Marca = (p?.modelos?.[0] && v8Marcas().find(m => v8ModelosDe(m).includes(p.modelos[0]))) || 'iPhone';
+  const cats = [...new Set([...(S.config.categorias || []), ...S.products.map(x => x.category).filter(Boolean)])];
+  const provs = [...new Set(['BODEGA RF IMPORTACIONES', ...S.clients.filter(c => c.tipos?.includes('proveedor')).map(c => c.name), ...S.products.map(x => x.supplier).filter(Boolean)])];
+  const tipo = val('tipo', 'normal');
+  const u = (pk, uk) => p?.cost && p?.[pk] ? (Math.round((p[pk] / p.cost - 1) * 1000) / 10) : (val(uk, ''));
+  const lastTxt = last ? Object.entries({ Categoría: last.category, Proveedor: last.supplier, Tipo: V8_TIPOS[last.tipo] || '', Subtipo: last.sub, Origen: V8_FONDOS[last.fondo]?.t, 'Stock mínimo': last.min }).filter(([, v]) => v !== undefined && v !== '').map(([k, v]) => `<b>${k}:</b> ${esc(v)}`).join(' · ') : '';
+  modal({ title: p ? 'Editar producto' : 'Nuevo producto', em: '📦', wide: true, ok: p ? 'Guardar cambios' : 'Crear producto',
+    body: `${last && lastTxt ? `<div class="alertbox y" id="v8LastBox"><span class="em">📌</span><div><b>Opciones fijadas del último producto creado.</b> Revísalas antes de guardar: ${lastTxt}.<div style="margin-top:6px"><button class="btn sm" onclick="v8SoltarOpciones()">Soltar opciones fijadas</button></div></div></div>` : ''}
+    <div class="row" style="grid-template-columns:190px 1fr;gap:16px" id="prodRow">
+      <div><div id="v8MainBox" class="v8-img" style="border:1px dashed var(--line,#cfd8e3);border-radius:14px" onclick="document.getElementById('v8MainFile').click()">${v8Main ? `<img src="${v8Main}">` : (p?.imgUrl ? `<img src="${p.imgUrl}">` : '<span class="ph">🖼️</span>')}</div>
+        <input type="file" id="v8MainFile" accept="image/*" style="display:none" onchange="v8PickMain(this)">
+        <div class="tiny muted" style="margin-top:6px;text-align:center">Foto principal · toca para cambiar</div></div>
+      <div>
+        <label class="field"><span>Nombre del producto *</span><input type="text" name="name" value="${esc(p?.name || '')}" oninput="v8AutoRef()" placeholder="Ej: Funda Silicon Case"></label>
+        <div class="row c3">
+          <label class="field"><span>Referencia <span class="hint">(automática por el nombre)</span></span><div style="display:flex;gap:6px"><input type="text" name="code" id="v8Ref" value="${esc(p?.code || '')}" oninput="this.dataset.manual=1" style="flex:1"><button class="btn sm" onclick="document.getElementById('v8Ref').dataset.manual='';v8AutoRef(true)" title="Regenerar">🔄</button></div></label>
+          <label class="field"><span>Categoría</span><input type="text" name="category" list="v8dlCat" value="${esc(val('category', ''))}" placeholder="Escríbela y se crea sola"></label>
+          <label class="field"><span>Proveedor</span><input type="text" name="supplier" list="v8dlProv" value="${esc(val('supplier', ''))}"></label></div>
+        <datalist id="v8dlCat">${cats.map(c => `<option value="${esc(c)}">`).join('')}</datalist><datalist id="v8dlProv">${provs.map(c => `<option value="${esc(c)}">`).join('')}</datalist>
+        <div class="row c3">
+          <label class="field"><span>Tipo de producto</span><select name="tipo" onchange="v8TipoChange(this.value)">${Object.entries(V8_TIPOS).map(([k, t]) => `<option value="${k}" ${tipo === k ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+          <label class="field" id="v8SubWrap" style="${tipo === 'vidrio' || tipo === 'hidrogel' ? '' : 'display:none'}"><span id="v8SubLbl">${tipo === 'hidrogel' ? 'Tipo de hidrogel' : 'Tipo de vidrio templado'}</span><select name="sub" id="v8Sub">${v8SubOpts(tipo, val('sub', ''))}</select></label>
+          <label class="field"><span>Stock mínimo <span class="hint">(alerta semáforo)</span></span><input type="number" name="min" min="0" value="${val('min', 2)}"></label></div>
+      </div></div>
+
+    <div class="v8-sec"><h4>💲 Costo y precios <span class="hint" style="font-weight:500">— cambia el % y el precio se actualiza; cambia el precio y el % se recalcula</span></h4>
+      <div class="row c2" style="margin-bottom:6px"><label class="field" style="margin:0"><span>Costo unitario ${p ? '<span class="hint">(promedio ponderado actual)</span>' : ''}</span>${mnyInput('cost', p?.cost || 0, 'id="v8Cost"')}</label>
+        ${p ? `<div class="tiny muted" style="align-self:end;padding-bottom:10px">Para registrar una compra a otro costo usa <b>📥 Entrada de stock</b>: el sistema recalcula el costo promedio.</div>` : ''}</div>
+      <div class="v8-prices"><div class="lbl">Precio</div><div class="lbl">Utilidad %</div><div class="lbl">Valor</div>
+        ${[['price', 'util1', pLabel('p1')], ['price2', 'util2', pLabel('p2')], ['price3', 'util3', pLabel('p3')]].map(([pk, uk, lb]) => `<div style="padding-bottom:10px;font-weight:700">${esc(lb)}</div>
+          <input type="number" step="0.1" name="${uk}" id="v8${uk}" value="${u(pk, uk)}" oninput="v8OnPct('${uk}','${pk}')" placeholder="%">
+          ${mnyInput(pk, p?.[pk] || 0, `id="v8${pk}"`)}`).join('')}</div></div>
+
+    ${p ? '' : `<div class="v8-sec"><h4>📥 Stock inicial y origen del dinero</h4><div class="row c3">
+      <label class="field"><span>Unidades</span><input type="number" name="stock" min="0" value="0"></label>
+      <label class="field"><span>¿Con qué dinero se compró?</span><select name="fondo">${Object.entries(V8_FONDOS).map(([k, f]) => `<option value="${k}" ${val('fondo', 'inventario') === k ? 'selected' : ''}>${f.e} ${f.t}</option>`).join('')}</select></label>
+      <label class="field"><span>Fecha de compra</span><input type="date" name="lastRestock" value="${today()}"></label></div></div>`}
+
+    <div class="v8-sec"><h4>📱 Referencias de celular compatibles <span class="hint" style="font-weight:500">(opcional — una funda o vidrio puede servir para varias)</span></h4>
+      <div class="v8-brands" id="v8Brands"></div>
+      <div style="display:flex;gap:8px;margin-top:8px"><input type="search" id="v8MQ" placeholder="Buscar referencia (ej: 17 Pro, A56, Redmi Note 14)…" oninput="v8DrawModels()" style="flex:1">
+        <button class="btn sm" onclick="v8AddModel()">➕ Agregar referencia</button></div>
+      <div class="v8-models" id="v8Models"></div>
+      <div class="tiny muted">Seleccionadas: <b id="v8SelN">0</b> — toca una para quitarla</div><div class="v8-selbar" id="v8SelBar"></div></div>
+
+    <div class="v8-sec"><h4>🎨 Colores y fotos adicionales <label style="margin-left:auto;font-weight:600;font-size:.8rem"><input type="checkbox" id="v8MoreChk" ${v8Colors.length ? 'checked' : ''} onchange="document.getElementById('v8ColWrap').style.display=this.checked?'':'none'" style="width:auto;margin-right:6px">Agregar más fotos (un color por foto)</label></h4>
+      <div id="v8ColWrap" style="${v8Colors.length ? '' : 'display:none'}"><div class="tiny muted" style="margin-bottom:8px">En la tienda web estos productos se muestran como carrusel: el cliente desliza y ve cada color.</div>
+        <div class="v8-colors" id="v8Colors"></div><button class="btn sm" style="margin-top:10px" onclick="v8Colors.push({n:'',img:null});v8DrawColors()">➕ Agregar color</button>
+        <input type="file" id="v8ColFile" accept="image/*" multiple style="display:none" onchange="v8PickColor(this)"></div></div>
+
+    <label class="field"><span>Descripción <span class="hint">(opcional)</span></span><textarea name="desc">${esc(p?.desc || '')}</textarea></label>
+    <style>@media(max-width:720px){#prodRow{grid-template-columns:1fr!important}}</style>`,
+    onSubmit: async f => {
+      if (!f.name?.trim()) return toast('Escribe el nombre del producto', '⚠️');
+      if (!f.price) return toast('Escribe el precio público', '⚠️');
+      const cat = (f.category || '').trim() || 'General';
+      if (!(S.config.categorias || []).includes(cat)) S.config.categorias = [...(S.config.categorias || []), cat];
+      const code = (f.code || '').trim().toUpperCase() || v8RefFromName(f.name, p?.id);
+      if (S.products.some(x => x.id !== p?.id && String(x.code || '').toUpperCase() === code)) return toast('Esa referencia ya existe, cámbiala', '⚠️');
+      const data = { code, name: f.name.trim(), category: cat, supplier: (f.supplier || '').trim(), tipo: f.tipo, sub: (f.tipo === 'vidrio' || f.tipo === 'hidrogel') ? f.sub : '',
+        min: Number(f.min) || 0, cost: f.cost || 0, price: f.price || 0, price2: f.price2 || 0, price3: f.price3 || 0, modelos: [...v8Sel], desc: f.desc || '' };
+      let t;
+      if (p) {
+        ['cost', 'price', 'price2', 'price3'].forEach(k => { if ((p[k] || 0) !== data[k]) S.priceHistory.unshift({ id: uid('ph'), at: nowISO(), productId: p.id, code: p.code, field: k, from: p[k] || 0, to: data[k], who: S.config.user || '' }); });
+        Object.assign(p, data); t = p;
+      } else {
+        const qty = Number(f.stock) || 0;
+        t = { id: uid('pr'), sold: 0, createdAt: nowISO(), stock: qty, lastRestock: f.lastRestock || today(), lots: [], ...data };
+        if (qty > 0) t.lots.push({ id: uid('lt'), at: nowISO(), qty, unit: data.cost, fondo: f.fondo || 'inventario', supplier: data.supplier, note: 'Stock inicial' });
+        S.products.unshift(t); if (qty > 0) kardexLog(t.id, 'entrada', qty, '', 'Stock inicial · ' + (V8_FONDOS[f.fondo]?.t || ''), data.cost);
+        S.config.v8Last = { category: cat, supplier: data.supplier, tipo: data.tipo, sub: data.sub, fondo: f.fondo, min: data.min };
+      }
+      if (v8Main) { await imgSet(t.id, v8Main); t.img = true; }
+      const old = (p?.colores || []).map(c => c.k), keep = [];
+      t.colores = [];
+      for (let i = 0; i < v8Colors.length; i++) { const c = v8Colors[i]; if (!c.img) continue; const k = c.k || (t.id + '__c' + uid('')); if (!c.k || IMG[k] !== c.img) await imgSet(k, c.img); t.colores.push({ n: (c.n || 'Color ' + (i + 1)).trim(), k }); keep.push(k); }
+      old.filter(k => !keep.includes(k)).forEach(k => imgDel(k));
+      save('products', 'config', 'priceHistory', 'kardex'); v8Sync(); closeModal(); render(); toast(p ? 'Producto actualizado' : 'Producto creado', '📦');
+    } });
+  const mb = document.getElementById('modalBody');
+  mb.addEventListener('mny', e => { const n = e.target.name; if (n === 'cost') v8OnCost(); else if (['price', 'price2', 'price3'].includes(n)) v8OnPrice(n); });
+  if (!p) v8AutoRef(); v8DrawBrands(); v8DrawModels(); v8DrawSel(); v8DrawColors();
+}
+function v8SoltarOpciones() { S.config.v8Last = null; save('config'); const m = document.getElementById('modalBody'); ['category', 'supplier'].forEach(n => { const e = m.querySelector(`[name=${n}]`); if (e) e.value = ''; });
+  const t = m.querySelector('[name=tipo]'); if (t) { t.value = 'normal'; v8TipoChange('normal'); } const fo = m.querySelector('[name=fondo]'); if (fo) fo.value = 'inventario'; document.getElementById('v8LastBox')?.remove(); toast('Opciones soltadas', '📌'); }
+function v8SubOpts(tipo, sel) { const L = tipo === 'hidrogel' ? V8_HIDROGEL : V8_VIDRIO; return L.map(x => `<option ${x === sel ? 'selected' : ''}>${x}</option>`).join(''); }
+function v8TipoChange(t) { const w = document.getElementById('v8SubWrap'); if (!w) return; w.style.display = (t === 'vidrio' || t === 'hidrogel') ? '' : 'none'; document.getElementById('v8SubLbl').textContent = t === 'hidrogel' ? 'Tipo de hidrogel' : 'Tipo de vidrio templado'; document.getElementById('v8Sub').innerHTML = v8SubOpts(t, ''); }
+function v8AutoRef(force) { const r = document.getElementById('v8Ref'); if (!r || (r.dataset.manual && !force)) return; const n = document.querySelector('#modalBody [name=name]')?.value || ''; r.value = v8RefFromName(n, null); }
+function v8Val(id) { const e = document.getElementById(id); return e ? numCO(e.value) : 0; }
+function v8SetMny(id, v) { const e = document.getElementById(id); if (e) { e.value = v ? nfmt(v) : ''; e.dataset.v = v; } }
+function v8OnPct(uk, pk) { const c = v8Val('v8Cost'), pct = parseFloat(document.getElementById('v8' + uk).value); if (!c || isNaN(pct)) return; v8SetMny('v8' + pk, v8R100(c * (1 + pct / 100))); }
+function v8OnPrice(pk) { const c = v8Val('v8Cost'), pr = v8Val('v8' + pk), uk = { price: 'util1', price2: 'util2', price3: 'util3' }[pk]; const e = document.getElementById('v8' + uk); if (e && c && pr) e.value = Math.round((pr / c - 1) * 1000) / 10; }
+function v8OnCost() { [['util1', 'price'], ['util2', 'price2'], ['util3', 'price3']].forEach(([uk, pk]) => { const v = document.getElementById('v8' + uk)?.value; if (v !== '' && v !== undefined) v8OnPct(uk, pk); else v8OnPrice(pk); }); }
+async function v8PickMain(inp) { const f = inp.files[0]; if (!f) return; try { v8Main = await shrink(f, 900, .82); document.getElementById('v8MainBox').innerHTML = `<img src="${v8Main}">`; } catch (e) { toast('No se pudo leer la imagen', '⚠️'); } }
+let v8ColIdx = -1;
+async function v8PickColor(inp) {
+  const files = [...inp.files]; if (!files.length) return;
+  for (let i = 0; i < files.length; i++) { const img = await shrink(files[i], 900, .82); if (i === 0 && v8ColIdx >= 0 && v8Colors[v8ColIdx]) v8Colors[v8ColIdx].img = img; else v8Colors.push({ n: files[i].name.replace(/\.[a-z]+$/i, '').replace(/[_-]+/g, ' ').slice(0, 24), img }); }
+  inp.value = ''; v8DrawColors();
+}
+function v8DrawColors() {
+  const w = document.getElementById('v8Colors'); if (!w) return;
+  w.innerHTML = v8Colors.map((c, i) => `<div class="v8-color"><div class="th" onclick="v8ColIdx=${i};document.getElementById('v8ColFile').click()">${c.img ? `<img src="${c.img}">` : '<span style="font-size:26px">📷</span>'}</div>
+    <input type="text" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value"><button class="btn sm danger" style="margin-top:6px;width:100%" onclick="v8Colors.splice(${i},1);v8DrawColors()">Quitar</button></div>`).join('')
+    + `<div class="v8-color" style="display:grid;place-items:center;cursor:pointer;min-height:150px" onclick="v8ColIdx=-1;document.getElementById('v8ColFile').click()"><div><div style="font-size:28px">➕</div><div class="tiny"><b>Subir varias fotos</b><br>una por color</div></div></div>`;
+}
+function v8DrawBrands() { const w = document.getElementById('v8Brands'); if (!w) return;
+  w.innerHTML = v8Marcas().map(m => { const n = v8ModelosDe(m).filter(x => v8Sel.has(x)).length; return `<button class="${m === v8Marca ? 'on' : ''}" onclick="v8Marca=${esc(JSON.stringify(m))};v8DrawBrands();v8DrawModels()">${esc(m)}${n ? `<span class="c">${n}</span>` : ''}</button>`; }).join(''); }
+function v8DrawModels() { const w = document.getElementById('v8Models'); if (!w) return; const q = v8Norm(document.getElementById('v8MQ')?.value || '');
+  const L = q ? v8Marcas().flatMap(m => v8ModelosDe(m)).filter(x => v8Norm(x).includes(q)) : v8ModelosDe(v8Marca);
+  w.innerHTML = L.length ? L.map(x => `<button class="${v8Sel.has(x) ? 'on' : ''}" onclick='v8ToggleModel(${JSON.stringify(x).replace(/'/g, "&#39;")})'>${esc(x)}</button>`).join('') : '<span class="tiny muted">Sin resultados. Usa “Agregar referencia”.</span>'; }
+function v8ToggleModel(x) { v8Sel.has(x) ? v8Sel.delete(x) : v8Sel.add(x); v8DrawModels(); v8DrawBrands(); v8DrawSel(); }
+function v8DrawSel() { const b = document.getElementById('v8SelBar'), n = document.getElementById('v8SelN'); if (!b) return; n.textContent = v8Sel.size;
+  b.innerHTML = [...v8Sel].map(x => `<span onclick='v8ToggleModel(${JSON.stringify(x).replace(/'/g, "&#39;")})'>${esc(x)} ✕</span>`).join(''); }
+function v8AddModel() { const v = prompt('Nueva referencia para ' + v8Marca + ' (ej: Galaxy A58):'); if (!v || !v.trim()) return; S.config.modelosExtra = S.config.modelosExtra || {};
+  const L = S.config.modelosExtra[v8Marca] = S.config.modelosExtra[v8Marca] || []; if (!L.includes(v.trim())) L.unshift(v.trim()); save('config'); v8Sel.add(v.trim()); v8DrawModels(); v8DrawBrands(); v8DrawSel(); }
+
+/* ---------- Entrada de stock con costo promedio ponderado ---------- */
+function recargarStock(id) {
+  const p = S.products.find(x => x.id === id); if (!p) return; v8Ensure(p);
+  const provs = [...new Set(['BODEGA RF IMPORTACIONES', ...S.clients.filter(c => c.tipos?.includes('proveedor')).map(c => c.name), ...S.products.map(x => x.supplier).filter(Boolean)])];
+  modal({ title: 'Entrada de stock · ' + p.name, em: '📥', ok: 'Registrar entrada',
+    body: `<div class="alertbox b"><span class="em">📦</span><div>Existencia actual: <b>${nfmt(p.stock)}</b> u · costo promedio actual: <b>${money(p.cost)}</b></div></div>
+      <div class="row c3" style="margin-top:14px"><label class="field"><span>Unidades que entran</span><input type="number" name="qty" id="v8Eq" value="1" min="1" oninput="v8EntPrev(${p.stock},${p.cost || 0})"></label>
+        <label class="field"><span>Costo unitario de esta compra</span>${mnyInput('cost', p.cost || 0, 'id="v8Ec"')}</label>
+        <label class="field"><span>¿Con qué dinero se compró?</span><select name="fondo">${Object.entries(V8_FONDOS).map(([k, f]) => `<option value="${k}">${f.e} ${f.t}</option>`).join('')}</select></label></div>
+      <div class="row c3"><label class="field"><span>Proveedor</span><input type="text" name="supplier" list="v8dlProv2" value="${esc(p.supplier || '')}"></label><datalist id="v8dlProv2">${provs.map(c => `<option value="${esc(c)}">`).join('')}</datalist>
+        <label class="field"><span>Factura / referencia</span><input type="text" name="ref"></label>
+        <label class="field"><span>Fecha</span><input type="date" name="date" value="${today()}"></label></div>
+      <div id="v8EPrev" class="alertbox g" style="margin-top:4px"></div>
+      <label class="field" style="margin-top:10px"><span><input type="checkbox" name="repricing" checked style="width:auto;margin-right:7px">Actualizar precios con el nuevo costo promedio manteniendo los % de utilidad</span></label>
+      <label class="field"><span><input type="checkbox" name="asPurchase" checked style="width:auto;margin-right:7px">Registrar como compra al proveedor (para informes por proveedor)</span></label>`,
+    onSubmit: f => {
+      const q = Number(f.qty) || 0, uc = f.cost || 0; if (q <= 0) return toast('Unidades inválidas', '⚠️');
+      const prevStock = Math.max(0, Number(p.stock) || 0), prevCost = p.cost || 0;
+      const newCost = prevStock + q > 0 ? Math.round((prevStock * prevCost + q * uc) / (prevStock + q)) : uc;
+      const pct = k => prevCost && p[k] ? p[k] / prevCost - 1 : null;
+      const pcts = { price: pct('price'), price2: pct('price2'), price3: pct('price3') };
+      p.lots.push({ id: uid('lt'), at: (f.date || today()) + 'T' + new Date().toTimeString().slice(0, 8), qty: q, unit: uc, fondo: f.fondo, supplier: f.supplier || '', ref: f.ref || '', prevCost, newCost });
+      p.stock = prevStock + q; p.cost = newCost; p.supplier = f.supplier || p.supplier; p.lastRestock = f.date || today(); if (p.agotado) p.agotado = false;
+      if (f.repricing) Object.entries(pcts).forEach(([k, r]) => { if (r !== null) p[k] = v8R100(newCost * (1 + r)); });
+      kardexLog(p.id, f.asPurchase ? 'compra' : 'entrada', q, f.ref, `Entrada · ${V8_FONDOS[f.fondo].t}${f.supplier ? ' · ' + f.supplier : ''} · costo ${money(uc)} → promedio ${money(newCost)}`, uc);
+      if (f.asPurchase) { const sup = f.supplier ? ensureClient(f.supplier) : null; if (sup) sup.tipos = [...new Set([...(sup.tipos || []), 'proveedor'])];
+        S.purchases.unshift({ id: uid('co'), code: consec('CO'), date: f.date || today(), at: nowISO(), supplierId: sup?.id, supplierName: f.supplier || 'Sin proveedor', ref: f.ref, fondo: f.fondo,
+          items: [{ productId: p.id, code: p.code, name: p.name, qty: q, cost: uc, iva: 0 }], total: q * uc, paid: q * uc, status: 'pagada' }); }
+      save('products', 'kardex', 'purchases', 'clients'); v8Sync(); closeModal(); render(); toast('Entrada registrada · costo promedio ' + money(newCost), '📥');
+    } });
+  document.getElementById('modalBody').addEventListener('mny', () => v8EntPrev(p.stock, p.cost || 0)); v8EntPrev(p.stock, p.cost || 0);
+}
+function v8EntPrev(stock, cost) {
+  const b = document.getElementById('v8EPrev'); if (!b) return; const q = Number(document.getElementById('v8Eq')?.value) || 0, uc = v8Val('v8Ec'); stock = Math.max(0, stock);
+  const nc = stock + q > 0 ? Math.round((stock * cost + q * uc) / (stock + q)) : uc; const d = cost ? (uc / cost - 1) * 100 : 0;
+  b.innerHTML = `<span class="em">🧮</span><div>Esta compra es ${!cost ? 'la primera con costo' : Math.abs(d) < .5 ? '<b>al mismo costo</b>' : d > 0 ? `<span class="v8-up">${d.toFixed(1)}% más cara</span>` : `<span class="v8-down">${Math.abs(d).toFixed(1)}% más barata</span>`}.
+    Nuevo costo promedio ponderado: <b>${money(nc)}</b> = (${nfmt(stock)} × ${money(cost)} + ${nfmt(q)} × ${money(uc)}) ÷ ${nfmt(stock + q)}</div>`;
+}
+
+/* ---------- Ficha completa del producto ---------- */
+function verProducto(id) {
+  const p = S.products.find(x => x.id === id); if (!p) return; const A = v8Alloc(p), s = v8Status(p), S2 = V8_ST[s];
+  const imgs = [v8Img(p) ? { n: 'Principal', src: IMG[p.id] || p.imgUrl } : null, ...(p.colores || []).map(c => ({ n: c.n, src: IMG[c.k] }))].filter(x => x && x.src);
+  const util = k => p.cost && p[k] ? ((p[k] / p.cost - 1) * 100).toFixed(1) + '%' : '—';
+  const lotsSorted = [...A.lots].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+  modal({ title: p.name, em: '📦', wide: true, footer: `<button class="btn" onclick="closeModal()">Cerrar</button>`,
+    body: `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span class="tag ${S2.c === 'r' ? 'r' : S2.c === 'o' ? 'y' : 'g'}">${S2.e} ${S2.t}</span>${p.webHidden ? '<span class="tag">🙈 Oculto en la web</span>' : '<span class="tag b">🌐 Visible en la web</span>'}<span class="tag">${V8_TIPOS[p.tipo || 'normal']}</span>${p.sub ? `<span class="tag p">${esc(p.sub)}</span>` : ''}</div>
+      <div class="row" style="grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px">
+        <div>${imgs.length ? `<div class="v8-gal">${imgs.map(i => `<figure><img src="${i.src}"><figcaption>${esc(i.n)}</figcaption></figure>`).join('')}</div>` : '<div class="v8-img" style="border-radius:14px;border:1px solid var(--line,#eef2f6)"><span class="ph">📦</span></div>'}</div>
+        <div><table style="width:100%"><tbody>
+          <tr><td class="muted">Referencia</td><td><b>${esc(p.code)}</b></td></tr><tr><td class="muted">Categoría</td><td>${esc(p.category || '—')}</td></tr>
+          <tr><td class="muted">Proveedor</td><td>${esc(p.supplier || '—')}</td></tr><tr><td class="muted">Stock</td><td><b>${nfmt(p.stock)}</b> u (mínimo ${nfmt(p.min || 0)})</td></tr>
+          <tr><td class="muted">Costo promedio</td><td><b>${money(p.cost)}</b></td></tr>
+          <tr><td class="muted">${esc(pLabel('p1'))}</td><td><b>${money(p.price)}</b> · utilidad ${util('price')}</td></tr>
+          <tr><td class="muted">${esc(pLabel('p2'))}</td><td><b>${money(p.price2)}</b> · utilidad ${util('price2')}</td></tr>
+          <tr><td class="muted">${esc(pLabel('p3'))}</td><td><b>${money(p.price3)}</b> · utilidad ${util('price3')}</td></tr>
+          <tr><td class="muted">Valor del stock</td><td>${money((p.stock || 0) * (p.cost || 0))} a costo · ${money((p.stock || 0) * (p.price || 0))} a precio público</td></tr>
+          <tr><td class="muted">Vendidas</td><td>${nfmt(p.sold || 0)} u</td></tr></tbody></table></div></div>
+      <div class="v8-sec"><h4>💰 ¿Con qué dinero está comprado el stock actual?</h4><div class="v8-fondos">
+        ${Object.entries(V8_FONDOS).map(([k, f]) => `<div class="f ${f.c}"><small>${f.e} ${f.t}</small><b>${nfmt(A.by[k] || 0)} u</b><small>${money(A.lots.filter(l => l.fondo === k).reduce((a, l) => a + l.rem * (l.unit || 0), 0))} a costo de compra</small></div>`).join('')}
+        ${A.sinOrigen ? `<div class="f"><small>❔ Sin origen registrado</small><b>${nfmt(A.sinOrigen)} u</b><small>ajustes manuales</small></div>` : ''}</div>
+        <div class="tiny muted" style="margin-top:8px">Las ventas descuentan primero las unidades más antiguas (método PEPS / FIFO).</div></div>
+      <div class="v8-sec"><h4>🧾 Entradas de stock</h4><div class="tbl-wrap"><table style="width:100%"><thead><tr><th>Fecha</th><th>Unidades</th><th>Quedan</th><th>Costo unit.</th><th>Variación</th><th>Origen</th><th>Proveedor</th></tr></thead><tbody>
+        ${lotsSorted.length ? lotsSorted.map((l, i) => { const prev = lotsSorted[i + 1]; const d = prev && prev.unit ? (l.unit / prev.unit - 1) * 100 : null;
+          return `<tr><td>${dmy(String(l.at).slice(0, 10))}</td><td>${nfmt(l.qty)}</td><td>${nfmt(l.rem)}</td><td>${money(l.unit)}</td><td>${d === null ? '—' : Math.abs(d) < .5 ? 'igual' : d > 0 ? `<span class="v8-up">▲ ${d.toFixed(1)}%</span>` : `<span class="v8-down">▼ ${Math.abs(d).toFixed(1)}%</span>`}</td><td>${V8_FONDOS[l.fondo]?.e || ''} ${V8_FONDOS[l.fondo]?.t || '—'}</td><td>${esc(l.supplier || '—')}</td></tr>`; }).join('') : '<tr><td colspan="7" class="muted">Sin entradas registradas</td></tr>'}
+        </tbody></table></div></div>
+      ${p.modelos?.length ? `<div class="v8-sec"><h4>📱 Referencias compatibles (${p.modelos.length})</h4><div class="v8-selbar">${p.modelos.map(m => `<span style="cursor:default">${esc(m)}</span>`).join('')}</div></div>` : ''}
+      ${p.desc ? `<div class="v8-sec"><h4>📝 Descripción</h4><div>${esc(p.desc)}</div></div>` : ''}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn" onclick="closeModal();editarProducto('${p.id}')">✏️ Editar</button>
+        <button class="btn" onclick="closeModal();recargarStock('${p.id}')">📥 Entrada de stock</button>
+        <button class="btn" onclick="closeModal();v8ToggleWeb('${p.id}')">${p.webHidden ? '🌐 Mostrar en la web' : '🙈 Ocultar en la web'}</button>
+        <button class="btn" onclick="closeModal();v8ToggleAgotado('${p.id}')">${p.agotado ? '♻️ Quitar agotado' : '⛔ Marcar como agotado'}</button>
+        <button class="btn danger" onclick="closeModal();v8Borrar('${p.id}')">🗑️ Eliminar producto</button></div>` });
+}
+(function () { try { S.products.forEach(v8Ensure); v8Sync(); } catch (e) { } })();
 
 </script>
 </body>
