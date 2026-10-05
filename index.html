@@ -3578,7 +3578,7 @@ function renderBrands(){
   el.innerHTML=one+one;
 }
 function init(){
-  try{const s=localStorage.getItem(LS.theme);var tv=localStorage.getItem('ep_theme_v');if(tv!=='glass2026'){s='light';try{localStorage.setItem(LS.theme,'light');localStorage.setItem('ep_theme_v','glass2026')}catch(e){}}if(s)document.documentElement.setAttribute('data-theme',s)}catch(e){}
+  try{let s=localStorage.getItem(LS.theme);var tv=localStorage.getItem('ep_theme_v');if(tv!=='glass2026'){s='light';try{localStorage.setItem(LS.theme,'light');localStorage.setItem('ep_theme_v','glass2026')}catch(e){}}if(s)document.documentElement.setAttribute('data-theme',s)}catch(e){}
   $('#year').textContent=new Date().getFullYear();
   renderChips();renderMarquee();renderSkeleton();
   $('#searchTop').addEventListener('input',e=>onSearch(e.target.value));
