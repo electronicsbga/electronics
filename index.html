@@ -109,7 +109,7 @@ p{margin:0}a{color:inherit}
 .appbar{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .appbar .wrap{display:flex;align-items:center;gap:var(--s4);height:66px}
 .logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;flex:0 0 auto}
-.logo .mark{width:40px;height:40px}
+.logo .mark{border-radius:50% !important;overflow:hidden;width:40px;height:40px}
 .logo b{color:var(--ink-900);font-weight:800;letter-spacing:-.02em;font-size:1.02rem;line-height:1}
 .logo small{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-600);font-weight:700;margin-top:3px}
 .appbar-search{flex:1;max-width:460px;position:relative;display:none}
@@ -141,7 +141,7 @@ p{margin:0}a{color:inherit}
 .hero-trust{display:flex;gap:var(--s5);flex-wrap:wrap;margin-top:var(--s8)}
 .hero-trust .t{display:flex;align-items:center;gap:10px;font-size:.9rem;color:#d5e6f2}
 .hero-trust .t svg{width:22px;height:22px;color:var(--brand-500);flex:0 0 22px}
-.logo-img{display:block;width:100%;height:100%;background:var(--logo) center/contain no-repeat;border-radius:12px;overflow:hidden}
+.logo-img{display:block;width:100%;height:100%;background:var(--logo) center/contain no-repeat;border-radius:50%;overflow:hidden}
 i.sig-star.logo-img{width:min(64%,230px);height:min(64%,230px)}
 .signature{position:relative;display:grid;place-items:center;min-height:360px;padding:0 8px}
 .sig-halo{position:absolute;width:300px;height:300px;border-radius:50%;background:conic-gradient(from 0deg,#1A57E0,#38BDF8,#5B4BE1,#19C1D6,#E8622A,#1A57E0);filter:blur(58px);opacity:.8;animation:spin 16s linear infinite;pointer-events:none}
@@ -488,7 +488,7 @@ i.sig-star.logo-img{width:min(64%,230px);height:min(64%,230px)}
 .login-screen{min-height:100dvh;display:grid;place-items:center;padding:var(--s6);
   background:radial-gradient(circle at 15% 0%,rgba(43,184,230,.14),transparent 45%),linear-gradient(135deg,var(--navy-900),var(--navy-700))}
 .login-card{background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--e3);padding:var(--s8) var(--s6);width:100%;max-width:400px}
-.login-card .mark{width:56px;height:56px;margin:0 auto var(--s4);display:block}
+.login-card .mark{border-radius:50% !important;overflow:hidden;width:56px;height:56px;margin:0 auto var(--s4);display:block}
 .login-card h2{text-align:center;font-size:1.4rem}
 .login-card .sub{text-align:center;color:var(--ink-500);font-size:.9rem;margin:6px 0 var(--s6)}
 .login-card .form{display:flex;flex-direction:column;gap:var(--s4)}
@@ -663,7 +663,7 @@ i.sig-star.logo-img{width:min(64%,230px);height:min(64%,230px)}
   .appbar{background:var(--surface)}
   .navrow{background:var(--surface);overflow:hidden}
   .appbar .wrap{height:58px;gap:10px;padding-left:14px;padding-right:14px}
-  .logo .mark{width:34px;height:34px}
+  .logo .mark{border-radius:50% !important;overflow:hidden;width:34px;height:34px}
   .logo b{font-size:.9rem}
   .logo small{font-size:9px;letter-spacing:.08em}
   .appbar-actions{gap:6px}
@@ -4830,6 +4830,14 @@ PRODUCTS.push(...CATALOG_V12);
         if(!hdr.querySelector('.cat-overlay')){var ov=document.createElement('div');ov.className='cat-overlay';ov.style.cssText='position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,33,53,.2),rgba(14,33,53,.7));border-radius:inherit;pointer-events:none';hdr.style.position='relative';hdr.insertBefore(ov,hdr.firstChild);hdr.querySelectorAll('*:not(.cat-overlay)').forEach(function(e){e.style.position='relative';e.style.zIndex='1'})}}
     }catch(e){}};
 })();
+
+// Auto-clear low-quality hero from old localStorage
+(function(){try{var s=JSON.parse(localStorage.getItem('ep_site')||'{}');
+if(s.heroDesktop&&s.heroDesktop.length&&s.heroDesktop[0].length<5000){
+  delete s.heroDesktop;delete s.heroMobile;
+  localStorage.setItem('ep_site',JSON.stringify(s));
+  if(typeof hcRender==='function')hcRender();
+}}catch(e){}})();
 </script>
 <div class="promo-ov" id="promoOv" hidden onclick="if(event.target===this)closePromo()">
   <div class="promo-card" role="dialog" aria-modal="true" aria-label="Promoción">
