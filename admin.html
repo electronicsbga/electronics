@@ -628,7 +628,7 @@ async function initStore() {
   if (!S.config.tarifas?.length) S.config.tarifas = DEFAULTS.config.tarifas.map(t => ({ ...t }));
   if (!S.config.cajas?.length) S.config.cajas = DEFAULTS.config.cajas.map(t => ({ ...t }));
   S.config.users = S.config.users || [];
-  // Usuarios base de Electronics Parts (gerencia, cajera, asesor) — se garantizan una vez
+  // Usuarios base de Electronics BGA (gerencia, cajera, asesor) — se garantizan una vez
   try{
     if(localStorage.getItem('ep_users_v')!=='v1'){
       DEFAULTS.config.users.forEach(function(du){
@@ -641,7 +641,7 @@ async function initStore() {
   S.config.comisiones = S.config.comisiones || {};
   /* Migración única: marca Electronics BGA + vendedores */
   try {
-    if (!S.config.biz || S.config.biz === 'Electronics Parts') S.config.biz = 'Electronics BGA';
+    if (!S.config.biz || S.config.biz === 'Electronics BGA') S.config.biz = 'Electronics BGA';
     if (localStorage.getItem('ep_brand_v') !== 'bga1') {
       const base = ['EDNA', 'DAYANA', 'ORIANA', 'FABIO', 'YENIFFER'];
       let cur = (S.config.responsables || []).filter(r => r && r !== 'TIENDA #1 ELECTROFUTURO' && r !== 'Tienda 1 Electrofuturo');
@@ -4300,7 +4300,7 @@ setTimeout(hideSplash, 5000);
 <script src="assets/js/admin-cobros.js?v=16"></script>
 <script src="assets/js/admin-init.js?v=16"></script>
 <script>
-/* ================= ADMIN V4 · Mejoras Electronics Parts ================= */
+/* ================= ADMIN V4 · Mejoras Electronics BGA ================= */
 
 /* --- 1. Anular facturas: solo gerencia --- */
 const _anularFactura = typeof anularFactura === 'function' ? anularFactura : null;
