@@ -2274,6 +2274,25 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
 #contacto .ct-gal .gcard:nth-child(even){transform:rotate(1.5deg) translateY(8px)}
 #contacto .ct-gal .gcard:hover{transform:translateY(-10px) scale(1.04) !important}
 @media(max-width:600px){#contacto .ct-gal{padding:34px 0 44px !important}#contacto .ct-gal .gcard{flex:0 0 160px !important}}
+/* --- V13 · Barra de marca fluida (GPU, sin repintar el degradado) --- */
+.big-word-track{gap:0 !important;animation:bwRun13 42s linear infinite !important;will-change:transform;transform:translate3d(0,0,0);backface-visibility:hidden}
+.big-word-track span{padding-right:clamp(28px,3.4vw,52px)}
+.big-word-track span:nth-child(even){animation:none !important;background-size:100% 100% !important}
+@keyframes bwRun13{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@media(max-width:600px){.big-word-track{animation-duration:30s !important}}
+@media(prefers-reduced-motion:reduce){.big-word-track{animation:none !important}}
+/* --- V13 · Selector de color y referencia --- */
+.v13-box{margin:12px 0 6px;padding:12px;border:1px solid #DCE6EF;border-radius:14px;background:#F7FAFC}
+.v13-l{font-size:.8rem;font-weight:700;color:#1A3A5C;margin-bottom:7px;display:flex;justify-content:space-between;gap:8px}
+.v13-l em{font-style:normal;color:#D62F2F;font-weight:700}
+.v13-sel{width:100%;height:44px;border:1.5px solid #DCE6EF;border-radius:12px;padding:0 12px;font:inherit;font-size:.9rem;background:#fff;color:#0E2135}
+.v13-sel.bad,.v13-sw.bad{border-color:#D62F2F !important;box-shadow:0 0 0 3px rgba(214,47,47,.15)}
+.v11-sw button.off{position:relative;opacity:.4;cursor:not-allowed;filter:grayscale(1)}
+.v11-sw button.off::after{content:'Agotado';position:absolute;left:-2px;right:-2px;bottom:-14px;font-size:.55rem;font-weight:800;color:#D62F2F;text-align:center}
+.v11-sw{padding-bottom:12px}
+.v13-add{display:block !important;width:100% !important;height:48px !important;min-height:48px !important;padding:0 16px !important;border:0 !important;border-radius:14px !important;background:#1A3A5C !important;color:#fff !important;font:inherit;font-weight:800 !important;font-size:.95rem !important;line-height:48px !important;cursor:pointer;margin:12px 0 8px !important;flex:0 0 auto !important}
+.v13-add:hover{background:#0E2135}
+.citem-info .v13-var{display:block;font-size:.72rem;color:#5B6E82;margin:2px 0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -2316,7 +2335,7 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
       </div>
   </div>
 </header>
-<div class="big-word" aria-hidden="true"><div class="big-word-track"><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span></div></div>
+<div class="big-word" aria-hidden="true"><div class="big-word-track"><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span><span>ELECTRONICS BGA</span></div></div>
 <div class="view active" id="view-inicio">
 <section class="hero" id="inicio">
   <div class="hero-bg" id="heroCarousel">
@@ -3440,7 +3459,7 @@ function confirmOrder(){
   let msg='*NUEVO PEDIDO - Electronics Parts*\n\n*Cliente:* '+name+'\n*WhatsApp:* '+phone+'\n*Ciudad:* '+city+'\n';
   if(addr)msg+='*Direccion/Nota:* '+addr+'\n';
   msg+='*Pago:* '+pay+'\n\n*Productos:*\n';
-  cart.forEach(l=>{const p=PRODUCTS.find(x=>x.id===l.id);if(!p)return;msg+='- '+l.qty+' x '+p.name+(l.color?' ('+l.color+')':'')+' - '+fmt((p.offer||p.price)*l.qty)+'\n'});
+  cart.forEach(l=>{const p=PRODUCTS.find(x=>x.id===l.id);if(!p)return;msg+='- '+l.qty+' x '+p.name+(l.color?' · Color: '+l.color:'')+(l.ref?' · Ref: '+l.ref:'')+' - '+fmt((p.offer||p.price)*l.qty)+'\n'});
   msg+='\n*TOTAL: '+fmt(total)+'*\n\n_Enviado desde el catalogo web_';
   const url='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
   $('#waFallback').href=url;window.open(url,'_blank');showView('viewSuccess');cart=[];saveCart();updateCartUI();
@@ -4622,7 +4641,7 @@ function v11Car(p,big){
 }
 function v11Go(btn,d){const t=btn.parentNode.querySelector('.v11-track');t.scrollBy({left:d*t.clientWidth,behavior:'smooth'})}
 function v11Dots(t){const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));t.parentNode.querySelectorAll('.v11-dots i').forEach(function(d,k){d.classList.toggle('on',k===i)});
-  const car=t.parentNode;if(car.classList.contains('big')){const id=+car.dataset.id,p=PRODUCTS.find(function(x){return x.id===id});if(p&&p.colors[i]){window.__v11Sel[id]=p.colors[i].n;document.querySelectorAll('.v11-sw button').forEach(function(b,k){b.classList.toggle('on',k===i)});const l=document.getElementById('v11SelLbl');if(l)l.textContent=p.colors[i].n}}}
+  const car=t.parentNode;if(car.classList.contains('big')){const id=+car.dataset.id,p=PRODUCTS.find(function(x){return x.id===id});if(p&&p.colors[i]){const c=p.colors[i],l=document.getElementById('v11SelLbl');if(c.off){if(l)l.innerHTML=esc(c.n)+' <em>— agotado</em>';return}window.__v11Sel[id]=c.n;if(window.v13State)v13State(id).c=c.n;document.querySelectorAll('.v11-sw button').forEach(function(b,k){b.classList.toggle('on',k===i)});if(l)l.textContent=c.n;const s=document.querySelector('.v11-sw');if(s)s.classList.remove('bad')}}}
 function v11Enhance(){
   document.querySelectorAll('.card-media[onclick*="openModal("],.feat-card').forEach(function(m){
     if(m.dataset.v11)return;const mm=(m.getAttribute('onclick')||'').match(/openModal\((\d+)\)/);if(!mm)return;
@@ -4636,7 +4655,7 @@ setTimeout(v11Enhance,300);
 (function(){const _om=openModal;openModal=function(id){_om(id);const p=PRODUCTS.find(function(x){return x.id===id});if(!p||!p.colors||p.colors.length<2)return;
   const mm=document.getElementById('modalMedia');const close=mm.querySelector('.modal-close');mm.innerHTML='';if(close)mm.appendChild(close);mm.insertAdjacentHTML('beforeend',v11Car(p,true));
   mm.onmousemove=null;mm.onmouseleave=null;mm.ontouchstart=null;mm.ontouchmove=null;mm.ontouchend=null;
-  window.__v11Sel[id]=window.__v11Sel[id]||p.colors[0].n;
+  window.__v11Sel[id]=window.__v11Sel[id]||'';
   const info=document.getElementById('modalInfo');const pr=info.querySelector('.card-price');
   const sw='<div class="v11-pick"><div class="v11-pl">Color elegido: <b id="v11SelLbl">'+esc(window.__v11Sel[id])+'</b></div><div class="v11-sw">'+p.colors.map(function(c,i){return '<button class="'+(c.n===window.__v11Sel[id]?'on':'')+'" onclick="v11Pick('+id+','+i+')" aria-label="'+esc(c.n)+'"><img src="'+c.img+'" alt=""></button>'}).join('')+'</div></div>';
   if(pr)pr.insertAdjacentHTML('afterend',sw);
@@ -4684,12 +4703,71 @@ const SUPA={url:'__SUPA_URL__',key:'__SUPA_KEY__'};
   fetch(SUPA.url+'/rest/v1/ep_store?path=eq.public%2Fcatalog&select=data',{headers:{apikey:SUPA.key,Authorization:'Bearer '+SUPA.key}})
    .then(function(r){return r.ok?r.json():[]}).then(function(rows){
     const items=rows&&rows[0]&&rows[0].data&&rows[0].data.items;if(!items)return;
-    PRODUCTS.forEach(function(p){const a=items[String(p.sku||'').toUpperCase()];if(!a)return;
-      p.hidden=!!a.hidden;if(a.agotado)p.stock=0;if(a.price>0)p.price=a.price;if(a.name)p.name=a.name;});
+    v13Apply(items);
     ['renderChips','renderLineas','renderGrid','renderFeat'].forEach(function(f){if(typeof window[f]==='function')try{window[f]()}catch(e){}});
     if(typeof catPageId!=='undefined'&&catPageId&&typeof renderCatPage==='function')renderCatPage();
   }).catch(function(){});
 })();
+
+/* ===== V13 · Variantes: color y referencia de celular (disponibilidad desde el admin) ===== */
+function v13Needs(p){return !!p&&(((p.colors||[]).length>1)||((p.refs||[]).length>0))}
+function v13Key(id,c,r){return id+'::'+(c||'')+'::'+(r||'')}
+window.__v13={};
+function v13State(id){return window.__v13[id]=window.__v13[id]||{c:'',r:''}}
+/* Datos del admin en este mismo navegador (sin nube) */
+function v13Local(){try{const d=JSON.parse(localStorage.getItem('ep_web_inv')||'null');if(d&&d.items){v13Apply(d.items);['renderGrid','renderFeat'].forEach(function(f){if(typeof window[f]==='function')try{window[f]()}catch(e){}});if(typeof catPageId!=='undefined'&&catPageId&&typeof renderCatPage==='function')renderCatPage()}}catch(e){}}
+v13Local();setTimeout(v13Local,0);setTimeout(v13Local,700);window.addEventListener('load',v13Local);
+window.addEventListener('storage',function(e){if(e.key==='ep_web_inv')v13Local()});
+function v13Apply(items){
+  PRODUCTS.forEach(function(p){const a=items[String(p.sku||'').toUpperCase()];if(!a)return;
+    p.hidden=!!a.hidden;if(a.agotado)p.stock=0;if(a.price>0)p.price=a.price;if(a.name)p.name=a.name;
+    const cs=(a.colores||[]).filter(function(c){return c.url});if(cs.length){p.colors=cs.map(function(c){return{n:c.n,img:c.url,off:!!c.off}});p.img=cs[0].url}
+    else if((a.colores||[]).length&&p.colors){(a.colores||[]).forEach(function(c,i){if(p.colors[i]){p.colors[i].n=c.n||p.colors[i].n;p.colors[i].off=!!c.off}})}
+    p.refs=(a.refs||[]).slice();
+  });
+}
+/* Tarjetas: si tiene variantes, Agregar/Comprar abren el selector */
+addToCart=function(id){const p=PRODUCTS.find(function(x){return x.id===id});if(!p||p.stock<=0)return;
+  if(v13Needs(p)){openModal(id);setTimeout(function(){toast('Elige '+(((p.colors||[]).length>1)?'el color':'')+(((p.colors||[]).length>1)&&(p.refs||[]).length?' y ':'')+((p.refs||[]).length?'la referencia de tu celular':''),true)},150);return}
+  v13Push(p,'','');};
+buyNow=function(id){const p=PRODUCTS.find(function(x){return x.id===id});if(v13Needs(p)){openModal(id);return}addToCart(id);setTimeout(function(){if(typeof openCart==='function')openCart()},120)};
+function v13Push(p,c,r){const k=v13Key(p.id,c,r);const l=cart.find(function(x){return (x.k||v13Key(x.id,x.color,x.ref))===k});
+  const tot=cart.filter(function(x){return x.id===p.id}).reduce(function(a,x){return a+x.qty},0);
+  if(tot>=p.stock){toast('No hay más stock disponible',true);return false}
+  if(l)l.qty++;else cart.push({id:p.id,qty:1,color:c||'',ref:r||'',k:k});
+  saveCart();updateCartUI();toast(p.name+(c?' · '+c:'')+(r?' · '+r:'')+' agregado',false,true);return true}
+changeQty=function(key,d){key=String(key);const l=cart.find(function(x){return (x.k||String(x.id))===key});if(!l)return;const p=PRODUCTS.find(function(x){return x.id===l.id});if(!p)return;
+  l.qty+=d;if(l.qty<=0)cart=cart.filter(function(x){return x!==l});else{const tot=cart.filter(function(x){return x.id===p.id}).reduce(function(a,x){return a+x.qty},0);if(tot>p.stock){l.qty-=tot-p.stock;toast('Alcanzaste el stock disponible',true)}}
+  saveCart();updateCartUI()};
+removeLine=function(key){key=String(key);cart=cart.filter(function(x){return (x.k||String(x.id))!==key});saveCart();updateCartUI()};
+(function(){const _u=updateCartUI;updateCartUI=function(){_u();const body=document.getElementById('cartBody');if(!body||!cart.length)return;
+  const items=body.querySelectorAll('.citem');cart.forEach(function(l,i){const el=items[i];if(!el)return;const key=(l.k||String(l.id)).replace(/'/g,"\\'");
+    el.querySelectorAll('[onclick]').forEach(function(b){const oc=b.getAttribute('onclick');b.setAttribute('onclick',oc.replace(/changeQty\(\d+,/,"changeQty('"+key+"',").replace(/removeLine\(\d+\)/,"removeLine('"+key+"')"))});
+    if((l.color||l.ref)&&!el.querySelector('.v13-var')){const b=el.querySelector('.citem-info b');if(b)b.insertAdjacentHTML('afterend','<span class="v13-var">'+(l.color?'🎨 '+esc(l.color):'')+(l.color&&l.ref?' · ':'')+(l.ref?'📱 '+esc(l.ref):'')+'</span>')}
+    if(l.color){const p=PRODUCTS.find(function(x){return x.id===l.id});const c=p&&(p.colors||[]).find(function(x){return x.n===l.color});const im=el.querySelector('.citem-media img');if(c&&im)im.src=c.img}
+  });
+};})();
+/* Modal: selector obligatorio de color y referencia */
+(function(){const _om=openModal;openModal=function(id){_om(id);const p=PRODUCTS.find(function(x){return x.id===id});if(!p||!v13Needs(p))return;
+  const st=v13State(id),info=document.getElementById('modalInfo');
+  const cs=p.colors||[];
+  if(cs.length>1){if(st.c&&cs.find(function(c){return c.n===st.c&&c.off}))st.c='';
+    document.querySelectorAll('.v11-sw button').forEach(function(b,i){const c=cs[i];if(!c)return;if(c.off){b.classList.add('off');b.onclick=function(e){e.preventDefault();toast(c.n+' está agotado',true)}}else b.onclick=function(){v13PickC(id,i)};b.classList.toggle('on',c.n===st.c)});
+    const lbl=document.getElementById('v11SelLbl');if(lbl)lbl.innerHTML=st.c?esc(st.c):'<em>elige un color</em>';}
+  let html='';
+  if((p.refs||[]).length){const g={};p.refs.forEach(function(r){(g[r.m||'Otras']=g[r.m||'Otras']||[]).push(r)});const disp=p.refs.filter(function(r){return!r.off}).length;
+    html+='<div class="v13-box"><div class="v13-l"><span>📱 Referencia de tu celular</span><span>'+disp+' disponibles</span></div><select class="v13-sel" id="v13Ref" onchange="v13State('+id+').r=this.value;this.classList.remove(\'bad\')"><option value="">Elige la referencia…</option>'+
+      Object.keys(g).map(function(m){return '<optgroup label="'+esc(m)+'">'+g[m].map(function(r){return '<option value="'+esc(r.n)+'" '+(r.off?'disabled':'')+' '+(st.r===r.n?'selected':'')+'>'+esc(r.n)+(r.off?' — agotado':'')+'</option>'}).join('')+'</optgroup>'}).join('')+'</select></div>';}
+  html+='<button class="v13-add" onclick="v13Add('+id+')">🛒 Agregar al carrito</button>';
+  const sw=info.querySelector('.v11-pick');(sw||info.querySelector('.card-price')).insertAdjacentHTML('afterend',html);
+  info.querySelectorAll('.card-actions .btn-add,.card-actions .btn-buy,.btn-navy').forEach(function(b){b.style.display='none'});
+};})();
+function v13PickC(id,i){const p=PRODUCTS.find(function(x){return x.id===id});const c=p.colors[i];if(!c||c.off)return;v13State(id).c=c.n;v11Pick(id,i);
+  const l=document.getElementById('v11SelLbl');if(l)l.textContent=c.n;document.querySelector('.v11-sw')&&document.querySelector('.v11-sw').classList.remove('bad')}
+function v13Add(id){const p=PRODUCTS.find(function(x){return x.id===id}),st=v13State(id);
+  if((p.colors||[]).length>1&&!st.c){const s=document.querySelector('.v11-sw');if(s)s.classList.add('bad');toast('Elige el color',true);return}
+  if((p.refs||[]).length&&!st.r){const s=document.getElementById('v13Ref');if(s)s.classList.add('bad');toast('Elige la referencia de tu celular',true);return}
+  if(v13Push(p,st.c,st.r))closeModal();}
 </script>
 <div class="promo-ov" id="promoOv" hidden onclick="if(event.target===this)closePromo()">
   <div class="promo-card" role="dialog" aria-modal="true" aria-label="Promoción">

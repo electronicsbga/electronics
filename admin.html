@@ -4927,6 +4927,9 @@ function v8Marcas() { return [...Object.keys(V8_MODELOS), ...Object.keys(S.confi
   .v8-chip.r.on{background:#D62F2F;border-color:#D62F2F}.v8-chip.o.on{background:#E8622A;border-color:#E8622A}.v8-chip.g.on{background:#159A5B;border-color:#159A5B}
   .v8-cats{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:thin}
   .v8-cats .v8-chip,.v8-sem .v8-chip{flex:0 0 auto;white-space:nowrap}
+  .v8-vf{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.v8-vf select,.v8-vf input{height:38px;border:1px solid var(--line,#dfe6ee);border-radius:10px;padding:0 10px;font:inherit;font-size:.82rem;background:var(--card,#fff);color:inherit;flex:1 1 170px}
+  .v8-selbar span.off{background:rgba(214,47,47,.12);color:#D62F2F;text-decoration:line-through}.v8-selbar span b{margin-left:6px;opacity:.7}
+  .v8-color.off{opacity:.55}.v8-color label{display:flex;align-items:center;gap:5px;justify-content:center;font-size:.72rem;font-weight:700;margin-top:6px}
   .v8-search{width:100%;height:42px;border:1px solid var(--line,#dfe6ee);border-radius:12px;padding:0 14px;font:inherit;font-size:.9rem;background:var(--card,#fff);color:inherit}
   .v8-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
   .v8-grid .v8-img{aspect-ratio:1/1}.v8-grid .v8-img img{padding:6px}
@@ -5029,7 +5032,7 @@ function v8Sync() {
     const out = {};
     S.products.forEach(p => {
       out[(p.code || p.id).toUpperCase()] = { id: p.id, name: p.name, cat: p.category, price: p.price || 0, stock: p.agotado ? 0 : (Number(p.stock) || 0),
-        hidden: !!p.webHidden, agotado: !!p.agotado, tipo: p.tipo || 'normal', sub: p.sub || '', modelos: p.modelos || [], colores: (p.colores || []).map(c => ({ n: c.n, k: c.k, url: c.url || '' })), img: p.imgUrl || '' };
+        hidden: !!p.webHidden, agotado: !!p.agotado, tipo: p.tipo || 'normal', sub: p.sub || '', modelos: p.modelos || [], colores: (p.colores || []).map(c => ({ n: c.n, k: c.k, url: c.url || '', off: !!c.off })), refs: (p.modelos || []).map(n => ({ m: v8BrandOf(n), n, off: (p.modelosOff || []).includes(n) })), img: p.imgUrl || '' };
     });
     localStorage.setItem('ep_web_inv', JSON.stringify({ at: nowISO(), items: out }));
   } catch (e) { }
@@ -5049,14 +5052,19 @@ function v8Seed() {
 }
 
 /* ---------- Vista de inventario ---------- */
-let v8F = { q: '', cat: 'all', sem: 'all' };
+let v8F = { q: '', cat: 'all', sem: 'all', marca: '', ref: '', color: '' };
+function v8BrandOf(n) { return v8Marcas().find(m => v8ModelosDe(m).includes(n)) || 'Otras'; }
 VIEWS.inventario = function () {
   const P = S.products.map(v8Ensure);
   const cats = [...new Set([...(S.config.categorias || []), ...P.map(p => p.category).filter(Boolean)])];
   const cnt = { all: P.length, agotado: 0, escaso: 0, ok: 0 }; P.forEach(p => cnt[v8Status(p)]++);
   const q = v8Norm(v8F.q.trim());
   let L = P.filter(p => (v8F.cat === 'all' || p.category === v8F.cat) && (v8F.sem === 'all' || v8Status(p) === v8F.sem) &&
-    (!q || v8Norm(p.name + ' ' + p.code + ' ' + (p.supplier || '') + ' ' + (p.modelos || []).join(' ')).includes(q)));
+    (!q || v8Norm(p.name + ' ' + p.code + ' ' + (p.supplier || '') + ' ' + (p.modelos || []).join(' ')).includes(q)) &&
+    (!v8F.marca || (p.modelos || []).some(m => v8BrandOf(m) === v8F.marca)) && (!v8F.ref || (p.modelos || []).includes(v8F.ref) && !(p.modelosOff || []).includes(v8F.ref)) &&
+    (!v8F.color || (p.colores || []).some(c => !c.off && v8Norm(c.n).includes(v8Norm(v8F.color)))));
+  const marcasUsadas = [...new Set(P.flatMap(p => (p.modelos || []).map(v8BrandOf)))];
+  const refsUsadas = [...new Set(P.flatMap(p => (p.modelos || []).filter(m => !v8F.marca || v8BrandOf(m) === v8F.marca)))];
   const ord = { agotado: 0, escaso: 1, ok: 2 };
   L.sort((a, b) => ord[v8Status(a)] - ord[v8Status(b)] || String(a.name).localeCompare(String(b.name)));
   const vCost = P.reduce((a, p) => a + (Number(p.stock) || 0) * (p.cost || 0), 0), vPrice = P.reduce((a, p) => a + (Number(p.stock) || 0) * (p.price || 0), 0);
@@ -5085,6 +5093,9 @@ VIEWS.inventario = function () {
     <div class="kpis" style="margin-bottom:14px">${kpi('🏷️', 'Referencias', nfmt(P.length), nfmt(units) + ' unidades')}${kpi('💼', 'Inventario a costo', money(vCost), 'costo promedio × stock')}${kpi('💎', 'Inventario a precio público', money(vPrice), 'utilidad potencial ' + money(vPrice - vCost))}${kpi('🚦', 'Requieren atención', nfmt(cnt.agotado + cnt.escaso), cnt.agotado + ' agotados · ' + cnt.escaso + ' por agotarse', cnt.agotado + cnt.escaso ? 'down' : '')}</div>
     <div class="card" style="padding:14px">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div style="flex:1 1 260px"><input id="iq" class="v8-search" type="search" placeholder="🔍 Buscar por nombre, referencia, proveedor o celular…" value="${esc(v8F.q)}" oninput="v8F.q=this.value;render()"></div></div>
+      <div class="v8-vf"><select onchange="v8F.marca=this.value;v8F.ref='';render()"><option value="">📱 Todas las marcas</option>${marcasUsadas.map(m => `<option ${v8F.marca === m ? 'selected' : ''}>${esc(m)}</option>`).join('')}</select>
+        <select onchange="v8F.ref=this.value;render()"><option value="">🔎 Referencia disponible…</option>${refsUsadas.map(m => `<option ${v8F.ref === m ? 'selected' : ''}>${esc(m)}</option>`).join('')}</select>
+        <input type="search" placeholder="🎨 Color disponible" value="${esc(v8F.color)}" onchange="v8F.color=this.value;render()">${v8F.marca || v8F.ref || v8F.color ? `<button class="v8-chip" onclick="v8F.marca='';v8F.ref='';v8F.color='';render()">✕ Limpiar</button>` : ''}</div>
       <div class="v8-sem"><b class="tiny muted" style="align-self:center">Semáforo:</b>${chip('all', 'Todos')}${chip('agotado', '🔴 Agotados', 'r')}${chip('escaso', '🟠 Por agotarse', 'o')}${chip('ok', '🟢 Disponibles', 'g')}</div>
       <div class="v8-cats"><button class="v8-chip ${v8F.cat === 'all' ? 'on' : ''}" onclick="v8F.cat='all';render()">🗂️ Todas</button>${cats.filter(c => P.some(p => p.category === c)).map(c => `<button class="v8-chip ${v8F.cat === c ? 'on' : ''}" onclick="v8F.cat=${esc(JSON.stringify(c))};render()">${esc(c)}<span class="n">${P.filter(p => p.category === c).length}</span></button>`).join('')}</div>
       ${L.length ? `<div class="v8-grid">${L.map(card).join('')}</div>` : `<div class="empty" style="text-align:center;padding:40px 10px"><div style="font-size:40px">📦</div><b>No hay productos con este filtro</b><div class="muted tiny" style="margin-top:6px">Cambia la categoría o el semáforo, o crea un producto nuevo.</div></div>`}
@@ -5100,13 +5111,13 @@ function v8Borrar(id) {
 }
 
 /* ---------- Formulario de producto ---------- */
-let v8Sel = new Set(), v8Marca = 'iPhone', v8Colors = [], v8Main = null;
+let v8Sel = new Set(), v8Off = new Set(), v8Marca = 'iPhone', v8Colors = [], v8Main = null;
 function editarProducto(id) {
   const p = id ? S.products.find(x => x.id === id) : null;
   const last = !p ? (S.config.v8Last || null) : null;
   const val = (k, d) => p ? (p[k] ?? d) : (last && last[k] !== undefined ? last[k] : d);
-  v8Sel = new Set(p?.modelos || []); v8Main = p ? (IMG[p.id] || null) : null;
-  v8Colors = (p?.colores || []).map(c => ({ n: c.n, img: c.url || IMG[c.k] || null, k: c.k, url: c.url }));
+  v8Sel = new Set(p?.modelos || []); v8Off = new Set(p?.modelosOff || []); v8Main = p ? (IMG[p.id] || null) : null;
+  v8Colors = (p?.colores || []).map(c => ({ n: c.n, img: c.url || IMG[c.k] || null, k: c.k, url: c.url, off: !!c.off }));
   v8Marca = (p?.modelos?.[0] && v8Marcas().find(m => v8ModelosDe(m).includes(p.modelos[0]))) || 'iPhone';
   const cats = [...new Set([...(S.config.categorias || []), ...S.products.map(x => x.category).filter(Boolean)])];
   const provs = [...new Set(['BODEGA RF IMPORTACIONES', ...S.clients.filter(c => c.tipos?.includes('proveedor')).map(c => c.name), ...S.products.map(x => x.supplier).filter(Boolean)])];
@@ -5150,7 +5161,7 @@ function editarProducto(id) {
       <div style="display:flex;gap:8px;margin-top:8px"><input type="search" id="v8MQ" placeholder="Buscar referencia (ej: 17 Pro, A56, Redmi Note 14)…" oninput="v8DrawModels()" style="flex:1">
         <button class="btn sm" onclick="v8AddModel()">➕ Agregar referencia</button></div>
       <div class="v8-models" id="v8Models"></div>
-      <div class="tiny muted">Seleccionadas: <b id="v8SelN">0</b> — toca una para quitarla</div><div class="v8-selbar" id="v8SelBar"></div></div>
+      <div class="tiny muted">Seleccionadas: <b id="v8SelN">0</b> — toca una para marcarla ✅ disponible / ⛔ agotada · ✕ para quitarla</div><div class="v8-selbar" id="v8SelBar"></div></div>
 
     <div class="v8-sec"><h4>🎨 Colores y fotos adicionales <label style="margin-left:auto;font-weight:600;font-size:.8rem"><input type="checkbox" id="v8MoreChk" ${v8Colors.length ? 'checked' : ''} onchange="document.getElementById('v8ColWrap').style.display=this.checked?'':'none'" style="width:auto;margin-right:6px">Agregar más fotos (un color por foto)</label></h4>
       <div id="v8ColWrap" style="${v8Colors.length ? '' : 'display:none'}"><div class="tiny muted" style="margin-bottom:8px">En la tienda web estos productos se muestran como carrusel: el cliente desliza y ve cada color.</div>
@@ -5167,7 +5178,7 @@ function editarProducto(id) {
       const code = (f.code || '').trim().toUpperCase() || v8RefFromName(f.name, p?.id);
       if (S.products.some(x => x.id !== p?.id && String(x.code || '').toUpperCase() === code)) return toast('Esa referencia ya existe, cámbiala', '⚠️');
       const data = { code, name: f.name.trim(), category: cat, supplier: (f.supplier || '').trim(), tipo: f.tipo, sub: (f.tipo === 'vidrio' || f.tipo === 'hidrogel') ? f.sub : '',
-        min: Number(f.min) || 0, cost: f.cost || 0, price: f.price || 0, price2: f.price2 || 0, price3: f.price3 || 0, modelos: [...v8Sel], desc: f.desc || '' };
+        min: Number(f.min) || 0, cost: f.cost || 0, price: f.price || 0, price2: f.price2 || 0, price3: f.price3 || 0, modelos: [...v8Sel], modelosOff: [...v8Off].filter(x => v8Sel.has(x)), desc: f.desc || '' };
       let t;
       if (p) {
         ['cost', 'price', 'price2', 'price3'].forEach(k => { if ((p[k] || 0) !== data[k]) S.priceHistory.unshift({ id: uid('ph'), at: nowISO(), productId: p.id, code: p.code, field: k, from: p[k] || 0, to: data[k], who: S.config.user || '' }); });
@@ -5182,7 +5193,7 @@ function editarProducto(id) {
       if (v8Main) { await imgSet(t.id, v8Main); t.img = true; }
       const old = (p?.colores || []).map(c => c.k), keep = [];
       t.colores = [];
-      for (let i = 0; i < v8Colors.length; i++) { const c = v8Colors[i]; if (!c.img) continue; if (c.url && c.img === c.url) { t.colores.push({ n: (c.n || 'Color ' + (i + 1)).trim(), url: c.url }); continue; } const k = c.k || (t.id + '__c' + uid('')); if (!c.k || IMG[k] !== c.img) await imgSet(k, c.img); t.colores.push({ n: (c.n || 'Color ' + (i + 1)).trim(), k }); keep.push(k); }
+      for (let i = 0; i < v8Colors.length; i++) { const c = v8Colors[i]; if (!c.img) continue; if (c.url && c.img === c.url) { t.colores.push({ n: (c.n || 'Color ' + (i + 1)).trim(), url: c.url, off: !!c.off }); continue; } const k = c.k || (t.id + '__c' + uid('')); if (!c.k || IMG[k] !== c.img) await imgSet(k, c.img); t.colores.push({ n: (c.n || 'Color ' + (i + 1)).trim(), k, off: !!c.off }); keep.push(k); }
       old.filter(k => !keep.includes(k)).forEach(k => imgDel(k));
       save('products', 'config', 'priceHistory', 'kardex'); v8Sync(); closeModal(); render(); toast(p ? 'Producto actualizado' : 'Producto creado', '📦');
     } });
@@ -5209,8 +5220,8 @@ async function v8PickColor(inp) {
 }
 function v8DrawColors() {
   const w = document.getElementById('v8Colors'); if (!w) return;
-  w.innerHTML = v8Colors.map((c, i) => `<div class="v8-color"><div class="th" onclick="v8ColIdx=${i};document.getElementById('v8ColFile').click()">${c.img ? `<img src="${c.img}">` : '<span style="font-size:26px">📷</span>'}</div>
-    <input type="text" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value"><button class="btn sm danger" style="margin-top:6px;width:100%" onclick="v8Colors.splice(${i},1);v8DrawColors()">Quitar</button></div>`).join('')
+  w.innerHTML = v8Colors.map((c, i) => `<div class="v8-color ${c.off ? 'off' : ''}"><div class="th" onclick="v8ColIdx=${i};document.getElementById('v8ColFile').click()">${c.img ? `<img src="${c.img}">` : '<span style="font-size:26px">📷</span>'}</div>
+    <input type="text" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value"><label><input type="checkbox" ${c.off ? '' : 'checked'} onchange="v8Colors[${i}].off=!this.checked;v8DrawColors()" style="width:auto">${c.off ? 'Agotado' : 'Disponible'}</label><button class="btn sm danger" style="margin-top:6px;width:100%" onclick="v8Colors.splice(${i},1);v8DrawColors()">Quitar</button></div>`).join('')
     + `<div class="v8-color" style="display:grid;place-items:center;cursor:pointer;min-height:150px" onclick="v8ColIdx=-1;document.getElementById('v8ColFile').click()"><div><div style="font-size:28px">➕</div><div class="tiny"><b>Subir varias fotos</b><br>una por color</div></div></div>`;
 }
 function v8DrawBrands() { const w = document.getElementById('v8Brands'); if (!w) return;
@@ -5220,7 +5231,8 @@ function v8DrawModels() { const w = document.getElementById('v8Models'); if (!w)
   w.innerHTML = L.length ? L.map(x => `<button class="${v8Sel.has(x) ? 'on' : ''}" onclick='v8ToggleModel(${JSON.stringify(x).replace(/'/g, "&#39;")})'>${esc(x)}</button>`).join('') : '<span class="tiny muted">Sin resultados. Usa “Agregar referencia”.</span>'; }
 function v8ToggleModel(x) { v8Sel.has(x) ? v8Sel.delete(x) : v8Sel.add(x); v8DrawModels(); v8DrawBrands(); v8DrawSel(); }
 function v8DrawSel() { const b = document.getElementById('v8SelBar'), n = document.getElementById('v8SelN'); if (!b) return; n.textContent = v8Sel.size;
-  b.innerHTML = [...v8Sel].map(x => `<span onclick='v8ToggleModel(${JSON.stringify(x).replace(/'/g, "&#39;")})'>${esc(x)} ✕</span>`).join(''); }
+  b.innerHTML = [...v8Sel].map(x => { const j = JSON.stringify(x).replace(/'/g, "&#39;"); return `<span class="${v8Off.has(x) ? 'off' : ''}" title="Clic: disponible / agotado" onclick='v8ToggleOff(${j})'>${v8Off.has(x) ? '⛔' : '✅'} ${esc(x)}<b onclick='event.stopPropagation();v8ToggleModel(${j})'>✕</b></span>`; }).join(''); }
+function v8ToggleOff(x) { v8Off.has(x) ? v8Off.delete(x) : v8Off.add(x); v8DrawSel(); }
 function v8AddModel() { const v = prompt('Nueva referencia para ' + v8Marca + ' (ej: Galaxy A58):'); if (!v || !v.trim()) return; S.config.modelosExtra = S.config.modelosExtra || {};
   const L = S.config.modelosExtra[v8Marca] = S.config.modelosExtra[v8Marca] || []; if (!L.includes(v.trim())) L.unshift(v.trim()); save('config'); v8Sel.add(v.trim()); v8DrawModels(); v8DrawBrands(); v8DrawSel(); }
 
@@ -5266,7 +5278,7 @@ function v8EntPrev(stock, cost) {
 /* ---------- Ficha completa del producto ---------- */
 function verProducto(id) {
   const p = S.products.find(x => x.id === id); if (!p) return; const A = v8Alloc(p), s = v8Status(p), S2 = V8_ST[s];
-  const imgs = [v8Img(p) ? { n: 'Principal', src: IMG[p.id] || p.imgUrl } : null, ...(p.colores || []).map(c => ({ n: c.n, src: c.url || IMG[c.k] }))].filter(x => x && x.src);
+  const imgs = [v8Img(p) ? { n: 'Principal', src: IMG[p.id] || p.imgUrl } : null, ...(p.colores || []).map(c => ({ n: c.n + (c.off ? ' · agotado' : ''), src: c.url || IMG[c.k] }))].filter(x => x && x.src);
   const util = k => p.cost && p[k] ? ((p[k] / p.cost - 1) * 100).toFixed(1) + '%' : '—';
   const lotsSorted = [...A.lots].sort((a, b) => String(b.at).localeCompare(String(a.at)));
   modal({ title: p.name, em: '📦', wide: true, footer: `<button class="btn" onclick="closeModal()">Cerrar</button>`,
@@ -5290,7 +5302,7 @@ function verProducto(id) {
         ${lotsSorted.length ? lotsSorted.map((l, i) => { const prev = lotsSorted[i + 1]; const d = prev && prev.unit ? (l.unit / prev.unit - 1) * 100 : null;
           return `<tr><td>${dmy(String(l.at).slice(0, 10))}</td><td>${nfmt(l.qty)}</td><td>${nfmt(l.rem)}</td><td>${money(l.unit)}</td><td>${d === null ? '—' : Math.abs(d) < .5 ? 'igual' : d > 0 ? `<span class="v8-up">▲ ${d.toFixed(1)}%</span>` : `<span class="v8-down">▼ ${Math.abs(d).toFixed(1)}%</span>`}</td><td>${V8_FONDOS[l.fondo]?.e || ''} ${V8_FONDOS[l.fondo]?.t || '—'}</td><td>${esc(l.supplier || '—')}</td></tr>`; }).join('') : '<tr><td colspan="7" class="muted">Sin entradas registradas</td></tr>'}
         </tbody></table></div></div>
-      ${p.modelos?.length ? `<div class="v8-sec"><h4>📱 Referencias compatibles (${p.modelos.length})</h4><div class="v8-selbar">${p.modelos.map(m => `<span style="cursor:default">${esc(m)}</span>`).join('')}</div></div>` : ''}
+      ${p.modelos?.length ? `<div class="v8-sec"><h4>📱 Referencias (${p.modelos.length - (p.modelosOff || []).length} disponibles de ${p.modelos.length})</h4><div class="v8-selbar">${p.modelos.map(m => `<span class="${(p.modelosOff || []).includes(m) ? 'off' : ''}" style="cursor:default">${(p.modelosOff || []).includes(m) ? '⛔' : '✅'} ${esc(m)}</span>`).join('')}</div></div>` : ''}
       ${p.desc ? `<div class="v8-sec"><h4>📝 Descripción</h4><div>${esc(p.desc)}</div></div>` : ''}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         <button class="btn" onclick="closeModal();editarProducto('${p.id}')">✏️ Editar</button>
