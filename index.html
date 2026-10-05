@@ -4831,9 +4831,9 @@ PRODUCTS.push(...CATALOG_V12);
     }catch(e){}};
 })();
 
-// Auto-clear low-quality hero from old localStorage
+// Force HERO_DEF (HD store photo) - clear old cached hero
 (function(){try{var s=JSON.parse(localStorage.getItem('ep_site')||'{}');
-if(s.heroDesktop&&s.heroDesktop.length&&s.heroDesktop[0].length<5000){
+if(s.heroDesktop||s.heroMobile){
   delete s.heroDesktop;delete s.heroMobile;
   localStorage.setItem('ep_site',JSON.stringify(s));
   if(typeof hcRender==='function')hcRender();
