@@ -3690,7 +3690,7 @@ function showPage(name,push){
   const el=document.getElementById(VIEWS[name]);if(el)el.classList.add('active');
   document.querySelectorAll('.navlink[data-nav]').forEach(l=>l.classList.toggle('active',l.getAttribute('data-nav')===name));
   window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
-  if(push!==false){try{history.replaceState(null,'','#'+name)}catch(e){location.hash=name}}
+  if(push!==false){try{history.pushState({page:name},'','#'+name)}catch(e){location.hash=name}}
   if(name==='catalogo'){renderGrid()}
 }
 function initRouter(){
@@ -3706,6 +3706,7 @@ function initRouter(){
     a.addEventListener('click',e=>{e.preventDefault();showPage(a.getAttribute('data-nav'))});
   });
   window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(VIEWS[h])showPage(h,false)});
+  window.addEventListener('popstate',e=>{const h=location.hash.slice(1);if(VIEWS[h])showPage(h,false);else if(!h)showPage('inicio',false)});
   const start=location.hash.slice(1);showPage(VIEWS[start]?start:'inicio',false);
 }
 /* ========= INIT ========= */
