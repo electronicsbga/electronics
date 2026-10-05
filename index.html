@@ -2240,6 +2240,15 @@ html[data-theme="dark"] #contacto .ct-card,html[data-theme="dark"] #contacto .ct
 html[data-theme="dark"] .feat-sec,html[data-theme="dark"] #destacados{background:transparent !important}
 html[data-theme="dark"] .qcard{background:rgba(255,255,255,.06) !important;border-color:rgba(255,255,255,.14) !important}
 html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
+/* --- Celular: redes una encima de otra, pegadas a la derecha --- */
+@media(max-width:767px){
+  .fab-stack{flex-direction:column !important;align-items:flex-end;gap:8px !important;right:10px !important;left:auto !important;
+    bottom:calc(186px + env(safe-area-inset-bottom)) !important;width:auto !important}
+  .fab-stack .fab-mini{width:40px !important;height:40px !important;margin:0 !important}
+  .fab-stack .fab-mini svg{width:18px !important;height:18px !important}
+  a.fab{right:8px !important;left:auto !important;bottom:calc(128px + env(safe-area-inset-bottom)) !important;width:46px !important;height:46px !important}
+  .epbot-fab{right:8px !important;bottom:calc(74px + env(safe-area-inset-bottom)) !important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -3409,7 +3418,7 @@ function confirmOrder(){
   let msg='*NUEVO PEDIDO - Electronics Parts*\n\n*Cliente:* '+name+'\n*WhatsApp:* '+phone+'\n*Ciudad:* '+city+'\n';
   if(addr)msg+='*Direccion/Nota:* '+addr+'\n';
   msg+='*Pago:* '+pay+'\n\n*Productos:*\n';
-  cart.forEach(l=>{const p=PRODUCTS.find(x=>x.id===l.id);if(!p)return;msg+='- '+l.qty+' x '+p.name+' - '+fmt((p.offer||p.price)*l.qty)+'\n'});
+  cart.forEach(l=>{const p=PRODUCTS.find(x=>x.id===l.id);if(!p)return;msg+='- '+l.qty+' x '+p.name+(l.color?' ('+l.color+')':'')+' - '+fmt((p.offer||p.price)*l.qty)+'\n'});
   msg+='\n*TOTAL: '+fmt(total)+'*\n\n_Enviado desde el catalogo web_';
   const url='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
   $('#waFallback').href=url;window.open(url,'_blank');showView('viewSuccess');cart=[];saveCart();updateCartUI();
@@ -4568,6 +4577,70 @@ renderCatPage=function(){
     accesorios:C.accesorios,cargadores:C.cargadores,celulares:C.celulares};
   document.querySelectorAll('.svc-bg[data-svc]').forEach(function(s){var k=s.getAttribute('data-svc'),u=M[k]||window.SERVICIO_IMG;if(u)s.style.backgroundImage='url('+u+')';if(k==='ENVIOS_FLIP')s.classList.add('flip')});
 }catch(e){console.warn('svc img',e)}})();
+
+/* ===== V11 · Fundas: 16 tipos con carrusel de colores ===== */
+const FUNDAS_V11=[["Silicon",["14bobidTfaJatnOGOII8I8IHmY_1MCpaK","1sgwhCD2KO4Pnf_sP2PkhGMgrJTTv6_Pj","1wXHxAs7HLjkz5b_5-3nuFExCQ1YibTg_","13srB57F14svtBQOU1zWEcAvABISQTyQU","1tSRcsBIHcHDgxKdGSFmcVTViGRX9aNdX","1NU_F8e9uag-5bPgOlcJREFfQ-w6OH25i","16rWaQ53kozL0ZoW6Tqea6uW48hV-vIvf","15jrcSQy7ormgvv_ch_tgmx1WMlrZTCpy","1Nr9-1NC-ywUVkI7445jai1o6xYNaAVUY","1o0-edYFLF3znsaxMtvO_NognnHaHXpw_"]],["Silicon con aro MagSafe",["1z1umUuz08jt_EKR63c9gfSFqU_tBlrs2","1P7uJpsoiFLiI2XLBZ2xcmpbOck-GjC6T","1Lt_UrFdCzrflaLqnls3me6CN2p09vv24","1jC52EgkxXtqXGLLNQmJG3ttn_5kDFh8X","1iYeygJPLT2K-SW5qt8zsGwO6_yuKkUaz","1lxAhrCUBxxFnSC-43X6tKJxAu75_tFTl","1pRqnJX1FwL3NIiXevdaX9a8xe0c_cFsQ","1CZl_--TQnWQocU2039MY7eY7LgyP6mIA","1Y5cGaYBX6ZsDbUmvdxYRKUG-oRbSFpRm"]],["Ventana con MagSafe",["1ipB_e4dwxPOmkLYz3qfG7akoug3RvYs0","1s98UFkxzgFT2Kxo92W5PWWAkwW-jEtzY","1gWcjGKY53nNmXmOQthSjaQyOnHIXXyoa","17-NtjjG9NNY6G6Yks3_3BBeo_WiHyxUX","1fCtCQw5Bsp2k0kAOSf0T5IXxauy2-_nm"]],["Aro MagSafe",["1LeiKpfLRKc-jyKyup58OeUVGTSXntsDX","1eXq7ZKa7gSKkNjigE6GJV7iHIEFE1f0d","1Wa1Kun6qx-agquho678GXsLyYeouJc2N","1xLAkHgefsHUJ5RRWs3qAKx5wvNltnv1P","1oKKe9SRWa9sAswFUil7nh5U984M7zFME"]],["Humo",["1JGV7Z7j33f7FMPvyj0Jyc4TPtRfq9u1I","1lLGpFozagBIUxJgQkhH071QTEx2J-R4y","1JDgPrwCHGkGaHJJrwDczy3jsHucaflwg","1ptdATSfbenpfxdJN46x-vntgcNCfc-9I","1bUIGV5ZfWYevKu5V6a2s1BpLDk_NXyBE","1c5lIeBiHdGLrbOgmAikB8n9Gv9znY0xu"]],["Humo borde color",["1L10f4hr5VnQphoNMqb3JsJLm1KtNlNTH","185OdcHWYZeMdoxuW2K1GNpd2N7sMX0eR","1Z5-lqCDAbYg0-7CjMYSmoNBdXCJPXMp9","1OTFqYDODa0FAcbk97ia-gUAWrJNqjDEt","1Q82hu0J-giTqKv9ccwsuY29bHIGGg1E9"]],["Case borde color",["1k1zEqXRZb0SO2uaJBlDCb-wu_LTfzRwC","1BqCkVdZZx8BJV_jUgoFpo0Zvs1G-PQU1","1EmdNInjZ_TG_IH-bKW_tbaiX5ex9Dl3v","1RhYoFIbOP_S3-BbMZEMaRWn7BTRZzxh0"]],["Degradé",["1AsZR1MhejgWH-Ne-J-K1Y8mQMbbfaS8h","196lHp1PqDthzW-4NKJl760SaY5BcB9Be","1D0kZtOHuPBhFW0sbAAWFsKy-5v9Yv44C","1cLiWPrPBNJ4noM_a7LrD65au6uZj5iXX","1BV65imtDWPTMGwiEjSDKnNmK-FHvxl3W","1xW0dd0MkFrZ96KEZ_ek1KmMRlrb_At9F","1irTxN-Go8oXjLbJ6RqjqpNRcnS9PMW7R"]],["Tornasol",["1tmX77VbDjGcBQloI-G8Yxr2dKXMyldGP","192fQTAINfg5lp-_XHLviWJghEUkcxHCz","1vmclvD5eYGrIttFuzgeoeS3SB9UJ51mK","1fADRMcndMjPR3oM9Hbw9nKvj7ayk6u67","1R8hmGDenpnusSibA675OUp-lJapn7MDt","1b28wpXIIvLunV3M_6Xz321sO5WfYuTRa","1FuTR_k4uYKFGwzNKdL6bSX-ntzx22WsA","1aBky9QF50JqXzdeETiuxFqZOFpfAXqmo","1ym4TJjKpkoHo0ItOzUgOgc1c2mftv3Ak","1yiS4xM0h_k0Il3WYd68Oq3pmgnMeZnIN","1O1-BgAxdkbh10mLPgfODiUiWoKlUfHht","1TFd0YiqdIkv4U1HaDLRLkyz0w0pgmyCt","1C31xvbNuqwbTr6E19j8dAJvwexB85LxA"]],["Cordón",["199CFL-KPFznxO8gQJcKci8B-oUiF4rnQ","1tU4jVmtuxJyVhjlD7ZPe4JjNDbVfHLKZ","1iBPGCbCaHZHIH4paFjw0O0u1hb7C4jGz","1Mgh1Hdl2t9OAF2KEMpLwTFOtTzmCs2hU","1WqjjgAvAHYKcNxRQr4JbRWvp-P7M53ee"]],["Gear4",["1i9q-j6afIO_j5y8ebSc548vxhOGu7SKV"]],["Acrílico",["1FetwiswMNEt4S0m-hUCtKw6qje2VqSin","18P64riZgSC4PWZWhXT6niOD9NqxXgxYp","1Gwc6TYSLsZgo0LyXUWDObMwcndAXbzBg","1oes7SWkwc-pWEwe-PFluySxCKptUe_OV","1Th4f_mjJfXNFLMTi-dGQNIGXvVfG4VeQ","1a0hjaDFLB_5WtVLzGRF6-QHkQoqqTH2d"]],["Diamond",["1BiD0SVIL95G0Dxd-6cKObYtuAU8TjkZs","1jksZDBwRhN4PSWehrKaWjP9O5gH07IbF","1otNHEmVD1O03_2iJidha6xd_vjcA35Ak","1ybwau3Y9bW9iWqPlBgw_ZHySsDQ9busZ","1axCJEF-FpPWXJppTiljaS0fp05nyC44V","1XxsjbDM87nC_pICGWn1qiREEN_EJB7Us"]],["Piedra",["1Oyqgpjck7ganqG01saHBe6KdoTG5YNzG","1hc3EtiTrVIx_ElpM2uX44Y554x6pGoyf","1mMkyLyhvDidFTBHao6opa8O87V8GzakB","1jD-flJ7S3fDrAjdaKTpNds_ZTH9tscBm","14XW1vG233-N930nXyfVUEdgoTNb20Ekw","1GuMO-nIMscocxty_ZriOqpONn2h1ph4d"]],["Reemplazo",["1qkijVgxboNk3d4vEEXLSqmriaHSYsfeY","1Xwv4BgRJ9uHO-Vg98Y5ReDEZgi9rk_42","1386MNUNb4TDC5rIF_S4JB3fiqs1aidsm","1ImqFiRBnpo4vL4Q8cnN98k-6oO3QvcFd","1Z3BS1aOgM-kMuzw5RJLzIL-4X1qK1li5"]],["Soporte ventana",["17Kb4w1uywtxB_sVSxrTv9MOeZ710jalV","1Z6g_7SvAGdeJuQc6SKjyuOfdwCWhsKYw","16ppRSKxZvMvDSPDQBU9JQ2sE_xJ3AMVS","1WlT_5B65-IVfSAnoN05Rwg7IyBY02Evb","1QsPnR-2XZ1qgrVcFxRatYWs2L0KyfeKO"]]];
+const lh3=id=>'https://lh3.googleusercontent.com/d/'+id+'=s900';
+(function(){try{
+  for(let i=PRODUCTS.length-1;i>=0;i--){if(PRODUCTS[i].cat==='fundas')PRODUCTS.splice(i,1)}
+  FUNDAS_V11.forEach(function(f,i){const t=f[0],ids=f[1];
+    PRODUCTS.push({id:163+i,cat:'fundas',name:'Funda '+t,price:0,offer:null,stock:10,badge:'new',img:lh3(ids[0]),
+      colors:ids.map(function(id,k){return{n:'Color '+(k+1),img:lh3(id)}}),hidden:false,new:true,sku:'FUN-'+String(i+1).padStart(3,'0'),
+      desc:'Funda tipo '+t+(ids.length>1?'. Disponible en '+ids.length+' colores: desliza las fotos para verlos y elige el tuyo.':'.')+' Pregúntanos por la referencia de tu celular.'});
+  });
+  if(typeof SUBCATS!=='undefined')SUBCATS.fundas=FUNDAS_V11.map(function(f){return[f[0],new RegExp('^Funda '+f[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'$','i')]});
+}catch(e){console.warn('fundas v11',e)}})();
+window.__v11Sel={};
+function v11Car(p,big){
+  const c=p.colors||[];if(c.length<2)return '';
+  return '<div class="v11-car'+(big?' big':'')+'" data-id="'+p.id+'"><div class="v11-track" onscroll="v11Dots(this)">'+
+    c.map(function(x){return '<img src="'+x.img+'" alt="'+esc(p.name+' '+x.n)+'" loading="lazy" draggable="false">'}).join('')+'</div>'+
+    '<button class="v11-nav p" aria-label="Anterior" onclick="event.stopPropagation();v11Go(this,-1)">‹</button><button class="v11-nav n" aria-label="Siguiente" onclick="event.stopPropagation();v11Go(this,1)">›</button>'+
+    '<div class="v11-dots">'+c.map(function(_,i){return '<i class="'+(i?'':'on')+'"></i>'}).join('')+'</div><span class="v11-count">🎨 '+c.length+' colores</span></div>';
+}
+function v11Go(btn,d){const t=btn.parentNode.querySelector('.v11-track');t.scrollBy({left:d*t.clientWidth,behavior:'smooth'})}
+function v11Dots(t){const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));t.parentNode.querySelectorAll('.v11-dots i').forEach(function(d,k){d.classList.toggle('on',k===i)});
+  const car=t.parentNode;if(car.classList.contains('big')){const id=+car.dataset.id,p=PRODUCTS.find(function(x){return x.id===id});if(p&&p.colors[i]){window.__v11Sel[id]=p.colors[i].n;document.querySelectorAll('.v11-sw button').forEach(function(b,k){b.classList.toggle('on',k===i)});const l=document.getElementById('v11SelLbl');if(l)l.textContent=p.colors[i].n}}}
+function v11Enhance(){
+  document.querySelectorAll('.card-media[onclick*="openModal("],.feat-card').forEach(function(m){
+    if(m.dataset.v11)return;const mm=(m.getAttribute('onclick')||'').match(/openModal\((\d+)\)/);if(!mm)return;
+    const p=PRODUCTS.find(function(x){return x.id===+mm[1]});m.dataset.v11='1';if(!p||!p.colors||p.colors.length<2)return;
+    const box=m.classList.contains('feat-card')?m.querySelector('.fc-img'):m;const img=box&&box.querySelector('img');if(!img)return;
+    img.insertAdjacentHTML('afterend',v11Car(p));img.remove();
+  });
+}
+new MutationObserver(function(){clearTimeout(window.__v11T);window.__v11T=setTimeout(v11Enhance,30)}).observe(document.body,{childList:true,subtree:true});
+setTimeout(v11Enhance,300);
+(function(){const _om=openModal;openModal=function(id){_om(id);const p=PRODUCTS.find(function(x){return x.id===id});if(!p||!p.colors||p.colors.length<2)return;
+  const mm=document.getElementById('modalMedia');const close=mm.querySelector('.modal-close');mm.innerHTML='';if(close)mm.appendChild(close);mm.insertAdjacentHTML('beforeend',v11Car(p,true));
+  mm.onmousemove=null;mm.onmouseleave=null;mm.ontouchstart=null;mm.ontouchmove=null;mm.ontouchend=null;
+  window.__v11Sel[id]=window.__v11Sel[id]||p.colors[0].n;
+  const info=document.getElementById('modalInfo');const pr=info.querySelector('.card-price');
+  const sw='<div class="v11-pick"><div class="v11-pl">Color elegido: <b id="v11SelLbl">'+esc(window.__v11Sel[id])+'</b></div><div class="v11-sw">'+p.colors.map(function(c,i){return '<button class="'+(c.n===window.__v11Sel[id]?'on':'')+'" onclick="v11Pick('+id+','+i+')" aria-label="'+esc(c.n)+'"><img src="'+c.img+'" alt=""></button>'}).join('')+'</div></div>';
+  if(pr)pr.insertAdjacentHTML('afterend',sw);
+}})();
+function v11Pick(id,i){const t=document.querySelector('.v11-car.big .v11-track');if(t)t.scrollTo({left:i*t.clientWidth,behavior:'smooth'});const p=PRODUCTS.find(function(x){return x.id===id});window.__v11Sel[id]=p.colors[i].n;
+  document.querySelectorAll('.v11-sw button').forEach(function(b,k){b.classList.toggle('on',k===i)});const l=document.getElementById('v11SelLbl');if(l)l.textContent=p.colors[i].n}
+(function(){const _ad=addToCart;addToCart=function(id){_ad(id);const l=cart.find(function(x){return x.id===id});if(l&&window.__v11Sel[id]){l.color=window.__v11Sel[id];try{saveCart()}catch(e){}}}})();
+(function(){const st=document.createElement('style');st.textContent=
+ '.v11-car{position:relative;width:100%;height:100%;overflow:hidden}'+
+ '.v11-track{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}'+
+ '.v11-track::-webkit-scrollbar{display:none}'+
+ '.v11-track img{flex:0 0 100%;width:100%;height:100%;object-fit:contain;scroll-snap-align:center;user-select:none}'+
+ '.v11-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:0;background:rgba(14,33,53,.6);color:#fff;font-size:20px;line-height:1;cursor:pointer;opacity:0;transition:opacity .2s;z-index:2}'+
+ '.v11-car:hover .v11-nav,.v11-car.big .v11-nav{opacity:1}.v11-nav.p{left:6px}.v11-nav.n{right:6px}'+
+ '.v11-dots{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:4px;pointer-events:none}'+
+ '.v11-dots i{width:6px;height:6px;border-radius:50%;background:rgba(14,33,53,.25)}.v11-dots i.on{background:#2BB8E6;width:16px;border-radius:4px}'+
+ '.v11-count{position:absolute;right:8px;top:8px;background:rgba(255,255,255,.92);color:#1A3A5C;font-size:.66rem;font-weight:800;padding:3px 8px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.12)}'+
+ '.v11-car.big{min-height:320px}.v11-car.big .v11-nav{width:40px;height:40px;font-size:26px}'+
+ '.v11-pick{margin:10px 0 4px}.v11-pl{font-size:.85rem;margin-bottom:8px}'+
+ '.v11-sw{display:flex;gap:7px;flex-wrap:wrap}.v11-sw button{width:48px;height:48px;border-radius:12px;border:2px solid #DCE6EF;background:#fff;padding:2px;cursor:pointer}'+
+ '.v11-sw button.on{border-color:#2BB8E6;box-shadow:0 0 0 3px rgba(43,184,230,.25)}.v11-sw img{width:100%;height:100%;object-fit:cover;border-radius:8px}'+
+ '@media(hover:none){.v11-car:not(.big) .v11-nav{display:none}}';document.head.appendChild(st)})();
+if(typeof renderChips==='function')try{renderChips()}catch(e){}
+if(typeof renderLineas==='function')try{renderLineas()}catch(e){}
+if(typeof renderGrid==='function')try{renderGrid()}catch(e){}
+if(typeof renderFeat==='function')try{renderFeat()}catch(e){}
 </script>
 <div class="promo-ov" id="promoOv" hidden onclick="if(event.target===this)closePromo()">
   <div class="promo-card" role="dialog" aria-modal="true" aria-label="Promoción">
