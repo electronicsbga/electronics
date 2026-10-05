@@ -397,6 +397,24 @@ svg text{font-family:var(--sans)}
 /* Las columnas de .row no crecen con el contenido: una tabla ancha estiraba
    la pantalla de Reportes 139 px en celular. No cambia nada en escritorio. */
 .row>*,.grid>*{min-width:0}
+
+/* V8 Color cards - clean grid layout */
+.v8-color{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--card);min-width:0}
+.v8-color.off{opacity:.5}
+.v8-color.v8-add{cursor:pointer;border-style:dashed;opacity:.7}
+.v8-color.v8-add:hover{opacity:1;border-color:var(--blue)}
+.v8c-thumb{width:80px;height:80px;min-width:80px;border-radius:10px;overflow:hidden;background:var(--bg);display:grid;place-items:center;cursor:pointer}
+.v8c-thumb img{width:100%;height:100%;object-fit:cover}
+.v8c-info{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.v8c-name{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:.82rem;width:100%}
+.v8c-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.v8c-chk{display:flex;align-items:center;gap:4px;font-size:.75rem;cursor:pointer;white-space:nowrap}
+.v8c-chk input{width:auto;margin:0}
+.v8c-stock{display:flex;align-items:center;gap:4px;font-size:.75rem;white-space:nowrap}
+.v8c-stock input{width:52px;padding:3px 6px;font-size:.8rem;border:1px solid var(--line);border-radius:6px;text-align:center}
+.v8c-del{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:none;color:var(--bad);cursor:pointer;font-size:14px;display:grid;place-items:center;flex-shrink:0}
+.v8c-del:hover{background:var(--bad-bg)}
+#v8Colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -414,8 +432,7 @@ svg text{font-family:var(--sans)}
   </aside>
   <div class="main">
     <header class="topbar"><button class="mobile-bar" id="menuBtn" aria-label="Menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-      <div><h1 class="page-title" id="pTitle">Dashboard</h1><div class="page-sub" id="pSub"></div></div><a href="index.html" class="nav-link" style="color:var(--blue);margin-top:6px"><span class="em">🌐</span>Ir a la tienda web</a>
-      <div class="spacer"></div>
+      <div><h1 class="page-title" id="pTitle">Dashboard</h1><div class="page-sub" id="pSub"></div></div>      <div class="spacer"></div>
       <div class="notif-wrap"><button id="bellBtn" class="bell-btn" aria-label="Notificaciones" onclick="toggleNotif(event)">🔔<span id="bellBadge" class="bell-badge"></span></button><div id="notifPop" class="notif-pop"></div></div>
       <div class="chip" id="cajaChip"></div></header>
       <style>
@@ -885,6 +902,15 @@ function badges(id) {
 }
 function renderNav() {
   $('#nav').innerHTML = menuOn().map(m => `<button class="nav-item ${route === m.id ? 'on' : ''}" onclick="go('${m.id}')">
+  // Botón "Ir a la tienda web" en el sidebar
+  const navEl = document.getElementById('nav');
+  if (navEl && !document.getElementById('webBtn')) {
+    const wb = document.createElement('a');
+    wb.id = 'webBtn'; wb.href = 'index.html'; wb.target = '_blank';
+    wb.className = 'web-link';
+    wb.innerHTML = '🌐 Ir a la tienda web';
+    navEl.parentNode.insertBefore(wb, navEl.nextSibling);
+  }
     <span class="em">${m.em}</span><span>${esc(m.label)}</span>${badges(m.id)}</button>`).join('');
 }
 function go(r) { route = r; $('#sidebar').classList.remove('open'); $('.scrim-nav')?.remove(); render(); window.scrollTo({ top: 0 }); }
@@ -5227,12 +5253,18 @@ async function v8PickColor(inp) {
 }
 function v8DrawColors() {
   const w = document.getElementById('v8Colors'); if (!w) return;
-  w.innerHTML = v8Colors.map((c, i) => `<div class="v8-color ${c.off ? 'off' : ''}"><div class="th" onclick="v8ColIdx=${i};document.getElementById('v8ColFile').click()">${c.img ? `<img src="${c.img}">` : '<span style="font-size:26px">📷</span>'}</div>
-    <input type="text" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value">
-    <div style="display:flex;gap:6px;align-items:center"><label style="font-size:.75rem;display:flex;align-items:center;gap:4px"><input type="checkbox" ${c.off ? '' : 'checked'} onchange="v8Colors[${i}].off=!this.checked;v8DrawColors()" style="width:auto">${c.off ? '⛔ Agotado' : '✅ Disponible'}</label>
-    <label style="font-size:.75rem;display:flex;align-items:center;gap:4px">Stock:<input type="number" min="0" value="${c.qty||0}" oninput="v8Colors[${i}].qty=Number(this.value)||0" style="width:52px;padding:3px 5px;font-size:.8rem;border:1px solid var(--line);border-radius:6px"></label></div><butt
-    <input type="text" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value"><label><input type="checkbox" ${c.off ? '' : 'checked'} onchange="v8Colors[${i}].off=!this.checked;v8DrawColors()" style="width:auto">${c.off ? 'Agotado' : 'Disponible'}</label><button class="btn sm danger" style="margin-top:6px;width:100%" onclick="v8Colors.splice(${i},1);v8DrawColors()">Quitar</button></div>`).join('')
-    + `<div class="v8-color" style="display:grid;place-items:center;cursor:pointer;min-height:150px" onclick="v8ColIdx=-1;document.getElementById('v8ColFile').click()"><div><div style="font-size:28px">➕</div><div class="tiny"><b>Subir varias fotos</b><br>una por color</div></div></div>`;
+  w.innerHTML = v8Colors.map((c, i) => `<div class="v8-color ${c.off ? 'off' : ''}">
+    <div class="v8c-thumb" onclick="v8ColIdx=${i};document.getElementById('v8ColFile').click()">${c.img ? `<img src="${c.img}">` : '<span style="font-size:26px;opacity:.4">📷</span>'}</div>
+    <div class="v8c-info">
+      <input type="text" class="v8c-name" placeholder="Nombre del color" value="${esc(c.n || '')}" oninput="v8Colors[${i}].n=this.value">
+      <div class="v8c-row">
+        <label class="v8c-chk"><input type="checkbox" ${c.off ? '' : 'checked'} onchange="v8Colors[${i}].off=!this.checked;v8DrawColors()">${c.off ? '⛔ Agotado' : '✅ Disp.'}</label>
+        <label class="v8c-stock">Stock <input type="number" min="0" value="${c.qty||0}" oninput="v8Colors[${i}].qty=Number(this.value)||0"></label>
+      </div>
+    </div>
+    <button class="v8c-del" onclick="v8Colors.splice(${i},1);v8DrawColors()" title="Quitar">✕</button>
+  </div>`).join('')
+    + `<div class="v8-color v8-add" onclick="v8ColIdx=-1;document.getElementById('v8ColFile').click()"><div class="v8c-thumb" style="display:grid;place-items:center"><span style="font-size:28px">➕</span></div><div class="v8c-info"><b class="tiny">Subir varias fotos</b><span class="tiny muted">una por color</span></div></div>`;
 }
 function v8DrawBrands() { const w = document.getElementById('v8Brands'); if (!w) return;
   w.innerHTML = v8Marcas().map(m => { const n = v8ModelosDe(m).filter(x => v8Sel.has(x)).length; return `<button class="${m === v8Marca ? 'on' : ''}" onclick="v8Marca=${esc(JSON.stringify(m))};v8DrawBrands();v8DrawModels()">${esc(m)}${n ? `<span class="c">${n}</span>` : ''}</button>`; }).join(''); }
