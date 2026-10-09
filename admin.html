@@ -901,17 +901,8 @@ function badges(id) {
   return '';
 }
 function renderNav() {
-  $('#nav').innerHTML = menuOn().map(m => `<button class="nav-item ${route === m.id ? 'on' : ''}" onclick="go('${m.id}')">
-  // Botón "Ir a la tienda web" en el sidebar
-  const navEl = document.getElementById('nav');
-  if (navEl && !document.getElementById('webBtn')) {
-    const wb = document.createElement('a');
-    wb.id = 'webBtn'; wb.href = 'index.html'; wb.target = '_blank';
-    wb.className = 'web-link';
-    wb.innerHTML = '🌐 Ir a la tienda web';
-    navEl.parentNode.insertBefore(wb, navEl.nextSibling);
-  }
-    <span class="em">${m.em}</span><span>${esc(m.label)}</span>${badges(m.id)}</button>`).join('');
+  $('#nav').innerHTML = menuOn().map(m => `<button class="nav-item ${route === m.id ? 'on' : ''}" onclick="go('${m.id}')"><span class="em">${m.em}</span><span>${esc(m.label)}</span>${badges(m.id)}</button>`).join('');
+  if (!document.getElementById('webBtn')) { const wb = document.createElement('a'); wb.id = 'webBtn'; wb.href = 'index.html'; wb.target = '_blank'; wb.className = 'web-link'; wb.innerHTML = '🌐 Ir a la tienda web'; const nav = document.getElementById('nav'); if (nav) nav.parentNode.insertBefore(wb, nav.nextSibling); }
 }
 function go(r) { route = r; $('#sidebar').classList.remove('open'); $('.scrim-nav')?.remove(); render(); window.scrollTo({ top: 0 }); }
 function render() {
