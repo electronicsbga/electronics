@@ -2421,6 +2421,52 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
 }
 /* Lighter overlay on promesas for better image visibility */
 .promesa::before{background:linear-gradient(180deg,rgba(14,33,53,.15),rgba(14,33,53,.5)) !important}
+
+/* V14 · FAB buttons: clean vertical stack near bottom */
+.fab-stack{position:fixed !important;right:16px !important;bottom:80px !important;z-index:95 !important;display:flex !important;flex-direction:column !important;gap:12px !important}
+.fab-mini{width:48px !important;height:48px !important}
+.fab{position:fixed !important;right:16px !important;bottom:20px !important;z-index:95 !important;width:54px !important;height:54px !important}
+.epbot-wrap{position:fixed !important;right:16px !important;z-index:95 !important}
+@media(max-width:767px){
+  .fab-stack{right:14px !important;bottom:76px !important;gap:10px !important}
+  .fab-mini{width:44px !important;height:44px !important}
+  .fab{right:14px !important;bottom:18px !important;width:50px !important;height:50px !important}
+}
+
+/* V14 · Category chips: name visible with shadow, no clip on hover */
+#chips{overflow:visible !important;-webkit-overflow-scrolling:touch}
+.cat-card{overflow:visible !important;transition:transform .2s ease}
+.cat-card:hover,.cat-card:active,.cat-card.active{transform:none !important}
+.cat-card .cc-name{display:block;text-align:center;font-weight:700;font-size:.78rem;text-shadow:0 1px 4px rgba(0,0,0,.7);color:#fff;position:relative;z-index:1}
+.cat-card .cc-count{display:block;text-align:center;font-size:.68rem;opacity:.85;color:#fff;position:relative;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+/* Subcategory chips: name visible with shadow, no clip */
+.subcard{overflow:visible !important;transition:transform .2s ease}
+.subcard:hover,.subcard:active{transform:none !important}
+.subcard .sc-n{text-shadow:0 1px 4px rgba(0,0,0,.5);position:relative;z-index:1}
+.subcard .sc-c{text-shadow:0 1px 3px rgba(0,0,0,.4);position:relative;z-index:1}
+
+/* Brand logos: hide text (Samsung, Xiaomi, Apple, Nokia, UBU, JBL) */
+.subcard[style*="background-image"] .sc-n{font-size:0 !important;color:transparent !important;text-shadow:none !important}
+.subcard[style*="background-image"] .sc-c{display:none !important}
+.subcard[style*="background-image"]{min-height:60px}
+.subcard[style*="background-image"]::after{background:rgba(255,255,255,.1) !important}
+.subcard[style*="background-image"].active::after{background:rgba(43,184,230,.25) !important;outline:2px solid var(--blue)}
+
+/* Catalog filter subcats (.subcat class): same treatment */
+.subcat{overflow:visible !important}
+.subcat:hover,.subcat:active{transform:none !important}
+
+/* V14 · Category chips: transparent borders, seamless rounded look */
+.cat-card{border:none !important;outline:none !important;box-shadow:0 4px 12px rgba(0,0,0,.15) !important;border-radius:16px !important}
+.cat-card.active{box-shadow:0 4px 16px rgba(43,184,230,.4) !important}
+/* Subcategory chips: same treatment */
+.subcard{border:none !important;outline:none !important;box-shadow:0 2px 8px rgba(0,0,0,.1);border-radius:14px !important}
+.subcard.active{box-shadow:0 4px 12px rgba(43,184,230,.35) !important}
+.subcat{border:none !important;outline:none !important;box-shadow:0 2px 8px rgba(0,0,0,.08);border-radius:14px !important}
+.subcat.active{box-shadow:0 4px 12px rgba(43,184,230,.35) !important}
+/* FAB buttons: also fix stacking - keep them separated */
+.fab-stack .fab-mini{margin:0 !important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <meta property="og:title" content="Electronics BGA · Accesorios y celulares en Bucaramanga">
