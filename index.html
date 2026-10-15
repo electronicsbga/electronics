@@ -2467,6 +2467,10 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
 .subcat.active{box-shadow:0 4px 12px rgba(43,184,230,.35) !important}
 /* FAB buttons: also fix stacking - keep them separated */
 .fab-stack .fab-mini{margin:0 !important}
+
+/* V15 · Category chips: fully transparent background, clean rounded */
+.cat-card{background:transparent !important;border:0 !important;outline:0 !important;box-shadow:none !important;border-radius:16px !important;overflow:hidden !important}
+.cat-card::after{border-radius:16px !important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <meta property="og:title" content="Electronics BGA · Accesorios y celulares en Bucaramanga">
