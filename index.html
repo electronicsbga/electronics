@@ -2476,6 +2476,14 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
 #chips{overflow-x:auto !important;overflow-y:visible !important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding:6px 0 !important}
 #chips::-webkit-scrollbar{display:none}
 .cat-card{scroll-snap-align:start}
+
+/* V16 · Celular: columna ordenada de botones flotantes (WhatsApp abajo, asistente, redes arriba) */
+@media(max-width:767px){
+  html body a.fab{right:12px !important;left:auto !important;bottom:calc(14px + env(safe-area-inset-bottom)) !important;width:52px !important;height:52px !important}
+  html body .epbot-fab{right:12px !important;left:auto !important;bottom:calc(76px + env(safe-area-inset-bottom)) !important;width:52px !important;height:52px !important;padding:0 !important;justify-content:center !important}
+  html body .epbot-fab .epbot-hint{display:none !important}
+  html body .fab-stack{right:12px !important;left:auto !important;bottom:calc(138px + env(safe-area-inset-bottom)) !important;width:52px !important;align-items:center !important;gap:8px !important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <meta property="og:title" content="Electronics BGA · Accesorios y celulares en Bucaramanga">
