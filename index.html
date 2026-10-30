@@ -2484,6 +2484,14 @@ html[data-theme="dark"] span:has(>small)>b{color:#fff !important}
   html body .epbot-fab .epbot-hint{display:none !important}
   html body .fab-stack{right:12px !important;left:auto !important;bottom:calc(138px + env(safe-area-inset-bottom)) !important;width:52px !important;align-items:center !important;gap:8px !important}
 }
+
+/* V17 · Escritorio: columna ordenada (WhatsApp abajo, asistente encima, redes arriba) */
+@media(min-width:768px){
+  html body a.fab{right:20px !important;left:auto !important;bottom:20px !important;width:54px !important;height:54px !important}
+  html body .epbot-fab{right:20px !important;left:auto !important;bottom:84px !important;height:46px !important}
+  html body .fab-stack{right:20px !important;left:auto !important;bottom:140px !important;width:54px !important;align-items:center !important;gap:10px !important}
+  html body .fab-stack .fab-mini{width:46px !important;height:46px !important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <meta property="og:title" content="Electronics BGA · Accesorios y celulares en Bucaramanga">
